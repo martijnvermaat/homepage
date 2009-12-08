@@ -3,7 +3,7 @@
 
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/screen.css">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/home.css">
     <title>Martijn Vermaat</title>
 </head>
 
@@ -14,19 +14,19 @@
 <a href="http://martijn.vermaat.name/kiek/2008-06-11_19:11:53"><img src="img/schaap.jpg" width="384" height="288" title="a sheep i met in belgium"></a>
 
 <p>
-i am <strong>martijn</strong>.
+i am <a href="me">martijn</a>.
 twenty-eight.
-master student in <strong>computer science</strong>.
-occasionally doing <strong>freelance</strong> work.
+master student in <a href="http://www.cs.vu.nl/~tcs/">computer science</a>.
+occasionally doing <a href="work">freelance</a> work.
 </p>
 
 <p>
-have written some <strong>code</strong>.
-currently trying to make <strong>infinitary rewriting</strong> work in coq.
+have written some <a href="http://svn.vermaat.name/">code</a>.
+currently trying to make <a href="master-project">infinitary rewriting</a> work in coq.
 </p>
 
 <p>
-mail goes to <strong>martijn@vermaat.name</strong>
+mail goes to <a href="mailto:martijn@vermaat.name">martijn@vermaat.name</a>.
 </p>
 
 </body>
