@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/screen.css">
+    <title>Martijn Vermaat. Freelancer.</title>
+</head>
+
+<body id="martijn-vermaat-name">
+
+<h1>Martijn Vermaat. Freelancer.</h1>
+
+<p>
+I work as an independent freelancer. I write code for money.
+</p>
+
+
+<ul>
+<li><p>experienced in PHP, C, Python, OCaml, web standards, &hellip;</p></li>
+<li><p>will program in whatever language is suitable</p></li>
+<li><p>10+ years of experience in web development</p></li>
+<li><p>don't do graphic design (but know people who do)</p></li>
+</ul>
+
+<p>
+Maybe you want to hire me. Mail me
+at <a href="mailto:martijn@vermaat.name">martijn@vermaat.name</a> for
+my curriculum vitae or other information.
+</p>
+
+</body>
+
+</html>

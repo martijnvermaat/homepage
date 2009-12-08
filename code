@@ -1,0 +1,68 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/screen.css">
+    <title>Code by Martijn Vermaat</title>
+</head>
+
+<body id="martijn-vermaat-name">
+
+<h1>Code by Martijn Vermaat</h1>
+
+<p>
+Some of the code I wrote over the years ended up on the web.
+Most of it comes with a free software license (if unclear, ask).
+</p>
+
+<p>
+A selection follows.
+</p>
+
+<p>
+<a href="http://www.cs.vu.nl/~mvermaat/greasemonkey">Greasemonkey user
+scripts</a>. For Lambda the Utimate, nu.nl, and the VU Blackboard system.
+</p>
+
+<p>
+<a href="http://martijn.vermaat.name/adwords-api-php4/">A PHP4
+library</a> providing access to the Google AdWords API v2009.
+</p>
+
+<p>
+<a href="http://www.cs.vu.nl/~mvermaat/britney">Britney</a>, a simple
+untyped Lambda Calculus interpreter, written in Java.
+</p>
+
+<p>
+A graphical tool for <a href="http://svn.vermaat.name/sara/">playing
+with Turing Machines</a>. Implemented in OCaml, GTK2 and Cairo.
+</p>
+
+<p>
+<a href="http://www.cs.vu.nl/~mvermaat/countdown-ocaml">The Countdown
+Problem</a> in OCaml.
+</p>
+
+<p>
+My <a href="http://www.cs.vu.nl/~mvermaat/">homepage</a> at the VU
+University Amsterdam.
+<a href="http://svn.vermaat.name/vu-website">Implemented</a> as an
+Apache Ant project with XML source files and XSL transformations.
+</p>
+
+<p>
+<a href="http://svn.vermaat.name/kiek">kiek!</a>, the generator
+for my <a href="http://martijn.vermaat.name/kiek/">photoblog</a>.
+In Python.
+</p>
+
+<p>
+There are many other <a href="http://svn.vermaat.name/">bits and pieces</a>
+in my Subversion repositories.
+</p>
+
+</body>
+
+</html>
