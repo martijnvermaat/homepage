@@ -1,0 +1,34 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/screen.css">
+    <title>Martijn Vermaat</title>
+</head>
+
+<body id="martijn-vermaat-name">
+
+<h1>martijn vermaat.</h1>
+
+<a href="http://martijn.vermaat.name/kiek/2008-06-11_19:11:53"><img src="img/schaap.jpg" width="384" height="288" title="a sheep i met in belgium"></a>
+
+<p>
+i am <strong>martijn</strong>.
+twenty-eight.
+master student in <strong>computer science</strong>.
+occasionally doing <strong>freelance</strong> work.
+</p>
+
+<p>
+have written some <strong>code</strong>.
+currently trying to make <strong>infinitary rewriting</strong> work in coq.
+</p>
+
+<p>
+mail goes to <strong>martijn@vermaat.name</strong>
+</p>
+
+</body>
+
+</html>

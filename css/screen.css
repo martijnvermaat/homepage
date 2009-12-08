@@ -1,0 +1,29 @@
+/* Background copied from Stephan Kochen, http://stephan.kochen.nl */
+body {
+    margin              :   80px;
+    background          :   #ffaa3b url('../img/bg.png') top repeat-x;
+    font-family         :   Verdana, Arial, Helvetica, sans-serif;
+    font-size           :   14px;
+    line-height         :   20px;
+}
+
+h1 {
+    width               :   300px;
+    font-family         :   Gentium, FreeSerif, Georgia, "Times New Roman", serif;
+    font-weight         :   bold;
+    font-size           :   100px;
+    line-height         :   42px;
+    letter-spacing      :   -0.1em;
+    text-indent         :   1.4em;
+}
+
+img {
+    margin              :   0 0 30px 180px;
+    border              :   black 12px solid;
+    background          :   grey;
+}
+
+p {
+    width               :   500px;
+    margin-left         :   70px;
+}
