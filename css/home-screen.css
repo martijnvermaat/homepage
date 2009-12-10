@@ -1,8 +1,8 @@
 /* Background copied from Stephan Kochen, http://stephan.kochen.nl */
 body {
     margin              :   60px 80px 40px 80px;
-    background          :   #ffaa3b url('../img/bg.png') top repeat-x;
-    color               :   black;
+    background          :   #ffaa3b url('../img/bg.gif') top repeat-x;
+    color               :   #111111;
     font-family         :   Verdana, Arial, Helvetica, sans-serif;
     font-size           :   16px;
     line-height         :   26px;
@@ -21,7 +21,7 @@ h1 {
 
 img {
     margin              :   40px 0 30px 180px;
-    border              :   black 12px solid;
+    border              :   #111111 12px solid;
     background          :   grey;
 }
 
@@ -31,7 +31,7 @@ p {
 }
 
 a {
-    color               :   black;
+    color               :   #111111;
     font-weight         :   bold;
     text-decoration     :   none;
 }
