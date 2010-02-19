@@ -27,9 +27,10 @@ scripts</a>. For Lambda the Utimate, nu.nl, and the VU Blackboard system.
 </p>
 
 <p>
-An <a href="http://martijn.vermaat.name/competitierekending">online tool</a>
-for calculating scores in the Dutch Athletics competition,
-<a href="http://svn.vermaat.name/competitie-rekending">in Javascript</a>.
+An <a href="http://c.phanatics.nl/">online tool</a>
+for calculating scores in the Dutch Athletics competition, optimized for
+the iPhone. In
+<a href="http://svn.vermaat.name/competitie-rekending">HTML5 and jQuery</a>.
 </p>
 
 <p>
