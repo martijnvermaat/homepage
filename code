@@ -24,6 +24,7 @@ A selection follows.
 <p>
 <a href="http://checkuitcheckin.nl/">Check uit, check in</a> (Dutch), a
 window into public opinion on the Dutch ov-chipkaart system.
+In <a href="http://svn.vermaat.name/checkuitcheckin">HTML5 and jQuery</a>.
 </p>
 
 <p>
@@ -32,7 +33,7 @@ scripts</a>. For Lambda the Utimate, nu.nl, and the VU Blackboard system.
 </p>
 
 <p>
-An <a href="http://c.phanatics.nl/">online tool</a>
+An <a href="http://c.phanatics.nl/">online tool</a> (Dutch)
 for calculating scores in the Dutch Athletics competition, optimized for
 the iPhone. In
 <a href="http://svn.vermaat.name/competitie-rekending">HTML5 and jQuery</a>.
