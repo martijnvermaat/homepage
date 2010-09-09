@@ -22,6 +22,13 @@ A selection follows.
 </p>
 
 <p>
+A <a href="http://martijn.vermaat.name/master-project">formalisation</a>
+of the basic notions from infinitary term rewriting
+in the Coq proof assistant, the final project for my Master in
+theoretical computer science.
+</p>
+
+<p>
 <a href="http://checkuitcheckin.nl/">Check uit, check in</a> (Dutch), a
 window into public opinion on the Dutch ov-chipkaart system.
 In <a href="http://svn.vermaat.name/checkuitcheckin">HTML5 and jQuery</a>.
