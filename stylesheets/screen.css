@@ -1,0 +1,155 @@
+@font-face {
+font-family: 'TeXGyrePagellaRegular';
+src: url('../fonts/texgyrepagella-regular-webfont.eot');
+src: local('☺'), url('../fonts/texgyrepagella-regular-webfont.woff')
+format('woff'), url('../fonts/texgyrepagella-regular-webfont.ttf')
+format('truetype'),
+url('../fonts/texgyrepagella-regular-webfont.svg#webfontAfRnnQCQ')
+format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'TeXGyrePagellaItalic';
+src: url('../fonts/texgyrepagella-italic-webfont.eot');
+src: local('☺'), url('../fonts/texgyrepagella-italic-webfont.woff')
+format('woff'), url('../fonts/texgyrepagella-italic-webfont.ttf')
+format('truetype'),
+url('../fonts/texgyrepagella-italic-webfont.svg#webfontpK19oYss')
+format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'TeXGyrePagellaBold';
+src: url('../fonts/texgyrepagella-bold-webfont.eot');
+src: local('☺'), url('../fonts/texgyrepagella-bold-webfont.woff')
+format('woff'), url('../fonts/texgyrepagella-bold-webfont.ttf')
+format('truetype'),
+url('../fonts/texgyrepagella-bold-webfont.svg#webfontJ9KOIeNs') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'TeXGyrePagellaBoldItalic';
+src: url('../fonts/texgyrepagella-bolditalic-webfont.eot');
+src: local('☺'), url('../fonts/texgyrepagella-bolditalic-webfont.woff')
+format('woff'), url('../fonts/texgyrepagella-bolditalic-webfont.ttf')
+format('truetype'),
+url('../fonts/texgyrepagella-bolditalic-webfont.svg#webfontwQnx6YDO')
+format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+
+@font-face {
+font-family: 'TeXGyreAdventorRegular';
+src: url('../fonts/texgyreadventor-regular-webfont.eot');
+src: local('☺'), url('../fonts/texgyreadventor-regular-webfont.woff')
+format('woff'), url('../fonts/texgyreadventor-regular-webfont.ttf')
+format('truetype'),
+url('../fonts/texgyreadventor-regular-webfont.svg#webfontn18Af3vl')
+format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'TeXGyreAdventorItalic';
+src: url('../fonts/texgyreadventor-italic-webfont.eot');
+src: local('☺'), url('../fonts/texgyreadventor-italic-webfont.woff')
+format('woff'), url('../fonts/texgyreadventor-italic-webfont.ttf')
+format('truetype'),
+url('../fonts/texgyreadventor-italic-webfont.svg#webfontdgkr3R85')
+format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'TeXGyreAdventorBold';
+src: url('../fonts/texgyreadventor-bold-webfont.eot');
+src: local('☺'), url('../fonts/texgyreadventor-bold-webfont.woff')
+format('woff'), url('../fonts/texgyreadventor-bold-webfont.ttf')
+format('truetype'),
+url('../fonts/texgyreadventor-bold-webfont.svg#webfontTc3iYEdw') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+@font-face {
+font-family: 'TeXGyreAdventorBoldItalic';
+src: url('../fonts/texgyreadventor-bolditalic-webfont.eot');
+src: local('☺'), url('../fonts/texgyreadventor-bolditalic-webfont.woff')
+format('woff'), url('../fonts/texgyreadventor-bolditalic-webfont.ttf')
+format('truetype'),
+url('../fonts/texgyreadventor-bolditalic-webfont.svg#webfontlVdkCKjF')
+format('svg');
+font-weight: normal;
+font-style: normal;
+}
+
+body {
+    text-align : center;
+    margin : 180px 0 0 0;
+/*   background : #fffff9;*/
+    background : #fffaf0; /* FloralWhite*/
+    color : #0f0a00;
+}
+h1 {
+    font-size : 60px;
+    line-height : 48px;
+    font-weight : normal;
+    font-family : "TexGyrePagellaRegular";
+    margin : 0;
+    padding : 0;
+    text-shadow: 0 2px 3px #cfcac0; /*d0d0c9;*/
+}
+h1 b {
+    font-family : "TexGyrePagellaBold";
+    font-weight : normal;
+}
+h1::after {
+    font-size: 42px;
+    line-height:42px;
+    display : block;
+    margin-top : 8px;
+    content : '𝆗';
+}
+header p {
+    font-size : 18px;
+    line-height : 27px;
+    font-family : "TexGyrePagellaItalic";
+    text-shadow: 0 2px 3px #cfcac0;
+}
+header p::before, header p::after {
+    content : '—';
+}
+p {
+    font-size : 18px;
+    line-height : 27px;
+    font-family : "TexGyrePagellaRegular";
+}
+h2 {
+width : 600px;
+margin : 60px auto 0 auto;
+text-align:left;
+    font-size : 32px;
+    line-height : 36px;
+    font-family : "TexGyrePagellaRegular";
+    font-weight : normal;
+}
+.bottom {
+    background : AntiqueWhite; /*seaShell */
+    margin-top : 60px;
+padding : 40px 0 80px 0;
+border-top : 1px solid #cfcac0;
+}
+a {
+text-decoration: none;
+color : firebrick;
+}

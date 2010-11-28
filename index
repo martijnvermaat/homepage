@@ -1,35 +1,59 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" media="screen" href="css/home-screen.css">
-    <link rel="shortcut icon" href="favicon.ico">
-    <title>Martijn Vermaat</title>
+  <meta charset="utf-8">
+  <title>Martijn Vermaat</title>
+  <link rel="stylesheet" href="stylesheets/screen.css">
 </head>
+<body>
 
-<body id="martijn-vermaat-name">
+<header>
+<p>welcome to the homepage of</p>
+<h1><b>M</b>artijn <b>V</b>ermaat</h1>
+</header>
 
-<h1>martijn vermaat.</h1>
-
-<a href="http://martijn.vermaat.name/kiek/2008-06-11_19:11:53"><img src="img/schaap.jpg" width="384" height="288" title="a sheep i met in belgium"></a>
-
-<p>
-i am <a href="me">martijn</a>.
-twenty-eight.
-master student in <a href="http://www.cs.vu.nl/~mvermaat/">computer science</a>.
-occasionally doing <a href="work">freelance</a> work.
+<p style="margin : 120px auto 0 auto; text-align:left; width:600px;">
+Galatia SIL Regular - Lorem ipsum dolor sit amet, consectetur
+adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+magna aliqua. Ut enim ad <a href="">minim veniam</a>, quis nostrud exercitation
+ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
+irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
 </p>
 
-<p>
-have written some <a href="code">code</a>.
-currently trying to make <a href="master-project">infinitary rewriting</a> work in coq.
+<h2>Excepteur Sint</h2>
+
+<p style="margin: 20px auto 0 auto; text-align:left; width:600px;">
+Duis aute
+irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. <a href="">Excepteur</a> sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt <a href="">mollit anim</a> id est laborum.
 </p>
 
-<p>
-mail goes to <a href="mailto:martijn@vermaat.name">martijn@vermaat.name</a>.
+<p style="margin: 20px auto 0 auto; text-align:left; width:600px;
+          font-size : 12px; line-height:27px; font-family : 'TexGyreAdventorRegular';">
+De kleine lettertjes.
 </p>
+
+<div class="bottom">
+<p style="margin: 20px auto 0 auto; text-align:left; width:600px;
+          font-size : 12px; line-height:27px; font-family : 'TexGyreAdventorRegular';">
+Duis aute
+irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
+Duis aute
+irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
+<br><br>
+Duis aute
+irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
+fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
+sunt in culpa qui officia deserunt mollit anim id est laborum.
+</p>
+</div>
 
 </body>
-
 </html>
