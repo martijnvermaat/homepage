@@ -93,42 +93,45 @@ font-weight: normal;
 font-style: normal;
 }
 
+@font-face {
+    font-family: 'IMFELLFLOWERS2Regular';
+    src: url('../fonts/feflow2-webfont.eot');
+    src: local('☺'), url('../fonts/feflow2-webfont.woff') format('woff'), url('../fonts/feflow2-webfont.ttf') format('truetype'), url('../fonts/feflow2-webfont.svg#webfontGVklONzR') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
 body {
     text-align : center;
     margin : 180px 0 0 0;
 /*   background : #fffff9;*/
-    background : #fffaf0; /* FloralWhite*/
+    background : #fffaf0; */FloralWhite*/
     color : #0f0a00;
 }
 h1 {
-    font-size : 60px;
-    line-height : 48px;
-    font-weight : normal;
+    font-size : 12px;
+    line-height:48px;
     font-family : "TexGyrePagellaRegular";
-    margin : 0;
-    padding : 0;
+/*    font-family : 'TexGyreAdventorRegular';*/
+    font-weight : normal;
     text-shadow: 0 2px 3px #cfcac0; /*d0d0c9;*/
 }
 h1 b {
+    font-size : 48px;
+    line-height:48px;
     font-family : "TexGyrePagellaBold";
     font-weight : normal;
 }
+
 h1::after {
-    font-size: 42px;
-    line-height:42px;
+    font-size: 14px;
+    line-height:28px;
     display : block;
-    margin-top : 8px;
-    content : '𝆗';
+    margin-top : 28px;
+    content : 'a';
+    font-family: 'IMFELLFLOWERS2Regular';
 }
-header p {
-    font-size : 18px;
-    line-height : 27px;
-    font-family : "TexGyrePagellaItalic";
-    text-shadow: 0 2px 3px #cfcac0;
-}
-header p::before, header p::after {
-    content : '—';
-}
+
 p {
     font-size : 18px;
     line-height : 27px;

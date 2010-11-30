@@ -3,14 +3,13 @@
 <head>
   <meta charset="utf-8">
   <title>Martijn Vermaat</title>
-  <link rel="stylesheet" href="stylesheets/screen.css">
+  <link rel="stylesheet" href="stylesheets/screen.css?h2">
 </head>
 <body>
 
-<header>
-<p>welcome to the homepage of</p>
-<h1><b>M</b>artijn <b>V</b>ermaat</h1>
-</header>
+<h1>
+Hi. I'm <b>Martijn Vermaat</b> and this is my personal site.
+</h1>
 
 <p style="margin : 120px auto 0 auto; text-align:left; width:600px;">
 Galatia SIL Regular - Lorem ipsum dolor sit amet, consectetur
