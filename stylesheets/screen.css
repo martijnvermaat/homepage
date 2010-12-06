@@ -111,8 +111,8 @@ body {
 h1 {
     font-size : 12px;
     line-height:48px;
-    font-family : "TexGyrePagellaRegular";
-/*    font-family : 'TexGyreAdventorRegular';*/
+/*    font-family : "TexGyrePagellaRegular";*/
+    font-family : 'TexGyreAdventorRegular';
     font-weight : normal;
     text-shadow: 0 2px 3px #cfcac0; /*d0d0c9;*/
 }
@@ -130,6 +130,14 @@ h1::after {
     margin-top : 28px;
     content : 'a';
     font-family: 'IMFELLFLOWERS2Regular';
+    transition: color .8s ease-in;
+/* http://code.google.com/p/chromium/issues/detail?id=54699 */
+   -webkit-transition: color .8s ease-in;
+   -moz-transition: color .8s ease-in;
+   -o-transition: color .8s ease-in;
+}
+h1:hover::after {
+    color : firebrick;
 }
 
 p {
