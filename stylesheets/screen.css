@@ -102,32 +102,43 @@ font-style: normal;
 }
 
 body {
-    text-align : center;
-    margin : 180px 0 0 0;
+    margin : 120px 0;
+    padding : 0;
 /*   background : #fffff9;*/
     background : #fffaf0; */FloralWhite*/
     color : #0f0a00;
 }
-h1 {
+
+body > section {
+    width : 750px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+header {
+    margin-bottom : 40px;
+    text-align : center;
     font-size : 12px;
     line-height:48px;
-/*    font-family : "TexGyrePagellaRegular";*/
-    font-family : 'TexGyreAdventorRegular';
+    font-family : "TexGyrePagellaRegular";
+/*    font-family : 'TexGyreAdventorRegular'; */
     font-weight : normal;
     text-shadow: 0 2px 3px #cfcac0; /*d0d0c9;*/
 }
-h1 b {
+
+h1 {
+    display : inline;
     font-size : 48px;
     line-height:48px;
     font-family : "TexGyrePagellaBold";
     font-weight : normal;
 }
 
-h1::after {
+header::after {
     font-size: 14px;
     line-height:28px;
     display : block;
-    margin-top : 28px;
+    margin-top : 40px;
     content : 'a';
     font-family: 'IMFELLFLOWERS2Regular';
     transition: color .8s ease-in;
@@ -136,8 +147,19 @@ h1::after {
    -moz-transition: color .8s ease-in;
    -o-transition: color .8s ease-in;
 }
-h1:hover::after {
+
+header:hover::after {
     color : firebrick;
+}
+
+section section.left {
+width : 350px;
+float : left;
+}
+
+section section.right {
+width : 350px;
+float : right;
 }
 
 p {
@@ -145,22 +167,33 @@ p {
     line-height : 27px;
     font-family : "TexGyrePagellaRegular";
 }
+
+p.small {
+    font-size : 12px;
+    line-height: 27px;
+    font-family : 'TexGyreAdventorRegular';
+}
+
 h2 {
-width : 600px;
-margin : 60px auto 0 auto;
-text-align:left;
     font-size : 32px;
     line-height : 36px;
     font-family : "TexGyrePagellaRegular";
     font-weight : normal;
 }
-.bottom {
+
+footer {
+    clear:both;
     background : AntiqueWhite; /*seaShell */
-    margin-top : 60px;
-padding : 40px 0 80px 0;
-border-top : 1px solid #cfcac0;
+    border-top : 1px solid #cfcac0;
 }
+
+footer section {
+    width : 750px;
+    margin: 60px auto;
+    padding : 40px 0 80px 0;
+}
+
 a {
-text-decoration: none;
-color : firebrick;
+    text-decoration: none;
+    color : firebrick;
 }

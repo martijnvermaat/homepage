@@ -7,37 +7,32 @@
 </head>
 <body>
 
-<h1>
-Hi. I'm <b>Martijn Vermaat</b> and this is my personal site.
-</h1>
+<section>
 
-<p style="margin : 120px auto 0 auto; text-align:left; width:600px;">
-Galatia SIL Regular - Lorem ipsum dolor sit amet, consectetur
-adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-magna aliqua. Ut enim ad <a href="">minim veniam</a>, quis nostrud exercitation
-ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute
-irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-sunt in culpa qui officia deserunt mollit anim id est laborum.
+<header>
+I'm <h1>Martijn Vermaat</h1> and this is my web
+</header>
+
+<section class="left">
+<p>
+<b>I am a</b> scientific programmer at the Leiden University Medical Center.
 </p>
+</section>
 
-<h2>Excepteur Sint</h2>
-
-<p style="margin: 20px auto 0 auto; text-align:left; width:600px;">
-Duis aute
-irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. <a href="">Excepteur</a> sint occaecat cupidatat non proident,
-sunt in culpa qui officia deserunt <a href="">mollit anim</a> id est laborum.
+<section class="right">
+<p>
+<b>En hier nog</b> wat tekst. En nog wat meer natuurlijk.
 </p>
+<p>
+<b>Nu nog meer</b> tekst in een allerlaatste zinnetje voor deze kant (rechts).
+<p>
+</section>
 
-<p style="margin: 20px auto 0 auto; text-align:left; width:600px;
-          font-size : 12px; line-height:27px; font-family : 'TexGyreAdventorRegular';">
-De kleine lettertjes.
-</p>
+</section>
 
-<div class="bottom">
-<p style="margin: 20px auto 0 auto; text-align:left; width:600px;
-          font-size : 12px; line-height:27px; font-family : 'TexGyreAdventorRegular';">
+<footer>
+<section>
+<p style="font-size : 12px; line-height:27px; font-family : 'TexGyreAdventorRegular';">
 Duis aute
 irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
@@ -52,7 +47,8 @@ irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
 sunt in culpa qui officia deserunt mollit anim id est laborum.
 </p>
-</div>
+</section>
+</footer>
 
 </body>
 </html>
