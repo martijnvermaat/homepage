@@ -10,7 +10,8 @@
 <section>
 
 <header>
-I'm <h1>Martijn Vermaat</h1> and this is my web
+<h1>Hello. </h1>
+<p>I'm <b>Martijn Vermaat</b> and this is my web.</p>
 </header>
 
 <section class="left">
@@ -32,7 +33,7 @@ I'm <h1>Martijn Vermaat</h1> and this is my web
 
 <footer>
 <section>
-<p style="font-size : 12px; line-height:27px; font-family : 'TexGyreAdventorRegular';">
+<p class="small">
 Duis aute
 irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
 fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,

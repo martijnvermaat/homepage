@@ -107,6 +107,9 @@ body {
 /*   background : #fffff9;*/
     background : #fffaf0; */FloralWhite*/
     color : #0f0a00;
+    font-size : 14px;
+    line-height: 26px;
+    font-family : 'TexGyreAdventorRegular';
 }
 
 body > section {
@@ -117,39 +120,29 @@ body > section {
 
 header {
     margin-bottom : 40px;
-    text-align : center;
-    font-size : 12px;
-    line-height:48px;
-    font-family : "TexGyrePagellaRegular";
-/*    font-family : 'TexGyreAdventorRegular'; */
-    font-weight : normal;
-    text-shadow: 0 2px 3px #cfcac0; /*d0d0c9;*/
+
 }
 
 h1 {
     display : inline;
-    font-size : 48px;
-    line-height:48px;
-    font-family : "TexGyrePagellaBold";
+    font-size : 72px;
+    line-height: 72px;
     font-weight : normal;
+    text-shadow: 2px 2px 3px #cfcac0;
+/*    text-decoration:underline;*/
 }
 
-header::after {
-    font-size: 14px;
-    line-height:28px;
-    display : block;
-    margin-top : 40px;
-    content : 'a';
-    font-family: 'IMFELLFLOWERS2Regular';
-    transition: color .8s ease-in;
-/* http://code.google.com/p/chromium/issues/detail?id=54699 */
-   -webkit-transition: color .8s ease-in;
-   -moz-transition: color .8s ease-in;
-   -o-transition: color .8s ease-in;
-}
-
-header:hover::after {
-    color : firebrick;
+header p {
+letter-spacing: 0px;
+    display: inline;
+    font-size : 14px;
+    line-height : 72px;
+    font-weight : normal;
+/*    text-decoration:underline;*/
+    color : #fffaf0;
+    background : #0f0a00;
+    padding: 0;
+    -webkit-box-shadow: 2px 2px 3px #cfcac0;
 }
 
 section section.left {
@@ -162,22 +155,13 @@ width : 350px;
 float : right;
 }
 
-p {
-    font-size : 18px;
-    line-height : 27px;
-    font-family : "TexGyrePagellaRegular";
-}
-
 p.small {
     font-size : 12px;
-    line-height: 27px;
-    font-family : 'TexGyreAdventorRegular';
 }
 
 h2 {
     font-size : 32px;
-    line-height : 36px;
-    font-family : "TexGyrePagellaRegular";
+    line-height : 26px;
     font-weight : normal;
 }
 
