@@ -14,40 +14,42 @@
 <p>I'm <b>Martijn Vermaat</b> and this is my web.</p>
 </header>
 
-<section class="left">
 <p>
-<b>I am a</b> scientific programmer at the Leiden University Medical Center.
+When I am not working as a scientific programmer at the Leiden University
+Medical Center, I am probably running in circles at the Olympic
+Statium.
 </p>
-</section>
 
-<section class="right">
 <p>
-<b>En hier nog</b> wat tekst. En nog wat meer natuurlijk.
+Before that, I studied <b>theoretical computer science</b> at the VU
+University Amsterdam.
 </p>
+
 <p>
-<b>Nu nog meer</b> tekst in een allerlaatste zinnetje voor deze kant (rechts).
-<p>
-</section>
+Occasionally I am doing <b>freelance</b> work.
+</p>
 
 </section>
 
 <footer>
 <section>
-<p class="small">
-Duis aute
-irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-sunt in culpa qui officia deserunt mollit anim id est laborum.
-Duis aute
-irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-sunt in culpa qui officia deserunt mollit anim id est laborum.
-<br><br>
-Duis aute
-irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-sunt in culpa qui officia deserunt mollit anim id est laborum.
-</p>
+<ul>
+<li>A comprehendum bis
+<li>A comprehendum bis
+<li>A comprehendum bis
+<li>A comprehendum bis
+</ul>
+<ul>
+<li>A comprehendum bis
+<li>A comprehendum bis
+</ul>
+<ul>
+<li>A comprehendum bis
+<li>A comprehendum bis
+<li>A comprehendum bis
+<li>A comprehendum bis
+<li>A comprehendum bis
+</ul>
 </section>
 </footer>
 
