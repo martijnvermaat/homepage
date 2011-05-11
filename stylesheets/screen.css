@@ -101,49 +101,52 @@ font-style: normal;
     font-style: normal;
 }
 
+html {
+    background : ivory;
+}
+
 body {
-    margin : 120px 0;
-    padding : 0;
-/*   background : #fffff9;*/
-    background : #fffaf0; */FloralWhite*/
+    margin : 0;
+    padding : 120px 0;
+    background : ivory;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='whitesmoke', endColorstr='ivory'); /* for IE */
+    background: -webkit-gradient(linear, left 200, left 600, from(whitesmoke), to(ivory)) fixed; /* for webkit browsers */
+    background: -moz-linear-gradient(top, whitesmoke, ivory) fixed; /* for firefox 3.6+ */
     color : #0f0a00;
-    font-size : 14px;
-    line-height: 26px;
+    font-size : 16px;
+    line-height: 28px;
     font-family : 'TexGyreAdventorRegular';
 }
 
 body > section {
-    width : 700px;
+    width : 650px;
     margin: 0 auto;
     padding: 0;
 }
 
 header {
     margin-bottom : 40px;
-
 }
 
 h1 {
     display : inline;
-    font-size : 72px;
+    font-size : 52px;
     line-height: 72px;
     font-weight : normal;
     text-shadow: 2px 2px 3px #cfcac0;
-/*    text-decoration:underline;*/
+    font-family : 'TexGyrePagellaRegular';
 }
 
-header p {
-letter-spacing: 0px;
-    display: inline;
-    font-size : 14px;
-    line-height : 72px;
-    font-weight : normal;
-/*    text-decoration:underline;*/
-    color : #fffaf0;
-    background : #0f0a00;
-    padding: 0;
-    -webkit-box-shadow: 2px 2px 3px #cfcac0;
+/*
+h1::before {
+    font-variant : normal;
+    margin-right : 30px;
+    margin-top : 28px;
+    content : 'a';
+    font-family: 'IMFELLFLOWERS2Regular';
+    font-size : 48px;
 }
+*/
 
 h2 {
     font-size : 32px;
@@ -152,8 +155,7 @@ h2 {
 }
 
 footer {
-    background : AntiqueWhite; /*seaShell */
-    border-top : 1px solid #cfcac0;
+/*    background : ivory;*/
     margin-top : 60px;
 }
 
@@ -187,7 +189,9 @@ footer li {
     padding: 0;
 }
 
+/*
 a {
     text-decoration: none;
     color : firebrick;
 }
+*/
