@@ -108,10 +108,7 @@ html {
 body {
     margin : 0;
     padding : 120px 0;
-    background : ivory;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='whitesmoke', endColorstr='ivory'); /* for IE */
-    background: -webkit-gradient(linear, left 200, left 600, from(whitesmoke), to(ivory)) fixed; /* for webkit browsers */
-    background: -moz-linear-gradient(top, whitesmoke, ivory) fixed; /* for firefox 3.6+ */
+background : white;
     color : #0f0a00;
     font-size : 16px;
     line-height: 28px;
@@ -133,7 +130,7 @@ h1 {
     font-size : 52px;
     line-height: 72px;
     font-weight : normal;
-    text-shadow: 2px 2px 3px #cfcac0;
+/*    text-shadow: 2px 2px 3px #cfcac0;*/
     font-family : 'TexGyrePagellaRegular';
 }
 
@@ -180,11 +177,15 @@ margin-right : 0;
 }
 
 footer ul:first-child {
-margin-left : 50px;
+/*margin-left : 50px;*/
 }
 
 footer li {
     font-size : 12px;
+    line-height : 24px;
+    text-aling: center;
+    display: block;
+    text-align: center;
     margin : 0;
     padding: 0;
 }
