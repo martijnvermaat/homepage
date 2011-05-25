@@ -3,15 +3,14 @@
 <head>
   <meta charset="utf-8">
   <title>Martijn Vermaat</title>
-  <link rel="stylesheet" href="stylesheets/screen.css?h2">
+  <link rel="stylesheet" href="stylesheets/screen.css">
+  <link rel="shortcut icon" href="favicon.ico">
 </head>
-<body>
+<body class="home">
 
-<section>
+<article>
 
-<header>
 <h1><a href="mailto:martijn@vermaat.name">martijn@vermaat.name</a></h1>
-</header>
 
 <p>
 Welcome to Martijn Vermaat's <i>Very Own</i> Home Page! (which is of
@@ -19,31 +18,25 @@ course under construction)
 </p>
 
 <p>
-Working as scientific programmer at LUMC and before that studied
-theoretical computer science at the VU University Amsterdam.
+Working as scientific programmer at <a href="http://www.lumc.nl">LUMC</a> and before that studied
+theoretical computer science at the <a href="http://www.abc.nl">VU University Amsterdam</a>.
 </p>
 
-</section>
+</article>
 
-<footer>
-<section>
+<nav>
 <ul>
-<li style="color:#ff00ff">me at github
-<li style="color:#0000ff">twurker
-<li style="color:#00ffff">last.fm profile
+<li><a style="color:#ff00ff" href="">me at github</a>
+<li><a style="color:#0000ff" href="">twurker</a>
+<li><a style="color:#00ffff" href="">last.fm profile</a>
+<li><a style="color:#ff0000" href="">infinitary rewriting in coq</a>
+<li><a style="color:#000000" href="code">other code</a>
+<li><a style="color:#00ff00" href="">subversion repositories</a>
+<li><a style="color:#ff8000" href="">another link</a>
+<li><a style="color:#808000" href="">and another one</a>
+<li><a style="color:#80ff80" href="">one last</a>
 </ul>
-<ul>
-<li style="color:#ff0000">infinitary rewriting in coq
-<li style="color:#000000">other code
-<li style="color:#00ff00">subversion repositories
-</ul>
-<ul>
-<li style="color:#ff8000">another link
-<li style="color:#808000">and another one
-<li style="color:#80ff80">one last
-</ul>
-</section>
-</footer>
+</nav>
 
 </body>
 </html>

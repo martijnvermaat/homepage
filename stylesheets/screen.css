@@ -93,106 +93,76 @@ font-weight: normal;
 font-style: normal;
 }
 
-@font-face {
-    font-family: 'IMFELLFLOWERS2Regular';
-    src: url('../fonts/feflow2-webfont.eot');
-    src: local('☺'), url('../fonts/feflow2-webfont.woff') format('woff'), url('../fonts/feflow2-webfont.ttf') format('truetype'), url('../fonts/feflow2-webfont.svg#webfontGVklONzR') format('svg');
-    font-weight: normal;
-    font-style: normal;
-}
-
-html {
-    background : ivory;
-}
-
 body {
-    margin : 0;
-    padding : 120px 0;
-background : white;
+    background : #f5f5f5;
+    margin : 112px 28px;
+    padding : 0;
     color : #0f0a00;
     font-size : 16px;
     line-height: 28px;
     font-family : 'TexGyreAdventorRegular';
 }
 
-body > section {
-    width : 650px;
-    margin: 0 auto;
+body > article, body > nav {
+    width : 630px;
+    margin: 56px 84px;
     padding: 0;
 }
 
-header {
-    margin-bottom : 40px;
+body.home > article, body.home > nav {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+html body > nav {
+    margin-top : 84px;
 }
 
 h1 {
-    display : inline;
     font-size : 52px;
-    line-height: 72px;
+    line-height: 56px;
     font-weight : normal;
 /*    text-shadow: 2px 2px 3px #cfcac0;*/
     font-family : 'TexGyrePagellaRegular';
+    margin : 0 0 56px 0;
 }
 
-/*
-h1::before {
-    font-variant : normal;
-    margin-right : 30px;
-    margin-top : 28px;
-    content : 'a';
-    font-family: 'IMFELLFLOWERS2Regular';
-    font-size : 48px;
+p {
+    padding : 0;
+    margin : 0 0 28px 0;
 }
-*/
 
+/* Todo */
 h2 {
     font-size : 32px;
     line-height : 26px;
     font-weight : normal;
 }
 
-footer {
-/*    background : ivory;*/
-    margin-top : 60px;
-}
-
-footer section {
-    width : 700px;
-    margin: 60px auto;
-    padding : 20px 0 80px 0;
-}
-
-footer ul {
-    display:inline-block;
-    width : 200px;
-    vertical-align:top;
-    list-style-type: none;
+nav ul {
+    min-height : 28px;
     margin : 0;
     padding: 0;
-    margin-right : 16px; /* for some reason, some extra space is added, should be 50px */
 }
 
-footer ul:last-child {
-margin-right : 0;
-}
-
-footer ul:first-child {
-/*margin-left : 50px;*/
-}
-
-footer li {
+nav li {
+    float : left;
+    width : 210px;
+    height : 28px;
+    list-style-type: none;
     font-size : 12px;
-    line-height : 24px;
-    text-aling: center;
-    display: block;
+    line-height : 28px;
     text-align: center;
     margin : 0;
     padding: 0;
 }
 
-/*
-a {
+nav a {
     text-decoration: none;
-    color : firebrick;
 }
-*/
+
+nav a:hover {
+    font-weight : normal;
+    font-family: 'TexGyreAdventorBold';
+    line-height : 28px;
+}

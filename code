@@ -1,14 +1,14 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/screen.css">
-    <link rel="shortcut icon" href="favicon.ico">
-    <title>Code by Martijn Vermaat</title>
+  <meta charset="utf-8">
+  <title>Code by Martijn Vermaat</title>
+  <link rel="stylesheet" href="stylesheets/screen.css">
+  <link rel="shortcut icon" href="favicon.ico">
 </head>
+<body>
 
-<body id="martijn-vermaat-name">
+<article>
 
 <h1>Code by Martijn Vermaat</h1>
 
@@ -84,6 +84,21 @@ There are many other <a href="http://svn.vermaat.name/">bits and pieces</a>
 in my Subversion repositories.
 </p>
 
-</body>
+</article>
 
+<nav>
+<ul>
+<li><a style="color:#ff00ff" href="">me at github</a>
+<li><a style="color:#0000ff" href="">twurker</a>
+<li><a style="color:#00ffff" href="">last.fm profile</a>
+<li><a style="color:#ff0000" href="">infinitary rewriting in coq</a>
+<li><a style="color:#000000" href="code">other code</a>
+<li><a style="color:#00ff00" href="">subversion repositories</a>
+<li><a style="color:#ff8000" href="">another link</a>
+<li><a style="color:#808000" href="">and another one</a>
+<li><a style="color:#80ff80" href="">one last</a>
+</ul>
+</nav>
+
+</body>
 </html>
