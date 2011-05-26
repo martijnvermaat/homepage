@@ -8,9 +8,13 @@
 </head>
 <body>
 
+<p class="home-link">
+<a href="index">&#8592; Martijn Vermaat</a>
+</p>
+
 <article>
 
-<h1>Code by Martijn Vermaat</h1>
+<h1>Some random code</h1>
 
 <p>
 Some of the code I wrote over the years ended up on the web.
