@@ -104,7 +104,7 @@ body {
     text-align : center;
 }
 
-body > article, body > nav {
+body > article, body > footer {
     display : block;
     width : 630px;
     margin: 56px 84px;
@@ -112,7 +112,7 @@ body > article, body > nav {
     text-align: left;
 }
 
-body.home > article, body.home > nav {
+body.home > article, body.home > footer {
     margin-left: auto;
     margin-right: auto;
 }
@@ -121,11 +121,11 @@ html body > article {
     margin-top : 112px;
 }
 
-html body > nav {
+html body > footer {
     margin-top : 84px;
 }
 
-p.home-link {
+nav {
     width : 630px;
     height : 28px;
     margin : 0 84px;
@@ -136,7 +136,7 @@ p.home-link {
     text-align: right;
 }
 
-p.home-link a {
+nav a {
 /*    color : #f5f5f5;*/
     color : #0f0a00;
     text-decoration: none;
@@ -144,7 +144,7 @@ p.home-link a {
     padding: 0 8px;
 }
 
-p.home-link a:hover {
+nav a:hover {
     /* Hmm alternative font families are not bold here... */
     font-family : 'TexGyreAdventorBold', 'Avant Garde', 'Century Gothic', Futura, 'URW Gothic L', 'Apple Gothic', AppleGothic, sans-serif;
 }
@@ -176,13 +176,13 @@ p {
     margin : 0 0 28px 0;
 }
 
-nav ul {
+footer ul {
     min-height : 28px;
     margin : 0;
     padding: 0;
 }
 
-nav li {
+footer li {
     float : left;
     width : 210px;
     height : 28px;
@@ -194,11 +194,11 @@ nav li {
     padding: 0;
 }
 
-nav a {
+footer a {
     text-decoration: none;
 }
 
-nav a:hover {
+footer a:hover {
     /* Hmm alternative font families are not bold here... */
     font-family : 'TexGyreAdventorBold', 'Avant Garde', 'Century Gothic', Futura, 'URW Gothic L', 'Apple Gothic', AppleGothic, sans-serif;
 }

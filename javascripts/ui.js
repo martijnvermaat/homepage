@@ -48,7 +48,7 @@ $(document).ready(function() {
     // Add navigation links to page
     function addNavigation() {
 
-        var list = $('<ul>').appendTo($('<nav>').appendTo($('body')));
+        var list = $('<ul>').appendTo($('<footer>').appendTo($('body')));
         $.each(links, function(i, link) {
             list.append($('<li>').append($('<a>').attr('href', link.url).text(link.text).css('color', colors[i])));
         });

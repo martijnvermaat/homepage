@@ -10,9 +10,9 @@
 </head>
 <body>
 
-<p class="home-link">
+<nav>
 <a href="index">&#8592; Martijn Vermaat</a>
-</p>
+</nav>
 
 <article>
 
