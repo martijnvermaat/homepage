@@ -5,6 +5,8 @@
   <title>Freelancing</title>
   <link rel="stylesheet" href="stylesheets/screen.css">
   <link rel="shortcut icon" href="favicon.ico">
+  <script src="javascripts/jquery.js"></script>
+  <script src="javascripts/ui.js"></script>
 </head>
 <body>
 
@@ -29,20 +31,6 @@ for a curriculum vitae, portfolio, or other information.
 </p>
 
 </article>
-
-<nav>
-<ul>
-<li><a style="color:#ff00ff" href="">me at github</a>
-<li><a style="color:#0000ff" href="">twurker</a>
-<li><a style="color:#00ffff" href="">last.fm profile</a>
-<li><a style="color:#ff0000" href="">infinitary rewriting in coq</a>
-<li><a style="color:#000000" href="code">other code</a>
-<li><a style="color:#00ff00" href="">subversion repositories</a>
-<li><a style="color:#ff8000" href="">another link</a>
-<li><a style="color:#808000" href="">and another one</a>
-<li><a style="color:#80ff80" href="">one last</a>
-</ul>
-</nav>
 
 </body>
 </html>
