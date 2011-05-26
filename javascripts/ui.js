@@ -26,7 +26,7 @@ $(document).ready(function() {
                  {text: 'last.fm profile',
                   url: 'http://sdf'},
                  {text: 'infinitary rewriting in coq',
-                  url: 'http://sdf'},
+                  url: 'master-project'},
                  {text: 'other code',
                   url: 'code'},
                  {text: 'subversion repositories',
@@ -38,6 +38,7 @@ $(document).ready(function() {
                  {text: 'one last',
                   url: 'http://sdf'}];
 
+    /* todo: get rid of black? */
     var colors = ['#ff00ff', '#0000ff', '#00ffff', '#ff0000', '#000000',
                   '#00ff00', '#ff8000', '#808000', '#80ff80'];
 
