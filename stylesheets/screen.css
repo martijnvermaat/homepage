@@ -126,6 +126,7 @@ html body > footer {
 }
 
 nav {
+    display : block;
     width : 630px;
     height : 28px;
     margin : 0 84px;
