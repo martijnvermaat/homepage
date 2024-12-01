@@ -1,0 +1,51 @@
+0.2, 2010-02-03, Martijn Vermaat <martijn@vermaat.name>
+
+  * Added set_criteria_user_statuses() method.
+
+0.1i, 2010-02-02, Martijn Vermaat <martijn@vermaat.name>
+
+  * Can specify user statuses to select in get_criteria_by_ad_group()
+  * Added get_criteria()
+  * No CURLOPT_FOLLOWLOCATION if in safe mode.
+
+0.1h, 2009-12-23, Martijn Vermaat <martijn@vermaat.name>
+
+  * Escape XML reserved characters
+
+0.1g, 2009-12-19, Martijn Vermaat <martijn@vermaat.name>
+
+  * Fixed bug in MUTATE request with more than one operation.
+  * Fixed links in example application.
+  * Adding multiple criteria at once can now be done for different ad groups.
+
+0.1f, 2009-12-01, Martijn Vermaat <martijn@vermaat.name>
+
+  * Tested on PHP5.
+  * Added using_sandbox() method.
+  * Updated example code.
+
+0.1e, 2009-12-01, Martijn Vermaat <martijn@vermaat.name>
+
+  * Added changelog and CSS styling to website.
+
+0.1d, 2009-12-01, Martijn Vermaat <martijn@vermaat.name>
+
+  * Added make_release script, better README, and website.
+  * Added CHANGELOG.
+  * Changed __get() method to __do_get() for PHP5 compatibility.
+
+0.1c, 2009-11-27, Martijn Vermaat <martijn@vermaat.name>
+
+  * Updated example application with error handling.
+  * Fixed bug in changing criterion user status.
+
+0.1b, 2009-11-27, Martijn Vermaat <martijn@vermaat.name>
+
+  * Added option to use sandbox.
+  * Documentation.
+  * Error handling.
+  * Get criterion by id.
+
+0.1a, 2009-11-26, Martijn Vermaat <martijn@vermaat.name>
+
+  * Initial release.
