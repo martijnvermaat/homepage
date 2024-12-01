@@ -1,0 +1,583 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>ExampleABA</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library ExampleABA</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+We construct the TRS with one rule
+
+<br/> <br/>
+     ABA : A -&gt; B(A)
+
+<br/> <br/>
+   and a convergent reduction of length omega
+
+<br/> <br/>
+     A -&gt;&gt; B(B(B(..)))
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="Rewriting.html#"><span class="id" type="library">Rewriting</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="keyword">Implicit</span> <span class="id" type="var">Arguments</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab1"></a><h1 class="section">Signature</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Inductive</span> <a name="symbol"><span class="id" type="inductive">symbol</span></a> : <span class="id" type="keyword">Set</span> := <a name="A"><span class="id" type="constructor">A</span></a> | <a name="B"><span class="id" type="constructor">B</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="beq_symb"><span class="id" type="definition">beq_symb</span></a> (<span class="id" type="var">f</span> <span class="id" type="var">g</span> : <a class="idref" href="ExampleABA.html#symbol"><span class="id" type="inductive">symbol</span></a>) : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#bool"><span class="id" type="inductive">bool</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">f</span>, <span class="id" type="var">g</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a>, <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#true"><span class="id" type="constructor">true</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a>, <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#true"><span class="id" type="constructor">true</span></a><br/>
+&nbsp;&nbsp;| <span class="id" type="var">_</span>, <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a><br/>
+<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="beq_symb_ok"><span class="id" type="lemma">beq_symb_ok</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">g</span>, <a class="idref" href="ExampleABA.html#beq_symb"><span class="id" type="definition">beq_symb</span></a> <span class="id" type="var">f</span> <span class="id" type="var">g</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#true"><span class="id" type="constructor">true</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_<->_x"><span class="id" type="notation">&lt;-&gt;</span></a> <span class="id" type="var">f</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">g</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">f</span> <span class="id" type="var">g</span>.<br/>
+<span class="id" type="tactic">split</span>; <span class="id" type="tactic">intro</span> <span class="id" type="var">H</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">destruct</span> <span class="id" type="var">f</span>; <span class="id" type="tactic">destruct</span> <span class="id" type="var">g</span>; <span class="id" type="tactic">simpl</span>; (<span class="id" type="tactic">reflexivity</span> || <span class="id" type="tactic">discriminate</span>).<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">subst</span> <span class="id" type="var">g</span>; <span class="id" type="tactic">destruct</span> <span class="id" type="var">f</span>; <span class="id" type="tactic">simpl</span>; <span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="arity"><span class="id" type="definition">arity</span></a> (<span class="id" type="var">f</span> : <a class="idref" href="ExampleABA.html#symbol"><span class="id" type="inductive">symbol</span></a>) : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">f</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> =&gt; 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> =&gt; 1<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab2"></a><h1 class="section">Variables</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="variable"><span class="id" type="definition">variable</span></a> : <span class="id" type="keyword">Set</span> := <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Fixpoint</span> <a name="beq_var"><span class="id" type="definition">beq_var</span></a> (<span class="id" type="var">x</span> <span class="id" type="var">y</span> : <a class="idref" href="ExampleABA.html#variable"><span class="id" type="definition">variable</span></a>) : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#bool"><span class="id" type="inductive">bool</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">x</span>, <span class="id" type="var">y</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| 0, 0       =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#true"><span class="id" type="constructor">true</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">x'</span>, <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">y'</span> =&gt; <a class="idref" href="ExampleABA.html#beq_var"><span class="id" type="definition">beq_var</span></a> <span class="id" type="var">x'</span> <span class="id" type="var">y'</span><br/>
+&nbsp;&nbsp;| <span class="id" type="var">_</span>,    <span class="id" type="var">_</span>    =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a><br/>
+<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="beq_var_ok"><span class="id" type="lemma">beq_var_ok</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">x</span> <span class="id" type="var">y</span>, <a class="idref" href="ExampleABA.html#beq_var"><span class="id" type="definition">beq_var</span></a> <span class="id" type="var">x</span> <span class="id" type="var">y</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#true"><span class="id" type="constructor">true</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_<->_x"><span class="id" type="notation">&lt;-&gt;</span></a> <span class="id" type="var">x</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">y</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">x</span> <span class="id" type="keyword">as</span> [|<span class="id" type="var">x</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">destruct</span> <span class="id" type="var">y</span>;<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">simpl</span>; <span class="id" type="tactic">split</span>; <span class="id" type="tactic">intro</span> <span class="id" type="var">H</span>; <span class="id" type="tactic">try</span> (<span class="id" type="tactic">reflexivity</span> || <span class="id" type="tactic">discriminate</span>).<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">f_equal</span>. <span class="id" type="tactic">exact</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#proj1"><span class="id" type="lemma">proj1</span></a> (<span class="id" type="var">IH</span> <span class="id" type="var">_</span>) <span class="id" type="var">H</span>).<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">apply</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#proj2"><span class="id" type="lemma">proj2</span></a> (<span class="id" type="var">IH</span> <span class="id" type="var">_</span>)). <span class="id" type="tactic">inversion</span> <span class="id" type="var">H</span>. <span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab3"></a><h1 class="section">Terms</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="F"><span class="id" type="definition">F</span></a> : <a class="idref" href="Signature.html#signature"><span class="id" type="record">signature</span></a> := <a class="idref" href="Signature.html#Signature"><span class="id" type="constructor">Signature</span></a> <a class="idref" href="ExampleABA.html#arity"><span class="id" type="definition">arity</span></a> <a class="idref" href="ExampleABA.html#beq_symb_ok"><span class="id" type="lemma">beq_symb_ok</span></a>.<br/>
+<span class="id" type="keyword">Definition</span> <a name="X"><span class="id" type="definition">X</span></a> : <a class="idref" href="Variables.html#variables"><span class="id" type="record">variables</span></a> := <span class="id" type="keyword">Variables</span> <a class="idref" href="ExampleABA.html#beq_var_ok"><span class="id" type="lemma">beq_var_ok</span></a>.<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="term"><span class="id" type="abbreviation">term</span></a> := (<a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="fterm"><span class="id" type="abbreviation">fterm</span></a> := (<a class="idref" href="FiniteTerm.html#finite_term"><span class="id" type="inductive">finite_term</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Function application with no arguments. 
+</div>
+<div class="code">
+<span class="id" type="var">Notation </span><a name="::x_!"><span class="id" type="notation">"</span></a>f !" := (@<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <span class="id" type="var">f</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>)) (<span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 70).<br/>
+<span class="id" type="var">Notation </span><a name="::x_!!"><span class="id" type="notation">"</span></a>f !!" := (@<a class="idref" href="FiniteTerm.html#FFun"><span class="id" type="constructor">FFun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <span class="id" type="var">f</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>)) (<span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 70).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Function application with one argument. 
+</div>
+<div class="code">
+<span class="id" type="var">Notation </span><a name="::x_@_x"><span class="id" type="notation">"</span></a>f @ a" := (@<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <span class="id" type="var">f</span> (<a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> <span class="id" type="var">a</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#term"><span class="id" type="abbreviation">term</span></a>))) (<span class="id" type="var">right</span> <span class="id" type="var">associativity</span>, <span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 75).<br/>
+<span class="id" type="var">Notation </span><a name="::x_@@_x"><span class="id" type="notation">"</span></a>f @@ a" := (@<a class="idref" href="FiniteTerm.html#FFun"><span class="id" type="constructor">FFun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <span class="id" type="var">f</span> (<a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> <span class="id" type="var">a</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>))) (<span class="id" type="var">right</span> <span class="id" type="var">associativity</span>, <span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 75).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Some terms. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="test_A"><span class="id" type="definition">test_A</span></a> : <a class="idref" href="ExampleABA.html#term"><span class="id" type="abbreviation">term</span></a> := <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a>.<br/>
+<span class="id" type="keyword">Definition</span> <a name="test_BA"><span class="id" type="definition">test_BA</span></a> : <a class="idref" href="ExampleABA.html#term"><span class="id" type="abbreviation">term</span></a> := <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a>.<br/>
+<span class="id" type="keyword">Definition</span> <a name="test_BBA"><span class="id" type="definition">test_BBA</span></a> : <a class="idref" href="ExampleABA.html#term"><span class="id" type="abbreviation">term</span></a> := <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Finite versions. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="ftest_A"><span class="id" type="definition">ftest_A</span></a> : <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a> := <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!!"><span class="id" type="notation">!!</span></a>.<br/>
+<span class="id" type="keyword">Definition</span> <a name="ftest_BA"><span class="id" type="definition">ftest_BA</span></a> : <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a> := <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@@_x"><span class="id" type="notation">@@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!!"><span class="id" type="notation">!!</span></a>.<br/>
+<span class="id" type="keyword">Definition</span> <a name="ftest_BBA"><span class="id" type="definition">ftest_BBA</span></a> : <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a> := <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@@_x"><span class="id" type="notation">@@</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@@_x"><span class="id" type="notation">@@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!!"><span class="id" type="notation">!!</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+B(B(B(...))). 
+</div>
+<div class="code">
+<span class="id" type="keyword">CoFixpoint</span> <a name="repeat_B"><span class="id" type="definition">repeat_B</span></a> : <a class="idref" href="ExampleABA.html#term"><span class="id" type="abbreviation">term</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#repeat_B"><span class="id" type="definition">repeat_B</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab4"></a><h1 class="section">Contexts</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="var">Notation </span><a name="context"><span class="id" type="abbreviation">context</span></a> := (<a class="idref" href="Context.html#context"><span class="id" type="inductive">context</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Function application with one argument. 
+</div>
+<div class="code">
+<span class="id" type="var">Notation </span><a name="::x_@@@_x"><span class="id" type="notation">"</span></a>f @@@ a" := (@<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <span class="id" type="var">f</span> 0 0 (@<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#refl_equal"><span class="id" type="abbreviation">refl_equal</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> (<a class="idref" href="ExampleABA.html#arity"><span class="id" type="definition">arity</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a>)) (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#term"><span class="id" type="abbreviation">term</span></a>) <span class="id" type="var">a</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#term"><span class="id" type="abbreviation">term</span></a>)) (<span class="id" type="var">right</span> <span class="id" type="var">associativity</span>, <span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 75).<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="id_sub"><span class="id" type="abbreviation">id_sub</span></a> := (<a class="idref" href="Substitution.html#empty_substitution"><span class="id" type="definition">empty_substitution</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab5"></a><h1 class="section">Rewriting</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="var">Notation </span><a name="trs"><span class="id" type="abbreviation">trs</span></a> := (<a class="idref" href="Rewriting.html#trs"><span class="id" type="definition">trs</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Rewrite rule A -&gt; B(A). 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="ABA_l"><span class="id" type="definition">ABA_l</span></a> : <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a> := <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!!"><span class="id" type="notation">!!</span></a>.<br/>
+<span class="id" type="keyword">Definition</span> <a name="ABA_r"><span class="id" type="definition">ABA_r</span></a> : <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a> := <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@@_x"><span class="id" type="notation">@@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!!"><span class="id" type="notation">!!</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="ABA_wf"><span class="id" type="lemma">ABA_wf</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="Term.html#is_var"><span class="id" type="definition">is_var</span></a> <a class="idref" href="ExampleABA.html#ABA_l"><span class="id" type="definition">ABA_l</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_/\_x"><span class="id" type="notation">/\</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Lists.List.html#incl"><span class="id" type="definition">incl</span></a> (<a class="idref" href="FiniteTerm.html#vars"><span class="id" type="definition">vars</span></a> <a class="idref" href="ExampleABA.html#ABA_r"><span class="id" type="definition">ABA_r</span></a>) (<a class="idref" href="FiniteTerm.html#vars"><span class="id" type="definition">vars</span></a> <a class="idref" href="ExampleABA.html#ABA_l"><span class="id" type="definition">ABA_l</span></a>).<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">split</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">a</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="ABA"><span class="id" type="definition">ABA</span></a> : <a class="idref" href="Rewriting.html#rule"><span class="id" type="record">rule</span></a> := <a class="idref" href="Rewriting.html#Rule"><span class="id" type="constructor">Rule</span></a> <a class="idref" href="ExampleABA.html#ABA_l"><span class="id" type="definition">ABA_l</span></a> <a class="idref" href="ExampleABA.html#ABA_r"><span class="id" type="definition">ABA_r</span></a> <a class="idref" href="ExampleABA.html#ABA_wf"><span class="id" type="lemma">ABA_wf</span></a>.<br/>
+<span class="id" type="keyword">Definition</span> <a name="ABA_trs"><span class="id" type="definition">ABA_trs</span></a> : <a class="idref" href="ExampleABA.html#trs"><span class="id" type="abbreviation">trs</span></a> := <a class="idref" href="ExampleABA.html#ABA"><span class="id" type="definition">ABA</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#:list_scope:x_::_x"><span class="id" type="notation">::</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="ABA_left_linear"><span class="id" type="lemma">ABA_left_linear</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="Rewriting.html#trs_left_linear"><span class="id" type="definition">trs_left_linear</span></a> <a class="idref" href="ExampleABA.html#ABA_trs"><span class="id" type="definition">ABA_trs</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="var">constructor</span>; <span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+<a name="lab6"></a><h1 class="section">Rewrite sequences</h1>
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="var">Notation </span><a name="Step"><span class="id" type="abbreviation">Step</span></a> := (<a class="idref" href="Rewriting.html#Step"><span class="id" type="constructor">Step</span></a> <a class="idref" href="ExampleABA.html#ABA_trs"><span class="id" type="definition">ABA_trs</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="Nil"><span class="id" type="abbreviation">Nil</span></a> := (<a class="idref" href="Rewriting.html#Nil"><span class="id" type="constructor">Nil</span></a> <a class="idref" href="ExampleABA.html#ABA_trs"><span class="id" type="definition">ABA_trs</span></a>).<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="::x_[>]_x"><span class="id" type="notation">"</span></a>s [&gt;] t" := (<a class="idref" href="Rewriting.html#step"><span class="id" type="inductive">step</span></a> <a class="idref" href="ExampleABA.html#ABA_trs"><span class="id" type="definition">ABA_trs</span></a> <span class="id" type="var">s</span> <span class="id" type="var">t</span>) (<span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 40).<br/>
+<span class="id" type="var">Notation </span><a name="::x_->>_x"><span class="id" type="notation">"</span></a>s -&gt;&gt; t" := (<a class="idref" href="Rewriting.html#sequence"><span class="id" type="inductive">sequence</span></a> <a class="idref" href="ExampleABA.html#ABA_trs"><span class="id" type="definition">ABA_trs</span></a> <span class="id" type="var">s</span> <span class="id" type="var">t</span>) (<span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 40).<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="ABA_in"><span class="id" type="lemma">ABA_in</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Lists.List.html#In"><span class="id" type="definition">In</span></a> <a class="idref" href="ExampleABA.html#ABA"><span class="id" type="definition">ABA</span></a> <a class="idref" href="ExampleABA.html#ABA_trs"><span class="id" type="definition">ABA_trs</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="var">left</span>. <span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Zero-step rewrite sequence A -&gt;&gt; A. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="s_A"><span class="id" type="definition">s_A</span></a> : <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">-&gt;&gt;</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> := <a class="idref" href="ExampleABA.html#Nil"><span class="id" type="abbreviation">Nil</span></a> (<a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a>).<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="fact_term_bis_A"><span class="id" type="lemma">fact_term_bis_A</span></a> :<br/>
+&nbsp;&nbsp;@<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (<a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a>) (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>)) <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> <a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">)</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span>.<br/>
+<span class="id" type="var">contradiction</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Program.Equality.html#"><span class="id" type="library">Equality</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="fact_term_bis_BA"><span class="id" type="lemma">fact_term_bis_BA</span></a> :<br/>
+&nbsp;&nbsp;@<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (<a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a>) (<a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> (<a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> <a class="idref" href="ExampleABA.html#::x_!!"><span class="id" type="notation">!!</span></a>) (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>))) <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> <a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">)</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ExampleABA.html#fact_term_bis_A"><span class="id" type="lemma">fact_term_bis_A</span></a>.<br/>
+<span class="id" type="var">contradiction</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Step A -&gt; B(A). 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="p_A_BA"><span class="id" type="definition">p_A_BA</span></a> : <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">[&gt;]</span></a> <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">)</span></a> := <a class="idref" href="ExampleABA.html#Step"><span class="id" type="abbreviation">Step</span></a> <a class="idref" href="ExampleABA.html#ABA"><span class="id" type="definition">ABA</span></a> <a class="idref" href="Context.html#Hole"><span class="id" type="constructor">Hole</span></a> <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a> <a class="idref" href="ExampleABA.html#ABA_in"><span class="id" type="lemma">ABA_in</span></a> <a class="idref" href="ExampleABA.html#fact_term_bis_A"><span class="id" type="lemma">fact_term_bis_A</span></a> <a class="idref" href="ExampleABA.html#fact_term_bis_BA"><span class="id" type="lemma">fact_term_bis_BA</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Single-step rewrite sequence A -&gt;&gt; B(A). 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="s_A_BA"><span class="id" type="definition">s_A_BA</span></a> : <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">-&gt;&gt;</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> := <a class="idref" href="Rewriting.html#Cons"><span class="id" type="constructor">Cons</span></a> <a class="idref" href="ExampleABA.html#s_A"><span class="id" type="definition">s_A</span></a> <a class="idref" href="ExampleABA.html#p_A_BA"><span class="id" type="definition">p_A_BA</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="fact_term_bis_BA'"><span class="id" type="lemma">fact_term_bis_BA'</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> @<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (<a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a>) (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>))<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">)</span></a> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> @<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> (<span class="id" type="keyword">fun</span> <span class="id" type="var">x</span> : <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> 0 =&gt; <a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a> <span class="id" type="var">x</span>)<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">)</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ExampleABA.html#fact_term_bis_A"><span class="id" type="lemma">fact_term_bis_A</span></a>.<br/>
+<span class="id" type="var">contradiction</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="fact_term_bis_BBA"><span class="id" type="lemma">fact_term_bis_BBA</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> @<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (<a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a>) (<a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> (<a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> <a class="idref" href="ExampleABA.html#::x_!!"><span class="id" type="notation">!!</span></a>) (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>)))<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">)</span></a> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a><br/>
+&nbsp;&nbsp;<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> @<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> (<span class="id" type="keyword">fun</span> <span class="id" type="var">x</span> : <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> 0 =&gt; <a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a> <span class="id" type="var">x</span>)<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">)</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ExampleABA.html#fact_term_bis_BA"><span class="id" type="lemma">fact_term_bis_BA</span></a>.<br/>
+<span class="id" type="var">contradiction</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Step B(A) -&gt; B(B(A)). 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="p_BA_BBA"><span class="id" type="definition">p_BA_BBA</span></a> : <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">[&gt;]</span></a> <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">)</span></a> := <a class="idref" href="ExampleABA.html#Step"><span class="id" type="abbreviation">Step</span></a> <a class="idref" href="ExampleABA.html#ABA"><span class="id" type="definition">ABA</span></a> (<a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@@@_x"><span class="id" type="notation">@@@</span></a> <a class="idref" href="Context.html#Hole"><span class="id" type="constructor">Hole</span></a>) <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a> <a class="idref" href="ExampleABA.html#ABA_in"><span class="id" type="lemma">ABA_in</span></a> <a class="idref" href="ExampleABA.html#fact_term_bis_BA'"><span class="id" type="lemma">fact_term_bis_BA'</span></a> <a class="idref" href="ExampleABA.html#fact_term_bis_BBA"><span class="id" type="lemma">fact_term_bis_BBA</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Two-step reduction A -&gt;&gt; B(B(A)). 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="s_A_BBA"><span class="id" type="definition">s_A_BBA</span></a> : <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">-&gt;&gt;</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> := <a class="idref" href="Rewriting.html#Cons"><span class="id" type="constructor">Cons</span></a> <a class="idref" href="ExampleABA.html#s_A_BA"><span class="id" type="definition">s_A_BA</span></a> <a class="idref" href="ExampleABA.html#p_BA_BBA"><span class="id" type="definition">p_BA_BBA</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+B(B(...(A)...)) with n applications of B. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="nB_A"><span class="id" type="definition">nB_A</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <a class="idref" href="ExampleABA.html#term"><span class="id" type="abbreviation">term</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">n</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| 0   =&gt; <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> =&gt; <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <span class="id" type="var">n</span><a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">)</span></a><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+B(B(...(Hole)...)) with n applications of B. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="nB_Hole"><span class="id" type="definition">nB_Hole</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <a class="idref" href="ExampleABA.html#context"><span class="id" type="abbreviation">context</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">n</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| 0   =&gt; <a class="idref" href="Context.html#Hole"><span class="id" type="constructor">Hole</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> =&gt; <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@@@_x"><span class="id" type="notation">@@@</span></a> <a class="idref" href="ExampleABA.html#::x_@@@_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#nB_Hole"><span class="id" type="definition">nB_Hole</span></a> <span class="id" type="var">n</span><a class="idref" href="ExampleABA.html#::x_@@@_x"><span class="id" type="notation">)</span></a><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="fact_term_bis_nBA"><span class="id" type="lemma">fact_term_bis_nBA</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">n</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Context.html#fill"><span class="id" type="definition">fill</span></a> (<a class="idref" href="ExampleABA.html#nB_Hole"><span class="id" type="definition">nB_Hole</span></a> <span class="id" type="var">n</span>) (@<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (<a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a>) (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>))) <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <span class="id" type="var">n</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>; <span class="id" type="var">constructor</span>; <span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="var">contradiction</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>).<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="var">contradiction</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="fact_term_bis_BnBA"><span class="id" type="lemma">fact_term_bis_BnBA</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">n</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Context.html#fill"><span class="id" type="definition">fill</span></a> (<a class="idref" href="ExampleABA.html#nB_Hole"><span class="id" type="definition">nB_Hole</span></a> <span class="id" type="var">n</span>) (@<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <a class="idref" href="ExampleABA.html#F"><span class="id" type="definition">F</span></a> <a class="idref" href="ExampleABA.html#X"><span class="id" type="definition">X</span></a> <a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (<a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a>) (<a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> (<a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a> <a class="idref" href="ExampleABA.html#::x_!!"><span class="id" type="notation">!!</span></a>) (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="ExampleABA.html#fterm"><span class="id" type="abbreviation">fterm</span></a>)))) <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <span class="id" type="var">n</span><a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">)</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ExampleABA.html#fact_term_bis_BA"><span class="id" type="lemma">fact_term_bis_BA</span></a>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="var">contradiction</span> (<a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Step B(B(...(A)...)) -&gt; B(B(B(...(A)...))) with n applications of B at
+   left side. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="p_nBA_nBBA"><span class="id" type="definition">p_nBA_nBBA</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <span class="id" type="var">n</span><a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">[&gt;]</span></a> <a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#B"><span class="id" type="constructor">B</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">@</span></a> <a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <span class="id" type="var">n</span><a class="idref" href="ExampleABA.html#::x_@_x"><span class="id" type="notation">)</span></a><a class="idref" href="ExampleABA.html#::x_[>]_x"><span class="id" type="notation">)</span></a> := <a class="idref" href="ExampleABA.html#Step"><span class="id" type="abbreviation">Step</span></a> <a class="idref" href="ExampleABA.html#ABA"><span class="id" type="definition">ABA</span></a> (<a class="idref" href="ExampleABA.html#nB_Hole"><span class="id" type="definition">nB_Hole</span></a> <span class="id" type="var">n</span>) <a class="idref" href="ExampleABA.html#id_sub"><span class="id" type="abbreviation">id_sub</span></a> <a class="idref" href="ExampleABA.html#ABA_in"><span class="id" type="lemma">ABA_in</span></a> (<a class="idref" href="ExampleABA.html#fact_term_bis_nBA"><span class="id" type="lemma">fact_term_bis_nBA</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="ExampleABA.html#fact_term_bis_BnBA"><span class="id" type="lemma">fact_term_bis_BnBA</span></a> <span class="id" type="var">n</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+n-step rewrite sequence A -1-&gt; B(A) -2-&gt; B(B(A)) -3-&gt; ... -n-&gt; B(B(B(...(A)...)))
+   with n applications of B at right side. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="s_A_nBA"><span class="id" type="definition">s_A_nBA</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">-&gt;&gt;</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <span class="id" type="var">n</span><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> <span class="id" type="var">m</span> <span class="id" type="keyword">in</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> <span class="id" type="keyword">return</span> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">-&gt;&gt;</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <span class="id" type="var">m</span><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| 0   =&gt; <a class="idref" href="ExampleABA.html#Nil"><span class="id" type="abbreviation">Nil</span></a> (<a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a>)<br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> =&gt; <a class="idref" href="Rewriting.html#Cons"><span class="id" type="constructor">Cons</span></a> (<a class="idref" href="ExampleABA.html#s_A_nBA"><span class="id" type="definition">s_A_nBA</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="ExampleABA.html#p_nBA_nBBA"><span class="id" type="definition">p_nBA_nBBA</span></a> <span class="id" type="var">n</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="term_eq_up_to_n_nB_A_repeat_B"><span class="id" type="lemma">term_eq_up_to_n_nB_A_repeat_B</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">n</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="TermEquality.html#term_eq_up_to"><span class="id" type="inductive">term_eq_up_to</span></a> <span class="id" type="var">n</span> (<a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <span class="id" type="var">n</span>) <a class="idref" href="ExampleABA.html#repeat_B"><span class="id" type="definition">repeat_B</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">rewrite</span> (<a class="idref" href="Term.html#peek_eq"><span class="id" type="lemma">peek_eq</span></a> <a class="idref" href="ExampleABA.html#repeat_B"><span class="id" type="definition">repeat_B</span></a>); <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="converges_nB_A"><span class="id" type="lemma">converges_nB_A</span></a> : <a class="idref" href="TermEquality.html#converges"><span class="id" type="definition">converges</span></a> <a class="idref" href="ExampleABA.html#nB_A"><span class="id" type="definition">nB_A</span></a> <a class="idref" href="ExampleABA.html#repeat_B"><span class="id" type="definition">repeat_B</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">d</span>.<br/>
+<span class="id" type="var">exists</span> <span class="id" type="var">d</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">m</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_eq_up_to_weaken_generalized"><span class="id" type="lemma">term_eq_up_to_weaken_generalized</span></a> <span class="id" type="keyword">with</span> <span class="id" type="var">m</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ExampleABA.html#term_eq_up_to_n_nB_A_repeat_B"><span class="id" type="lemma">term_eq_up_to_n_nB_A_repeat_B</span></a>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Omega-step reduction A -1-&gt; B(A) -2-&gt; B(B(A)) -3-&gt; ... B(B(B(...))). 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="s_A_repeat_B"><span class="id" type="definition">s_A_repeat_B</span></a> : <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">(</span></a><a class="idref" href="ExampleABA.html#A"><span class="id" type="constructor">A</span></a><a class="idref" href="ExampleABA.html#::x_!"><span class="id" type="notation">!</span></a><a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">)</span></a> <a class="idref" href="ExampleABA.html#::x_->>_x"><span class="id" type="notation">-&gt;&gt;</span></a> <a class="idref" href="ExampleABA.html#repeat_B"><span class="id" type="definition">repeat_B</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="Rewriting.html#Lim"><span class="id" type="constructor">Lim</span></a> <a class="idref" href="ExampleABA.html#s_A_nBA"><span class="id" type="definition">s_A_nBA</span></a> <a class="idref" href="ExampleABA.html#converges_nB_A"><span class="id" type="lemma">converges_nB_A</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+This rewrite sequence is well-formed 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="wf_s_A_repeat_B"><span class="id" type="lemma">wf_s_A_repeat_B</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">wf</span> <a class="idref" href="ExampleABA.html#s_A_repeat_B"><span class="id" type="definition">s_A_repeat_B</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span>; <span class="id" type="tactic">simpl</span>; <span class="id" type="tactic">trivial</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">H</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">exists</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> <span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>).<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Rewriting.html#embed_refl"><span class="id" type="lemma">embed_refl</span></a>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">IHle</span> <span class="id" type="keyword">as</span> [<span class="id" type="var">i</span> <span class="id" type="var">IH</span>].<br/>
+<span class="id" type="var">exists</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inr"><span class="id" type="constructor">inr</span></a> <span class="id" type="var">_</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Open</span> <span class="id" type="keyword">Scope</span> <span class="id" type="var">ord_scope</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Compression lemma is meaningless for this reduction, but
+   maybe we should show just that. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="length_s_A_repeat_B_le_omega"><span class="id" type="lemma">length_s_A_repeat_B_le_omega</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="Rewriting.html#length"><span class="id" type="definition">length</span></a> <a class="idref" href="ExampleABA.html#s_A_repeat_B"><span class="id" type="definition">s_A_repeat_B</span></a> <a class="idref" href="Ordinal.html#:ord_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <a class="idref" href="Ordinal.html#omega"><span class="id" type="definition">omega</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">n</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_pd_right"><span class="id" type="lemma">ord_le_pd_right</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> <span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>)).<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#Ord_le_Succ"><span class="id" type="constructor">Ord_le_Succ</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> (<a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>).<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Let's also show the other direction. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="omega_le_length_s_A_repeat_B"><span class="id" type="lemma">omega_le_length_s_A_repeat_B</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="Ordinal.html#omega"><span class="id" type="definition">omega</span></a> <a class="idref" href="Ordinal.html#:ord_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <a class="idref" href="Rewriting.html#length"><span class="id" type="definition">length</span></a> <a class="idref" href="ExampleABA.html#s_A_repeat_B"><span class="id" type="definition">s_A_repeat_B</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">n</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_pd_right"><span class="id" type="lemma">ord_le_pd_right</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> (<a class="idref" href="Rewriting.html#length"><span class="id" type="definition">length</span></a> (<a class="idref" href="ExampleABA.html#s_A_nBA"><span class="id" type="definition">s_A_nBA</span></a> <span class="id" type="var">n</span>))) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> <span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>)).<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#Ord_le_Succ"><span class="id" type="constructor">Ord_le_Succ</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> (<a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> (<a class="idref" href="Rewriting.html#length"><span class="id" type="definition">length</span></a> (<a class="idref" href="ExampleABA.html#s_A_nBA"><span class="id" type="definition">s_A_nBA</span></a> <span class="id" type="var">n</span>))) <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>).<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Just because both directions are so similar. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="length_s_A_repeat_B_eq_omega"><span class="id" type="lemma">length_s_A_repeat_B_eq_omega</span></a> :<br/>
+&nbsp;&nbsp;<a class="idref" href="Rewriting.html#length"><span class="id" type="definition">length</span></a> <a class="idref" href="ExampleABA.html#s_A_repeat_B"><span class="id" type="definition">s_A_repeat_B</span></a> <a class="idref" href="Ordinal.html#:ord_scope:x_==_x"><span class="id" type="notation">==</span></a> <a class="idref" href="Ordinal.html#omega"><span class="id" type="definition">omega</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">split</span>; <span class="id" type="tactic">simpl</span>;<br/>
+&nbsp;&nbsp;<span class="id" type="var">constructor</span>;<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">intro</span> <span class="id" type="var">n</span>;<br/>
+&nbsp;&nbsp;[ <span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_pd_right"><span class="id" type="lemma">ord_le_pd_right</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> <span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>))<br/>
+&nbsp;&nbsp;| <span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_pd_right"><span class="id" type="lemma">ord_le_pd_right</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> (<a class="idref" href="Rewriting.html#length"><span class="id" type="definition">length</span></a> (<a class="idref" href="ExampleABA.html#s_A_nBA"><span class="id" type="definition">s_A_nBA</span></a> <span class="id" type="var">n</span>))) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> <span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>)) ];<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>;<br/>
+&nbsp;&nbsp;[ <span class="id" type="var">constructor</span><br/>
+&nbsp;&nbsp;| <span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#Ord_le_Succ"><span class="id" type="constructor">Ord_le_Succ</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> (<a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>); <span class="id" type="tactic">assumption</span><br/>
+&nbsp;&nbsp;| <span class="id" type="var">constructor</span><br/>
+&nbsp;&nbsp;| <span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#Ord_le_Succ"><span class="id" type="constructor">Ord_le_Succ</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> (<a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> (<a class="idref" href="Rewriting.html#length"><span class="id" type="definition">length</span></a> (<a class="idref" href="ExampleABA.html#s_A_nBA"><span class="id" type="definition">s_A_nBA</span></a> <span class="id" type="var">n</span>))) <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>); <span class="id" type="tactic">assumption</span> ].<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="var">Close</span> <span class="id" type="keyword">Scope</span> <span class="id" type="var">ord_scope</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

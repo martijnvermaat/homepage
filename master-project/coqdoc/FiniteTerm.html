@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>FiniteTerm</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library FiniteTerm</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+This library defines the type <span class="inlinecode"><span class="id" type="var">finite_term</span></span> of finite terms. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Arith.Max.html#"><span class="id" type="library">Max</span></a>. <span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Lists.List.html#"><span class="id" type="library">List</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="Signature.html#"><span class="id" type="library">Signature</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <span class="id" type="keyword">Variables</span>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="Vector.html#"><span class="id" type="library">Vector</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="keyword">Implicit</span> <span class="id" type="var">Arguments</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="FiniteTerm"><span class="id" type="section">FiniteTerm</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Terms are defined inductively over a signature <span class="inlinecode"><span class="id" type="var">F</span></span> and a set of
+   variables <span class="inlinecode"><span class="id" type="var">X</span></span>. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Variable</span> <a name="FiniteTerm.F"><span class="id" type="variable">F</span></a> : <a class="idref" href="Signature.html#signature"><span class="id" type="record">signature</span></a>.<br/>
+<span class="id" type="keyword">Variable</span> <a name="FiniteTerm.X"><span class="id" type="variable">X</span></a> : <a class="idref" href="Variables.html#variables"><span class="id" type="record">variables</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Inductive</span> <a name="finite_term"><span class="id" type="inductive">finite_term</span></a> : <span class="id" type="keyword">Type</span> :=<br/>
+&nbsp;&nbsp;| <a name="FVar"><span class="id" type="constructor">FVar</span></a> : <a class="idref" href="FiniteTerm.html#FiniteTerm.X"><span class="id" type="variable">X</span></a> -&gt; <a class="idref" href="FiniteTerm.html#finite_term"><span class="id" type="inductive">finite_term</span></a><br/>
+&nbsp;&nbsp;| <a name="FFun"><span class="id" type="constructor">FFun</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> : <a class="idref" href="FiniteTerm.html#FiniteTerm.F"><span class="id" type="variable">F</span></a>, <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="FiniteTerm.html#finite_term"><span class="id" type="inductive">finite_term</span></a> (<a class="idref" href="Signature.html#arity"><span class="id" type="projection">arity</span></a> <span class="id" type="var">f</span>) -&gt; <a class="idref" href="FiniteTerm.html#finite_term"><span class="id" type="inductive">finite_term</span></a>.<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="fterm"><span class="id" type="abbreviation">fterm</span></a> := (<a class="idref" href="FiniteTerm.html#finite_term"><span class="id" type="inductive">finite_term</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="fterms"><span class="id" type="abbreviation">fterms</span></a> := (<a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="FiniteTerm.html#fterm"><span class="id" type="abbreviation">fterm</span></a>).<br/>
+
+<br/>
+<span class="id" type="keyword">Fixpoint</span> <a name="size"><span class="id" type="definition">size</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="FiniteTerm.html#fterm"><span class="id" type="abbreviation">fterm</span></a>) : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FVar"><span class="id" type="constructor">FVar</span></a> <span class="id" type="var">_</span>      =&gt; 1<br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FFun"><span class="id" type="constructor">FFun</span></a> <span class="id" type="var">_</span> <span class="id" type="var">args</span> =&gt; 1 <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_+_x"><span class="id" type="notation">+</span></a> <a class="idref" href="Vector.html#vfold"><span class="id" type="definition">vfold</span></a> 0 <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#plus"><span class="id" type="definition">plus</span></a> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> <a class="idref" href="FiniteTerm.html#size"><span class="id" type="definition">size</span></a> <span class="id" type="var">args</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Fixpoint</span> <a name="pattern_depth"><span class="id" type="definition">pattern_depth</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="FiniteTerm.html#fterm"><span class="id" type="abbreviation">fterm</span></a>) : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FVar"><span class="id" type="constructor">FVar</span></a> <span class="id" type="var">_</span>      =&gt; 0<br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FFun"><span class="id" type="constructor">FFun</span></a> <span class="id" type="var">_</span> <span class="id" type="var">args</span> =&gt; 1 <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_+_x"><span class="id" type="notation">+</span></a> <a class="idref" href="Vector.html#vfold"><span class="id" type="definition">vfold</span></a> 0 <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Arith.MinMax.html#max"><span class="id" type="definition">max</span></a> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> <a class="idref" href="FiniteTerm.html#pattern_depth"><span class="id" type="definition">pattern_depth</span></a> <span class="id" type="var">args</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+List of variable occurrences in a finite term. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="vars"><span class="id" type="definition">vars</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="FiniteTerm.html#fterm"><span class="id" type="abbreviation">fterm</span></a>) : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#list"><span class="id" type="inductive">list</span></a> <a class="idref" href="FiniteTerm.html#FiniteTerm.X"><span class="id" type="variable">X</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FVar"><span class="id" type="constructor">FVar</span></a> <span class="id" type="var">x</span>      =&gt; <span class="id" type="var">x</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#:list_scope:x_::_x"><span class="id" type="notation">::</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FFun"><span class="id" type="constructor">FFun</span></a> <span class="id" type="var">_</span> <span class="id" type="var">args</span> =&gt; <a class="idref" href="Vector.html#vfold"><span class="id" type="definition">vfold</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a> (@<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#app"><span class="id" type="definition">app</span></a> <a class="idref" href="FiniteTerm.html#FiniteTerm.X"><span class="id" type="variable">X</span></a>) (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> <a class="idref" href="FiniteTerm.html#vars"><span class="id" type="definition">vars</span></a> <span class="id" type="var">args</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A finite term is linear if it has no duplicate variable occurrences. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="linear"><span class="id" type="definition">linear</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="FiniteTerm.html#fterm"><span class="id" type="abbreviation">fterm</span></a>) : <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Lists.List.html#NoDup"><span class="id" type="inductive">NoDup</span></a> (<a class="idref" href="FiniteTerm.html#vars"><span class="id" type="definition">vars</span></a> <span class="id" type="var">t</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="FiniteTerm.html#FiniteTerm"><span class="id" type="section">FiniteTerm</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Implicit Arguments</span> <a class="idref" href="FiniteTerm.html#FVar"><span class="id" type="constructor">FVar</span></a> [<span class="id" type="var">F</span> <span class="id" type="var">X</span>].<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

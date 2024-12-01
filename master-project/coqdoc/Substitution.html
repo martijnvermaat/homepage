@@ -1,0 +1,394 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>Substitution</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Substitution</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+This library defines substition of terms for variables in terms. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Lists.List.html#"><span class="id" type="library">List</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="FiniteTerm.html#"><span class="id" type="library">FiniteTerm</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="Term.html#"><span class="id" type="library">Term</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="TermEquality.html#"><span class="id" type="library">TermEquality</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Program.Equality.html#"><span class="id" type="library">Equality</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="keyword">Implicit</span> <span class="id" type="var">Arguments</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="Substitution"><span class="id" type="section">Substitution</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Variable</span> <a name="Substitution.F"><span class="id" type="variable">F</span></a> : <a class="idref" href="Signature.html#signature"><span class="id" type="record">signature</span></a>.<br/>
+<span class="id" type="keyword">Variable</span> <a name="Substitution.X"><span class="id" type="variable">X</span></a> : <a class="idref" href="Variables.html#variables"><span class="id" type="record">variables</span></a>.<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="term"><span class="id" type="abbreviation">term</span></a> := (<a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a> <a class="idref" href="Substitution.html#Substitution.F"><span class="id" type="variable">F</span></a> <a class="idref" href="Substitution.html#Substitution.X"><span class="id" type="variable">X</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="fterm"><span class="id" type="abbreviation">fterm</span></a> := (<a class="idref" href="FiniteTerm.html#finite_term"><span class="id" type="inductive">finite_term</span></a> <a class="idref" href="Substitution.html#Substitution.F"><span class="id" type="variable">F</span></a> <a class="idref" href="Substitution.html#Substitution.X"><span class="id" type="variable">X</span></a>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A substitution is a function from variables to terms. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="substitution"><span class="id" type="definition">substitution</span></a> := <a class="idref" href="Substitution.html#Substitution.X"><span class="id" type="variable">X</span></a> -&gt; <a class="idref" href="Substitution.html#term"><span class="id" type="abbreviation">term</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Equality of substitutions on a list of variables. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="substitution_eq"><span class="id" type="definition">substitution_eq</span></a> (<span class="id" type="var">vars</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#list"><span class="id" type="inductive">list</span></a> <a class="idref" href="Substitution.html#Substitution.X"><span class="id" type="variable">X</span></a>) (<span class="id" type="var">sigma</span> <span class="id" type="var">sigma'</span> : <a class="idref" href="Substitution.html#substitution"><span class="id" type="definition">substitution</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">vars</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a>     =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#True"><span class="id" type="inductive">True</span></a><br/>
+&nbsp;&nbsp;| <span class="id" type="var">x</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#:list_scope:x_::_x"><span class="id" type="notation">::</span></a> <span class="id" type="var">xs</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_/\_x"><span class="id" type="notation">(</span></a><a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">xs</span> <span class="id" type="var">sigma</span> <span class="id" type="var">sigma'</span><a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_/\_x"><span class="id" type="notation">)</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_/\_x"><span class="id" type="notation">/\</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_/\_x"><span class="id" type="notation">(</span></a><span class="id" type="var">sigma</span> <span class="id" type="var">x</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">sigma'</span> <span class="id" type="var">x</span><a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_/\_x"><span class="id" type="notation">)</span></a><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Equality of substitutions on a list of variables is invariant under
+   list inclusion.
+
+<br/> <br/>
+   We have not yet proven this lemma. This taints the lemma <span class="inlinecode"><span class="id" type="var">step_eq__target</span></span>
+   in <span class="inlinecode"><span class="id" type="var">Rewriting</span></span>. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="substitution_eq_incl"><span class="id" type="lemma">substitution_eq_incl</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">l</span> <span class="id" type="var">l'</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Lists.List.html#incl"><span class="id" type="definition">incl</span></a> <span class="id" type="var">l'</span> <span class="id" type="var">l</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">l</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">l'</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">l</span> <span class="id" type="var">l'</span> <span class="id" type="var">H1</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="var">revert</span> <span class="id" type="var">l'</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">l</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">x</span> <span class="id" type="var">l</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">intros</span> <span class="id" type="var">l'</span> <span class="id" type="var">H1</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">l'</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">y</span> <span class="id" type="var">l'</span>].<br/>
+<span class="id" type="tactic">exact</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#I"><span class="id" type="constructor">I</span></a>.<br/>
+<span class="id" type="tactic">elim</span> (<span class="id" type="var">H1</span> <span class="id" type="var">y</span>).<br/>
+<span class="id" type="var">left</span>; <span class="id" type="tactic">reflexivity</span>.<br/>
+
+<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">l'</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">y</span> <span class="id" type="var">l'</span> <span class="id" type="var">IH'</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">exact</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#I"><span class="id" type="constructor">I</span></a>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH'</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">z</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="var">right</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">destruct</span> (<span class="id" type="var">H1</span> <span class="id" type="var">y</span>).<br/>
+<span class="id" type="var">left</span>; <span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">simpl</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H2</span>.<br/>
+</div>
+
+<div class="doc">
+This should not be too hard. (Problem is whether <span class="inlinecode"><span class="id" type="var">x</span></span> is in <span class="inlinecode"><span class="id" type="var">l'</span></span>. 
+</div>
+<div class="code">
+<span class="id" type="var">Admitted</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="substitution_eq_app_left"><span class="id" type="lemma">substitution_eq_app_left</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">l</span> <span class="id" type="var">l'</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> (<span class="id" type="var">l</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#:list_scope:x_++_x"><span class="id" type="notation">++</span></a> <span class="id" type="var">l'</span>) <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">l</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">l</span> <span class="id" type="var">l'</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">l</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">x</span> <span class="id" type="var">l</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">exact</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#I"><span class="id" type="constructor">I</span></a>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="substitution_eq_app_right"><span class="id" type="lemma">substitution_eq_app_right</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">l</span> <span class="id" type="var">l'</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> (<span class="id" type="var">l</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#:list_scope:x_++_x"><span class="id" type="notation">++</span></a> <span class="id" type="var">l'</span>) <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">l'</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">l</span> <span class="id" type="var">l'</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">l</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">x</span> <span class="id" type="var">l</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Implicit Arguments</span> <a class="idref" href="Substitution.html#substitution_eq_app_left"><span class="id" type="lemma">substitution_eq_app_left</span></a> [<span class="id" type="var">l</span> <span class="id" type="var">l'</span>].<br/>
+<span class="id" type="keyword">Implicit Arguments</span> <a class="idref" href="Substitution.html#substitution_eq_app_right"><span class="id" type="lemma">substitution_eq_app_right</span></a> [<span class="id" type="var">l</span> <span class="id" type="var">l'</span>].<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We show <span class="inlinecode"><span class="id" type="var">substitution_eq</span></span> is an equivalence. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="substitution_eq_refl"><span class="id" type="lemma">substitution_eq_refl</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span>, <a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span> <span class="id" type="var">sigma</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">vars</span>; [<span class="id" type="tactic">simpl</span> | <span class="id" type="tactic">split</span>]; <span class="id" type="tactic">trivial</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="substitution_eq_symm"><span class="id" type="lemma">substitution_eq_symm</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">vars</span> <span class="id" type="var">theta</span> <span class="id" type="var">sigma</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">vars</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">x</span> <span class="id" type="var">vars</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">exact</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#I"><span class="id" type="constructor">I</span></a>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">symmetry</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="substitution_eq_trans"><span class="id" type="lemma">substitution_eq_trans</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">upsilon</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">vars</span> <span class="id" type="var">theta</span> <span class="id" type="var">upsilon</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span> <span class="id" type="var">upsilon</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">vars</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">upsilon</span> <span class="id" type="var">H1</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">vars</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">x</span> <span class="id" type="var">vars</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">exact</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#I"><span class="id" type="constructor">I</span></a>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#eq_trans"><span class="id" type="lemma">eq_trans</span></a> <span class="id" type="keyword">with</span> (<span class="id" type="var">theta</span> <span class="id" type="var">x</span>).<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The identity substitution. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="empty_substitution"><span class="id" type="definition">empty_substitution</span></a> (<span class="id" type="var">x</span> : <a class="idref" href="Substitution.html#Substitution.X"><span class="id" type="variable">X</span></a>) : <a class="idref" href="Substitution.html#term"><span class="id" type="abbreviation">term</span></a> := <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">x</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We define two substitution functions. The first, <span class="inlinecode"><span class="id" type="var">substitute</span></span>, defines
+   substitution on finite terms. The second, <span class="inlinecode"><span class="id" type="var">substitute'</span></span>, defines
+   substitution on infinite terms.
+
+<br/> <br/>
+   In principle, <span class="inlinecode"><span class="id" type="var">substitute'</span></span> works fine and is a generalisation of
+   <span class="inlinecode"><span class="id" type="var">substitute</span></span>. However, it yields a (potentially) infinite term (of type
+   <span class="inlinecode"><span class="id" type="var">term</span></span> instead of <span class="inlinecode"><span class="id" type="var">finite_term</span></span>) and this makes it somewhat painful to
+   work with (corecursive definitions have to be manually unfolded in Coq).
+
+<br/> <br/>
+   Since we almost always apply substitutions on finite terms, we define
+   this seperately and provide the more general <span class="inlinecode"><span class="id" type="var">substitute'</span></span> for
+   completeness. 
+</div>
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+Apply a substitution to a finite term. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="substitute"><span class="id" type="definition">substitute</span></a> (<span class="id" type="var">sigma</span> : <a class="idref" href="Substitution.html#substitution"><span class="id" type="definition">substitution</span></a>) (<span class="id" type="var">t</span> : <a class="idref" href="Substitution.html#fterm"><span class="id" type="abbreviation">fterm</span></a>) {<span class="id" type="keyword">struct</span> <span class="id" type="var">t</span>} : <a class="idref" href="Substitution.html#term"><span class="id" type="abbreviation">term</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FVar"><span class="id" type="constructor">FVar</span></a> <span class="id" type="var">x</span>      =&gt; <span class="id" type="var">sigma</span> <span class="id" type="var">x</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FFun"><span class="id" type="constructor">FFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">args</span> =&gt; <a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (<a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <span class="id" type="var">sigma</span>) <span class="id" type="var">args</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Applying the empty substitution to a finite term gives the trivial
+   infinite term image. The only reason we cannot prove coq-equality here
+   is equality on vectors. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="empty_substitution_is_id"><span class="id" type="lemma">empty_substitution_is_id</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> (<span class="id" type="var">t</span> : <a class="idref" href="Substitution.html#fterm"><span class="id" type="abbreviation">fterm</span></a>), <a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <a class="idref" href="Substitution.html#empty_substitution"><span class="id" type="definition">empty_substitution</span></a> <span class="id" type="var">t</span> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_refl"><span class="id" type="lemma">term_bis_refl</span></a>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Applying equal substitutions yields equal terms.
+
+<br/> <br/>
+   We have not yet proven this lemma. This taints the lemmas
+   <span class="inlinecode"><span class="id" type="var">step_eq_source</span></span> and <span class="inlinecode"><span class="id" type="var">step_eq_target</span></span> in <span class="inlinecode"><span class="id" type="var">Rewriting</span></span>. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="substitution_eq_substitute"><span class="id" type="lemma">substitution_eq_substitute</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">t</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitution_eq"><span class="id" type="definition">substitution_eq</span></a> (<a class="idref" href="FiniteTerm.html#vars"><span class="id" type="definition">vars</span></a> <span class="id" type="var">t</span>) <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <span class="id" type="var">sigma</span> <span class="id" type="var">t</span> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a> <a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <span class="id" type="var">theta</span> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">t</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">t</span> <span class="id" type="keyword">as</span> [<span class="id" type="var">x</span> | <span class="id" type="var">f</span> <span class="id" type="var">args</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">rewrite</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#proj2"><span class="id" type="lemma">proj2</span></a> <span class="id" type="var">H</span>).<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_refl"><span class="id" type="lemma">term_bis_refl</span></a>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>; <span class="id" type="tactic">clear</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">simpl</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vmap</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> (<a class="idref" href="Signature.html#arity"><span class="id" type="projection">arity</span></a> <span class="id" type="var">f</span>) <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">clear</span> <span class="id" type="var">f</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">simpl</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vhead</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vtail</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">apply</span> (<a class="idref" href="Substitution.html#substitution_eq_app_left"><span class="id" type="lemma">substitution_eq_app_left</span></a> <span class="id" type="var">sigma</span> <span class="id" type="var">theta</span> <span class="id" type="var">H</span>).<br/>
+<span class="id" type="var">specialize</span> <span class="id" type="var">IH</span> <span class="id" type="keyword">with</span> (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">args</span>) <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vtail</span>.<br/>
+</div>
+
+<div class="doc">
+Here we are stuck, need some more lemmas on <span class="inlinecode"><span class="id" type="var">vector</span></span>, for example:
+
+<br/> <br/>
+<br/>
+<span class="inlinecode"><span class="id" type="keyword">Lemma</span> <span class="id" type="var">a</span> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">x</span> <span class="id" type="var">n</span> <span class="id" type="var">v</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">In</span> <span class="id" type="var">x</span> (<span class="id" type="var">vfold</span> <span class="id" type="var">nil</span> <span class="id" type="var">app</span> (<span class="id" type="keyword">fun</span> <span class="id" type="var">i0</span> : <span class="id" type="var">Fin</span> <span class="id" type="var">n</span> =&gt; <span class="id" type="var">vars</span> (<span class="id" type="var">v</span> (<span class="id" type="keyword">Next</span> <span class="id" type="var">i0</span>)))) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">In</span> <span class="id" type="var">x</span> (<span class="id" type="var">vfold</span> <span class="id" type="var">nil</span> <span class="id" type="var">app</span> (<span class="id" type="keyword">fun</span> <span class="id" type="var">i</span> : <span class="id" type="var">Fin</span> (<span class="id" type="var">S</span> <span class="id" type="var">n</span>) =&gt; <span class="id" type="var">vars</span> (<span class="id" type="var">v</span> <span class="id" type="var">i</span>))).
+<br/> <br/>
+</span>
+</div>
+<div class="code">
+<span class="id" type="var">Admitted</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Apply a substitution to an infinite term. Note that this definition is
+   not in guarded form if we were to use the inductive vector type from the
+   standard library. It is in guarded form here, because we use <span class="inlinecode"><span class="id" type="var">vector</span></span>
+   from the <span class="inlinecode"><span class="id" type="var">Vector</span></span> library, where <span class="inlinecode"><span class="id" type="var">vmap</span></span> is just an abstraction (which
+   ensures the corecursive call to <span class="inlinecode"><span class="id" type="var">substitute'</span></span> to be guarded). 
+</div>
+<div class="code">
+<span class="id" type="keyword">CoFixpoint</span> <a name="substitute'"><span class="id" type="definition">substitute'</span></a> (<span class="id" type="var">sigma</span> : <a class="idref" href="Substitution.html#substitution"><span class="id" type="definition">substitution</span></a>) (<span class="id" type="var">t</span> : <a class="idref" href="Substitution.html#term"><span class="id" type="abbreviation">term</span></a>) : <a class="idref" href="Substitution.html#term"><span class="id" type="abbreviation">term</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">x</span>      =&gt; <span class="id" type="var">sigma</span> <span class="id" type="var">x</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">args</span> =&gt; <a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (<a class="idref" href="Substitution.html#substitute'"><span class="id" type="definition">substitute'</span></a> <span class="id" type="var">sigma</span>) <span class="id" type="var">args</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Applying the empty substitution to a term gives the same term. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="empty_substitution_is_id'"><span class="id" type="lemma">empty_substitution_is_id'</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> (<span class="id" type="var">t</span> : <a class="idref" href="Substitution.html#term"><span class="id" type="abbreviation">term</span></a>), <a class="idref" href="Substitution.html#substitute'"><span class="id" type="definition">substitute'</span></a> <a class="idref" href="Substitution.html#empty_substitution"><span class="id" type="definition">empty_substitution</span></a> <span class="id" type="var">t</span> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="var">cofix</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="tactic">rewrite</span> (<a class="idref" href="Term.html#peek_eq"><span class="id" type="lemma">peek_eq</span></a> (<a class="idref" href="Substitution.html#substitute'"><span class="id" type="definition">substitute'</span></a> <a class="idref" href="Substitution.html#empty_substitution"><span class="id" type="definition">empty_substitution</span></a> (<a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">v</span>))).<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_refl"><span class="id" type="lemma">term_bis_refl</span></a>.<br/>
+<span class="id" type="tactic">rewrite</span> (<a class="idref" href="Term.html#peek_eq"><span class="id" type="lemma">peek_eq</span></a> (<a class="idref" href="Substitution.html#substitute'"><span class="id" type="definition">substitute'</span></a> <a class="idref" href="Substitution.html#empty_substitution"><span class="id" type="definition">empty_substitution</span></a> (<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">v</span>))).<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vmap</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We prove that both substitution functions do the same thing (on finite
+   terms). We can almost prove this for coq-equality, but we cannot equate
+   <span class="inlinecode"><span class="id" type="var">vmap</span> <span class="id" type="var">finite_term_as_term</span> <span class="id" type="var">v</span></span> and <span class="inlinecode"><span class="id" type="var">v</span></span>. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="substitutions_related"><span class="id" type="lemma">substitutions_related</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> (<span class="id" type="var">s</span> : <a class="idref" href="Substitution.html#substitution"><span class="id" type="definition">substitution</span></a>) (<span class="id" type="var">t</span> : <a class="idref" href="Substitution.html#fterm"><span class="id" type="abbreviation">fterm</span></a>), <a class="idref" href="Substitution.html#substitute"><span class="id" type="definition">substitute</span></a> <span class="id" type="var">s</span> <span class="id" type="var">t</span> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a> <a class="idref" href="Substitution.html#substitute'"><span class="id" type="definition">substitute'</span></a> <span class="id" type="var">s</span> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">rewrite</span> (<a class="idref" href="Term.html#peek_eq"><span class="id" type="lemma">peek_eq</span></a> (<a class="idref" href="Substitution.html#substitute'"><span class="id" type="definition">substitute'</span></a> <span class="id" type="var">s</span> (<a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">v</span>))).<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">destruct</span> (<span class="id" type="var">s</span> <span class="id" type="var">v</span>); <span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_refl"><span class="id" type="lemma">term_bis_refl</span></a>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">rewrite</span> (<a class="idref" href="Term.html#peek_eq"><span class="id" type="lemma">peek_eq</span></a> (<a class="idref" href="Substitution.html#substitute'"><span class="id" type="definition">substitute'</span></a> <span class="id" type="var">s</span> (<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> (@<a class="idref" href="Term.html#finite_term_as_term"><span class="id" type="definition">finite_term_as_term</span></a> <a class="idref" href="Substitution.html#Substitution.F"><span class="id" type="variable">F</span></a> <a class="idref" href="Substitution.html#Substitution.X"><span class="id" type="variable">X</span></a>) <span class="id" type="var">v</span>)))).<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vmap</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="Substitution.html#Substitution"><span class="id" type="section">Substitution</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

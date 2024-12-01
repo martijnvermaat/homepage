@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>Vector</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Vector</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+This library defines the type <span class="inlinecode"><span class="id" type="var">vector</span></span> of dependently typed lists. 
+</div>
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+Thanks to Adam Chlipala for suggesting this representation of vector,
+   and for showing how easy some constructions (cons, map) over them can
+   be defined. See the following thread in the archive of the Coq-club
+   mailing list:
+
+<br/> <br/>
+   
+    <a href="http://logical.saclay.inria.fr/coq-puma/messages/9978d9af68461f02">http://logical.saclay.inria.fr/coq-puma/messages/9978d9af68461f02</a> 
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="Prelims.html#"><span class="id" type="library">Prelims</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Arith.Arith.html#"><span class="id" type="library">Arith</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Program.Equality.html#"><span class="id" type="library">Equality</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="keyword">Implicit</span> <span class="id" type="var">Arguments</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Finite sets. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Inductive</span> <a name="Fin"><span class="id" type="inductive">Fin</span></a> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> -&gt; <span class="id" type="keyword">Type</span> :=<br/>
+&nbsp;&nbsp;| <a name="First"><span class="id" type="constructor">First</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">n</span>, <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>)<br/>
+&nbsp;&nbsp;| <span class="id" type="keyword">Next</span>  : <span class="id" type="keyword">forall</span> <span class="id" type="var">n</span>, <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> <span class="id" type="var">n</span> -&gt; <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="Fin_0_inv"><span class="id" type="lemma">Fin_0_inv</span></a> (<span class="id" type="var">A</span> : <span class="id" type="keyword">Type</span>) : <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> 0 -&gt; <span class="id" type="var">A</span>.<br/>
+<span class="id" type="tactic">inversion</span> 1.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="Vector"><span class="id" type="section">Vector</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Vectors are functions from finite sets to elements. A vector of length
+   <span class="inlinecode"><span class="id" type="var">n</span></span> is a function from <span class="inlinecode"><span class="id" type="var">Fin</span> <span class="id" type="var">n</span></span> to <span class="inlinecode"><span class="id" type="var">A</span></span>. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Variable</span> <a name="Vector.A"><span class="id" type="variable">A</span></a> : <span class="id" type="keyword">Type</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="vector"><span class="id" type="definition">vector</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) := <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> <span class="id" type="var">n</span> -&gt; <a class="idref" href="Vector.html#Vector.A"><span class="id" type="variable">A</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="vnil"><span class="id" type="definition">vnil</span></a> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> 0 := <a class="idref" href="Vector.html#Fin_0_inv"><span class="id" type="lemma">Fin_0_inv</span></a> <a class="idref" href="Vector.html#Vector.A"><span class="id" type="variable">A</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="vcons"><span class="id" type="definition">vcons</span></a> (<span class="id" type="var">x</span> : <a class="idref" href="Vector.html#Vector.A"><span class="id" type="variable">A</span></a>) <span class="id" type="var">n</span> (<span class="id" type="var">v</span> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">n</span>) : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">let</span> <span class="id" type="var">P</span> :=<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">fun</span> <span class="id" type="var">k</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">k</span> <span class="id" type="keyword">return</span> <span class="id" type="keyword">Type</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>   =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#Empty_set"><span class="id" type="inductive">Empty_set</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> =&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">n</span> -&gt; <a class="idref" href="Vector.html#Vector.A"><span class="id" type="variable">A</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">in</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">fun</span> <span class="id" type="var">i</span> =&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">i</span> <span class="id" type="keyword">in</span> <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> <span class="id" type="var">Sn</span> <span class="id" type="keyword">return</span> <span class="id" type="var">P</span> <span class="id" type="var">Sn</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="Vector.html#First"><span class="id" type="constructor">First</span></a> <span class="id" type="var">_</span>   =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> =&gt; <span class="id" type="var">x</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;| <span class="id" type="keyword">Next</span> <span class="id" type="var">_</span> <span class="id" type="var">i'</span> =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">v</span> =&gt; <span class="id" type="var">v</span> <span class="id" type="var">i'</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span> <span class="id" type="var">v</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="vhead"><span class="id" type="definition">vhead</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) (<span class="id" type="var">v</span> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>)) : <a class="idref" href="Vector.html#Vector.A"><span class="id" type="variable">A</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="var">v</span> (<a class="idref" href="Vector.html#First"><span class="id" type="constructor">First</span></a> <span class="id" type="var">n</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="vtail"><span class="id" type="definition">vtail</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) (<span class="id" type="var">v</span> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>)) : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">n</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">fun</span> <span class="id" type="var">i</span> : <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> <span class="id" type="var">n</span> =&gt; <span class="id" type="var">v</span> (<span class="id" type="keyword">Next</span> <span class="id" type="var">i</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The useful equivalence on vectors is equality of elements (we could
+   define it seperately). 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="vcons_vhead_vtail"><span class="id" type="lemma">vcons_vhead_vtail</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">n</span> (<span class="id" type="var">v</span> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>)) (<span class="id" type="var">i</span> : <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>)),<br/>
+&nbsp;&nbsp;<a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> (<a class="idref" href="Vector.html#vhead"><span class="id" type="definition">vhead</span></a> <span class="id" type="var">v</span>) (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">v</span>) <span class="id" type="var">i</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">v</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>; <span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="vtail_vcons"><span class="id" type="lemma">vtail_vcons</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">a</span> <span class="id" type="var">n</span> (<span class="id" type="var">v</span> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">n</span>) (<span class="id" type="var">i</span> : (<a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> <span class="id" type="var">n</span>)),<br/>
+&nbsp;&nbsp;<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> (<a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> <span class="id" type="var">a</span> <span class="id" type="var">v</span>) <span class="id" type="var">i</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">v</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Program Fixpoint</span> <a name="vtake"><span class="id" type="definition">vtake</span></a> (<span class="id" type="var">n</span> <span class="id" type="var">m</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">n</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">n</span> <span class="id" type="keyword">return</span> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">n</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>   =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">_</span> =&gt; <a class="idref" href="Vector.html#vnil"><span class="id" type="definition">vnil</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> =&gt; <span class="id" type="keyword">match</span> <span class="id" type="var">m</span> <span class="id" type="keyword">return</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>   =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False_rect"><span class="id" type="definition">False_rect</span></a> <span class="id" type="var">_</span> <span class="id" type="var">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span> =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">v</span> =&gt; <a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> (<a class="idref" href="Vector.html#vhead"><span class="id" type="definition">vhead</span></a> <span class="id" type="var">v</span>) (<a class="idref" href="Vector.html#vtake"><span class="id" type="definition">vtake</span></a> <span class="id" type="var">_</span> (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">v</span>))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Program Fixpoint</span> <a name="vdrop"><span class="id" type="definition">vdrop</span></a> (<span class="id" type="var">n</span> <span class="id" type="var">m</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) {<span class="id" type="keyword">struct</span> <span class="id" type="var">n</span>} : <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<span class="id" type="var">m</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_-_x"><span class="id" type="notation">-</span></a> <span class="id" type="var">n</span>) :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">n</span> <span class="id" type="keyword">return</span> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<span class="id" type="var">m</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_-_x"><span class="id" type="notation">-</span></a> <span class="id" type="var">n</span>) <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>   =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">v</span> =&gt; <span class="id" type="var">v</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> =&gt; <span class="id" type="keyword">match</span> <span class="id" type="var">m</span> <span class="id" type="keyword">return</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<span class="id" type="var">m</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_-_x"><span class="id" type="notation">-</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>   =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False_rect"><span class="id" type="definition">False_rect</span></a> <span class="id" type="var">_</span> <span class="id" type="var">_</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span> =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">v</span> =&gt; <a class="idref" href="Vector.html#vdrop"><span class="id" type="definition">vdrop</span></a> (<span class="id" type="var">n</span> := <span class="id" type="var">n</span>) <span class="id" type="var">_</span> (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">v</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Program Fixpoint</span> <a name="vnth"><span class="id" type="definition">vnth</span></a> (<span class="id" type="var">n</span> <span class="id" type="var">m</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<_x"><span class="id" type="notation">&lt;</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#Vector.A"><span class="id" type="variable">A</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">m</span> <span class="id" type="keyword">return</span> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<_x"><span class="id" type="notation">&lt;</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#Vector.A"><span class="id" type="variable">A</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>   =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False_rect"><span class="id" type="definition">False_rect</span></a> <span class="id" type="var">_</span> <span class="id" type="var">_</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span> =&gt; <span class="id" type="keyword">match</span> <span class="id" type="var">n</span> <span class="id" type="keyword">return</span> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<_x"><span class="id" type="notation">&lt;</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span>) -&gt; <a class="idref" href="Vector.html#Vector.A"><span class="id" type="variable">A</span></a> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>   =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">v</span> =&gt; <a class="idref" href="Vector.html#vhead"><span class="id" type="definition">vhead</span></a> <span class="id" type="var">v</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">v</span> =&gt; <a class="idref" href="Vector.html#vnth"><span class="id" type="definition">vnth</span></a> (<span class="id" type="var">n</span> := <span class="id" type="var">n</span>) <span class="id" type="var">_</span> (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">v</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Solve</span> <span class="id" type="var">All</span> <span class="id" type="keyword">Obligations</span> <span class="id" type="keyword">using</span> <span class="id" type="tactic">auto</span> <span class="id" type="keyword">with</span> <span class="id" type="var">arith</span>.<br/>
+<span class="id" type="keyword">Solve</span> <span class="id" type="var">All</span> <span class="id" type="keyword">Obligations</span> <span class="id" type="keyword">using</span> <span class="id" type="tactic">intros</span>; <span class="id" type="var">contradict</span> <span class="id" type="var">H</span>; <span class="id" type="tactic">auto</span> <span class="id" type="keyword">with</span> <span class="id" type="var">arith</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Fixpoint</span> <a name="vappend"><span class="id" type="definition">vappend</span></a> (<span class="id" type="var">n</span> <span class="id" type="var">m</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">n</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_+_x"><span class="id" type="notation">+</span></a> <span class="id" type="var">m</span>) :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">n</span> <span class="id" type="keyword">return</span> <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">n</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> (<span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_+_x"><span class="id" type="notation">+</span></a> <span class="id" type="var">m</span>) <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>    =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> <span class="id" type="var">w</span> =&gt; <span class="id" type="var">w</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n'</span> =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">v</span> <span class="id" type="var">w</span> =&gt; <a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> (<a class="idref" href="Vector.html#vhead"><span class="id" type="definition">vhead</span></a> <span class="id" type="var">v</span>) (<a class="idref" href="Vector.html#vappend"><span class="id" type="definition">vappend</span></a> (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">v</span>) <span class="id" type="var">w</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+   The following does not type check:
+
+<br/> <br/>
+<br/>
+<span class="inlinecode"><span class="id" type="keyword">Lemma</span> <span class="id" type="var">vtake_vdrop_vappend</span> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> (<span class="id" type="var">H</span> : <span class="id" type="var">n</span> &lt;= <span class="id" type="var">m</span>) (<span class="id" type="var">v</span> : <span class="id" type="var">vector</span> <span class="id" type="var">m</span>) (<span class="id" type="var">i</span> : <span class="id" type="var">Fin</span> <span class="id" type="var">m</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">vappend</span> (<span class="id" type="var">vtake</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span>) (<span class="id" type="var">vdrop</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span>) <span class="id" type="var">i</span> = <span class="id" type="var">v</span> <span class="id" type="var">i</span>.
+<br/> <br/>
+</span>
+<br/> <br/>
+   Possible solutions:
+<ul>
+<li> write this with a cast (see below)
+
+</li>
+<li> with <span class="inlinecode"><span class="id" type="var">Program</span></span> (shown next)
+
+</li>
+<li> use what <span class="inlinecode"><span class="id" type="var">Program</span></span> makes of it manually (ugly)
+
+</li>
+</ul>
+   I would prefer to avoid using an explicit cast function (i.e. solution 2)
+   but this gives me more troubles than I can handle (see also <span class="inlinecode"><span class="id" type="var">fill</span></span> in
+   library <span class="inlinecode"><span class="id" type="keyword">Context</span></span>).
+
+<br/> <br/>
+<br/>
+<span class="inlinecode"><span class="id" type="var">Program</span> <span class="id" type="keyword">Definition</span> <span class="id" type="var">vtake_vdrop_vappend</span> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> (<span class="id" type="var">H</span> : <span class="id" type="var">n</span> &lt;= <span class="id" type="var">m</span>) (<span class="id" type="var">v</span> : <span class="id" type="var">vector</span> <span class="id" type="var">m</span>) (<span class="id" type="var">i</span> : <span class="id" type="var">Fin</span> <span class="id" type="var">m</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">vappend</span> (<span class="id" type="var">vtake</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span>) (<span class="id" type="var">vdrop</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span>) <span class="id" type="var">i</span> = <span class="id" type="var">v</span> <span class="id" type="var">i</span> := <span class="id" type="var">_</span>.<br/>
+<br/>
+<span class="id" type="keyword">Solve</span> <span class="id" type="keyword">Obligations</span> <span class="id" type="var">of</span> <span class="id" type="var">vtake_vdrop_vappend</span> <span class="id" type="keyword">using</span> <span class="id" type="tactic">auto</span> <span class="id" type="keyword">with</span> <span class="id" type="var">arith</span>.<br/>
+<br/>
+<span class="id" type="keyword">Next</span> <span class="id" type="keyword">Obligation</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vtake_vdrop_vappend_obligation_1</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vdrop_obligation_1</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">i</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<br/>
+<span class="id" type="tactic">repeat</span> (<span class="id" type="var">elim_eq_rect</span>; <span class="id" type="tactic">simpl</span>).<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<br/>
+<span class="id" type="tactic">repeat</span> (<span class="id" type="var">elim_eq_rect</span>; <span class="id" type="tactic">simpl</span>).<br/>
+<span class="id" type="tactic">reflexivity</span>.
+<br/> <br/>
+</span>
+<br/> <br/>
+   Some more tinkering is required here... not important for now.
+
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="Vector.html#Vector"><span class="id" type="section">Vector</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Implicit Arguments</span> <a class="idref" href="Vector.html#First"><span class="id" type="constructor">First</span></a> [<span class="id" type="var">n</span>].<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="Map"><span class="id" type="section">Map</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Variables</span> (<a name="Map.A"><span class="id" type="variable">A</span></a> <a name="Map.B"><span class="id" type="variable">B</span></a> : <span class="id" type="keyword">Type</span>) (<a name="Map.f"><span class="id" type="variable">f</span></a> : <a class="idref" href="Vector.html#Map.A"><span class="id" type="variable">A</span></a> -&gt; <a class="idref" href="Vector.html#Map.B"><span class="id" type="variable">B</span></a>).<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="vmap"><span class="id" type="definition">vmap</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Vector.html#Map.A"><span class="id" type="variable">A</span></a> <span class="id" type="var">n</span> -&gt; <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Vector.html#Map.B"><span class="id" type="variable">B</span></a> <span class="id" type="var">n</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">fun</span> <span class="id" type="var">v</span> <span class="id" type="var">i</span> =&gt; <a class="idref" href="Vector.html#Map.f"><span class="id" type="variable">f</span></a> (<span class="id" type="var">v</span> <span class="id" type="var">i</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="Vector.html#Map"><span class="id" type="section">Map</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="Fold"><span class="id" type="section">Fold</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Variables</span> (<a name="Fold.A"><span class="id" type="variable">A</span></a> <a name="Fold.B"><span class="id" type="variable">B</span></a> : <span class="id" type="keyword">Type</span>) (<a name="Fold.b"><span class="id" type="variable">b</span></a> : <a class="idref" href="Vector.html#Fold.B"><span class="id" type="variable">B</span></a>) (<a name="Fold.f"><span class="id" type="variable">f</span></a> : <a class="idref" href="Vector.html#Fold.A"><span class="id" type="variable">A</span></a> -&gt; <a class="idref" href="Vector.html#Fold.B"><span class="id" type="variable">B</span></a> -&gt; <a class="idref" href="Vector.html#Fold.B"><span class="id" type="variable">B</span></a>).<br/>
+
+<br/>
+<span class="id" type="keyword">Fixpoint</span> <a name="vfold"><span class="id" type="definition">vfold</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Vector.html#Fold.A"><span class="id" type="variable">A</span></a> <span class="id" type="var">n</span> -&gt; <a class="idref" href="Vector.html#Fold.B"><span class="id" type="variable">B</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">n</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a>   =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">_</span> =&gt; <a class="idref" href="Vector.html#Fold.b"><span class="id" type="variable">b</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> =&gt; <span class="id" type="keyword">fun</span> <span class="id" type="var">v</span> =&gt; <a class="idref" href="Vector.html#Fold.f"><span class="id" type="variable">f</span></a> (<a class="idref" href="Vector.html#vhead"><span class="id" type="definition">vhead</span></a> <span class="id" type="var">v</span>) (<a class="idref" href="Vector.html#vfold"><span class="id" type="definition">vfold</span></a> (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">v</span>))<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="Vector.html#Fold"><span class="id" type="section">Fold</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="Cast"><span class="id" type="section">Cast</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Given a proof of <span class="inlinecode"><span class="id" type="var">n</span> = <span class="id" type="var">m</span></span>, cast a vector of length <span class="inlinecode"><span class="id" type="var">n</span></span> to a vector of
+   length <span class="inlinecode"><span class="id" type="var">m</span></span>. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Variable</span> <a name="Cast.A"><span class="id" type="variable">A</span></a> : <span class="id" type="keyword">Type</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="vcast"><span class="id" type="definition">vcast</span></a> <span class="id" type="var">n</span> (<span class="id" type="var">v</span> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Vector.html#Cast.A"><span class="id" type="variable">A</span></a> <span class="id" type="var">n</span>) <span class="id" type="var">m</span> (<span class="id" type="var">H</span> : <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">m</span>) : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Vector.html#Cast.A"><span class="id" type="variable">A</span></a> <span class="id" type="var">m</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> (<span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">m</span>) <span class="id" type="keyword">return</span> <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Vector.html#Cast.A"><span class="id" type="variable">A</span></a> <span class="id" type="var">m</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <span class="id" type="var">refl_equal</span> =&gt; <span class="id" type="var">v</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="vcast_vcons"><span class="id" type="lemma">vcast_vcons</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> (<span class="id" type="var">a</span> : <a class="idref" href="Vector.html#Cast.A"><span class="id" type="variable">A</span></a>) <span class="id" type="var">n</span> (<span class="id" type="var">v</span> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Vector.html#Cast.A"><span class="id" type="variable">A</span></a> <span class="id" type="var">n</span>) <span class="id" type="var">m</span> (<span class="id" type="var">H</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span>) (<span class="id" type="var">i</span> : <a class="idref" href="Vector.html#Fin"><span class="id" type="inductive">Fin</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span>)),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Vector.html#vcast"><span class="id" type="definition">vcast</span></a> (<a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> <span class="id" type="var">a</span> <span class="id" type="var">v</span>) <span class="id" type="var">H</span> <span class="id" type="var">i</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="Vector.html#vcons"><span class="id" type="definition">vcons</span></a> <span class="id" type="var">a</span> (<a class="idref" href="Vector.html#vcast"><span class="id" type="definition">vcast</span></a> <span class="id" type="var">v</span> (<a class="idref" href="Prelims.html#S_eq_inv"><span class="id" type="definition">S_eq_inv</span></a> <span class="id" type="var">H</span>)) <span class="id" type="var">i</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">a</span> <span class="id" type="var">n</span> <span class="id" type="var">v</span> <span class="id" type="var">m</span> <span class="id" type="var">H</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+   This is not important for now, see above.
+
+<br/> <br/>
+<br/>
+<span class="inlinecode"><span class="id" type="keyword">Lemma</span> <span class="id" type="var">vtake_vdrop_vappend'</span> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> (<span class="id" type="var">H</span> : <span class="id" type="var">n</span> &lt;= <span class="id" type="var">m</span>) (<span class="id" type="var">v</span> : <span class="id" type="var">vector</span> <span class="id" type="var">A</span> <span class="id" type="var">m</span>) (<span class="id" type="var">i</span> : <span class="id" type="var">Fin</span> <span class="id" type="var">m</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">vcast</span> (<span class="id" type="var">vappend</span> (<span class="id" type="var">vtake</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span>) (<span class="id" type="var">vdrop</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span>)) (<span class="id" type="var">le_plus_minus_r</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> <span class="id" type="var">H</span>) <span class="id" type="var">i</span> = <span class="id" type="var">v</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="keyword">Proof</span>.
+<br/> <br/>
+</span>
+</div>
+<div class="code">
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Introduce a <span class="inlinecode"><span class="id" type="var">vcast</span></span> in a binary predicate on <span class="inlinecode"><span class="id" type="var">A</span></span>. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="vcast_intro"><span class="id" type="lemma">vcast_intro</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">R</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> (<span class="id" type="var">v1</span> <span class="id" type="var">v2</span> : <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Vector.html#Cast.A"><span class="id" type="variable">A</span></a> <span class="id" type="var">m</span>) (<span class="id" type="var">H1</span> <span class="id" type="var">H2</span> : <span class="id" type="var">m</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">n</span>) <span class="id" type="var">i</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <span class="id" type="var">R</span> (<span class="id" type="var">v1</span> <span class="id" type="var">i</span>) (<span class="id" type="var">v2</span> <span class="id" type="var">i</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">R</span> (<a class="idref" href="Vector.html#vcast"><span class="id" type="definition">vcast</span></a> <span class="id" type="var">v1</span> <span class="id" type="var">H1</span> <span class="id" type="var">i</span>) (<a class="idref" href="Vector.html#vcast"><span class="id" type="definition">vcast</span></a> <span class="id" type="var">v2</span> <span class="id" type="var">H2</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">R</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> <span class="id" type="var">v1</span> <span class="id" type="var">v2</span> <span class="id" type="var">H1</span> <span class="id" type="var">H2</span> <span class="id" type="var">i</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="Vector.html#Cast"><span class="id" type="section">Cast</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

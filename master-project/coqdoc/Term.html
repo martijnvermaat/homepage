@@ -1,0 +1,302 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>Term</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Term</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+This library defines the type <span class="inlinecode"><span class="id" type="var">term</span></span> of infinite terms. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Lists.List.html#"><span class="id" type="library">List</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Arith.Bool_nat.html#"><span class="id" type="library">Bool_nat</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="Vector.html#"><span class="id" type="library">Vector</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="Signature.html#"><span class="id" type="library">Signature</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <span class="id" type="keyword">Variables</span>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="FiniteTerm.html#"><span class="id" type="library">FiniteTerm</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="keyword">Implicit</span> <span class="id" type="var">Arguments</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="Term"><span class="id" type="section">Term</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Terms are defined coinductively over a signature <span class="inlinecode"><span class="id" type="var">F</span></span> and a set of
+   variables <span class="inlinecode"><span class="id" type="var">X</span></span>. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Variable</span> <a name="Term.F"><span class="id" type="variable">F</span></a> : <a class="idref" href="Signature.html#signature"><span class="id" type="record">signature</span></a>.<br/>
+<span class="id" type="keyword">Variable</span> <a name="Term.X"><span class="id" type="variable">X</span></a> : <a class="idref" href="Variables.html#variables"><span class="id" type="record">variables</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">CoInductive</span> <a name="term"><span class="id" type="inductive">term</span></a> : <span class="id" type="keyword">Type</span> :=<br/>
+&nbsp;&nbsp;| <a name="Var"><span class="id" type="constructor">Var</span></a> : <a class="idref" href="Term.html#Term.X"><span class="id" type="variable">X</span></a> -&gt; <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a><br/>
+&nbsp;&nbsp;| <a name="Fun"><span class="id" type="constructor">Fun</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> : <a class="idref" href="Term.html#Term.F"><span class="id" type="variable">F</span></a>, <a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a> (<a class="idref" href="Signature.html#arity"><span class="id" type="projection">arity</span></a> <span class="id" type="var">f</span>) -&gt; <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a>.<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="terms"><span class="id" type="abbreviation">terms</span></a> := (<a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="fterm"><span class="id" type="abbreviation">fterm</span></a> := (<a class="idref" href="FiniteTerm.html#finite_term"><span class="id" type="inductive">finite_term</span></a> <a class="idref" href="Term.html#Term.F"><span class="id" type="variable">F</span></a> <a class="idref" href="Term.html#Term.X"><span class="id" type="variable">X</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="fterms"><span class="id" type="abbreviation">fterms</span></a> := (<a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="Term.html#fterm"><span class="id" type="abbreviation">fterm</span></a>).<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="root"><span class="id" type="definition">root</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a>) : <a class="idref" href="Term.html#Term.X"><span class="id" type="variable">X</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#:type_scope:x_+_x"><span class="id" type="notation">+</span></a> <a class="idref" href="Term.html#Term.F"><span class="id" type="variable">F</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">x</span>   =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> <span class="id" type="var">_</span> <span class="id" type="var">x</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">v</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inr"><span class="id" type="constructor">inr</span></a> <span class="id" type="var">_</span> <span class="id" type="var">f</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="is_var"><span class="id" type="definition">is_var</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a>) : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#bool"><span class="id" type="inductive">bool</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#true"><span class="id" type="constructor">true</span></a><br/>
+&nbsp;&nbsp;| <span class="id" type="var">_</span>     =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#false"><span class="id" type="constructor">false</span></a><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Trivial image of <span class="inlinecode"><span class="id" type="var">finite_term</span></span> in <span class="inlinecode"><span class="id" type="var">term</span></span>. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="finite_term_as_term"><span class="id" type="definition">finite_term_as_term</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="Term.html#fterm"><span class="id" type="abbreviation">fterm</span></a>) : <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FVar"><span class="id" type="constructor">FVar</span></a> <span class="id" type="var">x</span>      =&gt; <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">x</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FFun"><span class="id" type="constructor">FFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">args</span> =&gt; <a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> (<a class="idref" href="Vector.html#vmap"><span class="id" type="definition">vmap</span></a> <a class="idref" href="Term.html#finite_term_as_term"><span class="id" type="definition">finite_term_as_term</span></a> <span class="id" type="var">args</span>)<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The following definition and lemma seem quite pointless. However, they
+   can be used to take apart a coinductive term up to depth 1, i.e. unfold
+   its corecursive definition. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="peek"><span class="id" type="definition">peek</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a>) : <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">x</span>      =&gt; <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">x</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">args</span> =&gt; <a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">args</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="peek_eq"><span class="id" type="lemma">peek_eq</span></a> : <span class="id" type="keyword">forall</span> (<span class="id" type="var">t</span> : <a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a>), <span class="id" type="var">t</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="Term.html#peek"><span class="id" type="definition">peek</span></a> <span class="id" type="var">t</span>.<br/>
+&nbsp;&nbsp;<span class="id" type="tactic">destruct</span> <span class="id" type="var">t</span>; <span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="Term.html#Term"><span class="id" type="section">Term</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Implicit Arguments</span> <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> [<span class="id" type="var">F</span> <span class="id" type="var">X</span>].<br/>
+
+<br/>
+<span class="id" type="keyword">Coercion</span> <a class="idref" href="Term.html#finite_term_as_term"><span class="id" type="definition">finite_term_as_term</span></a> : <span class="id" type="var">finite_term</span> &gt;-&gt; <span class="id" type="var">term</span>.<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="position"><span class="id" type="abbreviation">position</span></a> := (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#list"><span class="id" type="inductive">list</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>).<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="Position"><span class="id" type="section">Position</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Positions in terms are lists of natural numbers. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Variable</span> <a name="Position.F"><span class="id" type="variable">F</span></a> : <a class="idref" href="Signature.html#signature"><span class="id" type="record">signature</span></a>.<br/>
+<span class="id" type="keyword">Variable</span> <a name="Position.X"><span class="id" type="variable">X</span></a> : <a class="idref" href="Variables.html#variables"><span class="id" type="record">variables</span></a>.<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="term"><span class="id" type="abbreviation">term</span></a> := (<a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a> <a class="idref" href="Term.html#Position.F"><span class="id" type="variable">F</span></a> <a class="idref" href="Term.html#Position.X"><span class="id" type="variable">X</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="fterm"><span class="id" type="abbreviation">fterm</span></a> := (<a class="idref" href="FiniteTerm.html#finite_term"><span class="id" type="inductive">finite_term</span></a> <a class="idref" href="Term.html#Position.F"><span class="id" type="variable">F</span></a> <a class="idref" href="Term.html#Position.X"><span class="id" type="variable">X</span></a>).<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="position_depth"><span class="id" type="definition">position_depth</span></a> (<span class="id" type="var">p</span> : <a class="idref" href="Term.html#position"><span class="id" type="abbreviation">position</span></a>) := <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#length"><span class="id" type="definition">length</span></a> <span class="id" type="var">p</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Subterm of a term at some position. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="subterm"><span class="id" type="definition">subterm</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="Term.html#term"><span class="id" type="abbreviation">term</span></a>) (<span class="id" type="var">p</span> : <a class="idref" href="Term.html#position"><span class="id" type="abbreviation">position</span></a>) {<span class="id" type="keyword">struct</span> <span class="id" type="var">p</span>} : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#option"><span class="id" type="inductive">option</span></a> <a class="idref" href="Term.html#term"><span class="id" type="abbreviation">term</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">p</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a>    =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#Some"><span class="id" type="constructor">Some</span></a> <span class="id" type="var">t</span><br/>
+&nbsp;&nbsp;| <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#:list_scope:x_::_x"><span class="id" type="notation">::</span></a> <span class="id" type="var">p</span> =&gt; <span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="Term.html#Var"><span class="id" type="constructor">Var</span></a> <span class="id" type="var">_</span>      =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#None"><span class="id" type="constructor">None</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">args</span> =&gt; <span class="id" type="keyword">match</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Arith.Bool_nat.html#lt_ge_dec"><span class="id" type="definition">lt_ge_dec</span></a> <span class="id" type="var">n</span> (<a class="idref" href="Signature.html#arity"><span class="id" type="projection">arity</span></a> <span class="id" type="var">f</span>) <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#left"><span class="id" type="constructor">left</span></a> <span class="id" type="var">h</span>  =&gt; <a class="idref" href="Term.html#subterm"><span class="id" type="definition">subterm</span></a> (<a class="idref" href="Vector.html#vnth"><span class="id" type="definition">vnth</span></a> <span class="id" type="var">h</span> <span class="id" type="var">args</span>) <span class="id" type="var">p</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#right"><span class="id" type="constructor">right</span></a> <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#None"><span class="id" type="constructor">None</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Subterm of a finite term at some position is again finite. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <a name="finite_subterm"><span class="id" type="definition">finite_subterm</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="Term.html#fterm"><span class="id" type="abbreviation">fterm</span></a>) (<span class="id" type="var">p</span> : <a class="idref" href="Term.html#position"><span class="id" type="abbreviation">position</span></a>) {<span class="id" type="keyword">struct</span> <span class="id" type="var">p</span>} : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#option"><span class="id" type="inductive">option</span></a> <a class="idref" href="Term.html#fterm"><span class="id" type="abbreviation">fterm</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">p</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nil"><span class="id" type="constructor">nil</span></a>    =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#Some"><span class="id" type="constructor">Some</span></a> <span class="id" type="var">t</span><br/>
+&nbsp;&nbsp;| <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#:list_scope:x_::_x"><span class="id" type="notation">::</span></a> <span class="id" type="var">p</span> =&gt; <span class="id" type="keyword">match</span> <span class="id" type="var">t</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FVar"><span class="id" type="constructor">FVar</span></a> <span class="id" type="var">_</span>      =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#None"><span class="id" type="constructor">None</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="FiniteTerm.html#FFun"><span class="id" type="constructor">FFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">args</span> =&gt; <span class="id" type="keyword">match</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Arith.Bool_nat.html#lt_ge_dec"><span class="id" type="definition">lt_ge_dec</span></a> <span class="id" type="var">n</span> (<a class="idref" href="Signature.html#arity"><span class="id" type="projection">arity</span></a> <span class="id" type="var">f</span>) <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#left"><span class="id" type="constructor">left</span></a> <span class="id" type="var">h</span>  =&gt; <a class="idref" href="Term.html#finite_subterm"><span class="id" type="definition">finite_subterm</span></a> (<a class="idref" href="Vector.html#vnth"><span class="id" type="definition">vnth</span></a> <span class="id" type="var">h</span> <span class="id" type="var">args</span>) <span class="id" type="var">p</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;| <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#right"><span class="id" type="constructor">right</span></a> <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#None"><span class="id" type="constructor">None</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">end</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Coinductive infinite predicate. 
+</div>
+<div class="code">
+<span class="id" type="keyword">CoInductive</span> <a name="term_inf"><span class="id" type="inductive">term_inf</span></a> : <a class="idref" href="Term.html#term"><span class="id" type="abbreviation">term</span></a> -&gt; <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;| <a name="Fun_inf"><span class="id" type="constructor">Fun_inf</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">v</span> <span class="id" type="var">i</span>, <a class="idref" href="Term.html#term_inf"><span class="id" type="inductive">term_inf</span></a> (<span class="id" type="var">v</span> <span class="id" type="var">i</span>) -&gt; <a class="idref" href="Term.html#term_inf"><span class="id" type="inductive">term_inf</span></a> (<a class="idref" href="Term.html#Fun"><span class="id" type="constructor">Fun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">v</span>).<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Alternative infinite predicate via positions. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Definition</span> <a name="infinite"><span class="id" type="definition">infinite</span></a> (<span class="id" type="var">t</span> : <a class="idref" href="Term.html#term"><span class="id" type="abbreviation">term</span></a>) : <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">d</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:e'x'ists_x_:_x_,_x"><span class="id" type="notation">exists</span></a> <span class="id" type="var">p</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:e'x'ists_x_:_x_,_x"><span class="id" type="notation">:</span></a> <a class="idref" href="Term.html#position"><span class="id" type="abbreviation">position</span></a><a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:e'x'ists_x_:_x_,_x"><span class="id" type="notation">,</span></a><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Term.html#position_depth"><span class="id" type="definition">position_depth</span></a> <span class="id" type="var">p</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">d</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_/\_x"><span class="id" type="notation">/\</span></a> <a class="idref" href="Term.html#subterm"><span class="id" type="definition">subterm</span></a> <span class="id" type="var">t</span> <span class="id" type="var">p</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_<>_x"><span class="id" type="notation">&lt;&gt;</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#None"><span class="id" type="constructor">None</span></a>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+   I guess we should be able to prove these predicates to define the same
+   subset of infinite terms, but my (small) tries below did not succeed.
+
+<br/> <br/>
+<br/>
+<span class="inlinecode"><span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <span class="id" type="var">Equality</span>.<br/>
+<br/>
+<span class="id" type="keyword">Lemma</span> <span class="id" type="var">infinite_implies_term_inf</span> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">t</span>, <span class="id" type="var">infinite</span> <span class="id" type="var">t</span> -&gt; <span class="id" type="var">term_inf</span> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="var">cofix</span> <span class="id" type="var">co</span>.<br/>
+<span class="id" type="tactic">intros</span> [<span class="id" type="var">x</span> | <span class="id" type="var">f</span> <span class="id" type="var">v</span>] <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">infinite</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="var">specialize</span> <span class="id" type="var">H</span> <span class="id" type="keyword">with</span> 1.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">H</span> <span class="id" type="keyword">as</span> [[| <span class="id" type="var">a</span> <span class="id" type="var">p</span>] [<span class="id" type="var">D</span> <span class="id" type="var">H</span>]].<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">D</span>.<br/>
+<span class="id" type="var">contradict</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+</div>
+
+<div class="doc">
+We need to establish that there is an n such that
+   for every depth there exists a p with n::p etc.
+
+<br/> <br/>
+   I don't see how to get there, but it ought to be
+   possible since (arity f) is finite, using something
+   akin to the pigeon hole principle. 
+</div>
+<div class="code">
+
+<br/> <br/>
+</span>
+<br/> <br/>
+<br/>
+<span class="inlinecode"><span class="id" type="keyword">Lemma</span> <span class="id" type="var">term_inf_implies_infinite</span> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">t</span>, <span class="id" type="var">term_inf</span> <span class="id" type="var">t</span> -&gt; <span class="id" type="var">infinite</span> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">t</span> <span class="id" type="var">H</span> <span class="id" type="var">d</span>.<br/>
+<span class="id" type="var">revert</span> <span class="id" type="var">t</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">d</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">d</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">intros</span> <span class="id" type="var">t</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="var">exists</span> <span class="id" type="var">nil</span>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="tactic">discriminate</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="var">specialize</span> <span class="id" type="var">IH</span> <span class="id" type="keyword">with</span> (<span class="id" type="var">v</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">IH</span> <span class="id" type="keyword">as</span> [<span class="id" type="var">p</span> [<span class="id" type="var">D</span> <span class="id" type="var">IH</span>]].<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<br/>
+<span class="id" type="var">revert</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">induction</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="var">exists</span> (0 :: <span class="id" type="var">p</span>).<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">destruct</span> (<span class="id" type="var">arity</span> <span class="id" type="var">f</span>).<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">i0</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vhead</span>.<br/>
+<br/>
+
+<br/> <br/>
+</span>
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="Term.html#Position"><span class="id" type="section">Position</span></a>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

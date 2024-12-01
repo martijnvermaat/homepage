@@ -1,0 +1,356 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>WfOrdinal</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library WfOrdinal</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+This library defines the type <span class="inlinecode"><span class="id" type="var">wf_ord</span></span> of well-formed tree ordinals.
+
+<br/> <br/>
+   The well-formed tree ordinals are a subset of <span class="inlinecode"><span class="id" type="var">ord</span></span> (defined in the
+   <span class="inlinecode"><span class="id" type="var">Ordinal</span></span> library) where we restrict the arguments of <span class="inlinecode"><span class="id" type="var">Limit</span></span> constructors
+   to be monotone. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Export</span> <a class="idref" href="Ordinal.html#"><span class="id" type="library">Ordinal</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="keyword">Implicit</span> <span class="id" type="var">Arguments</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Delimit</span> <span class="id" type="keyword">Scope</span> <span class="id" type="var">wf_ord_scope</span> <span class="id" type="keyword">with</span> <span class="id" type="var">wf_ord</span>.<br/>
+<span class="id" type="keyword">Open</span> <span class="id" type="keyword">Scope</span> <span class="id" type="var">ord_scope</span>.<br/>
+<span class="id" type="keyword">Open</span> <span class="id" type="keyword">Scope</span> <span class="id" type="var">wf_ord_scope</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Well-formed ordinals are those whose the limit functions are monotone. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Fixpoint</span> <span class="id" type="keyword">wf</span> <span class="id" type="var">alpha</span> : <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">alpha</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Ordinal.html#Zero"><span class="id" type="constructor">Zero</span></a>      =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#True"><span class="id" type="inductive">True</span></a><br/>
+&nbsp;&nbsp;| <a class="idref" href="Ordinal.html#Succ"><span class="id" type="constructor">Succ</span></a> <span class="id" type="var">beta</span> =&gt; <span class="id" type="keyword">wf</span> <span class="id" type="var">beta</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Ordinal.html#Limit"><span class="id" type="constructor">Limit</span></a> <span class="id" type="var">f</span>   =&gt; <span class="id" type="keyword">forall</span> <span class="id" type="var">n</span>, <span class="id" type="keyword">wf</span> (<span class="id" type="var">f</span> <span class="id" type="var">n</span>) <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_/\_x"><span class="id" type="notation">/\</span></a> <span class="id" type="keyword">forall</span> <span class="id" type="var">m</span>, (<span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#:nat_scope:x_<_x"><span class="id" type="notation">&lt;</span></a> <span class="id" type="var">m</span>)%<span class="id" type="var">nat</span> -&gt; <span class="id" type="var">f</span> <span class="id" type="var">n</span> <a class="idref" href="Ordinal.html#:ord_scope:x_<_x"><span class="id" type="notation">&lt;</span></a> <span class="id" type="var">f</span> <span class="id" type="var">m</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Addition of well-formed ordinals yields a well-formed ordinal. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="add_wf"><span class="id" type="lemma">add_wf</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">alpha</span> <span class="id" type="var">beta</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">wf</span> <span class="id" type="var">alpha</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">wf</span> <span class="id" type="var">beta</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">wf</span> (<a class="idref" href="Ordinal.html#add"><span class="id" type="definition">add</span></a> <span class="id" type="var">alpha</span> <span class="id" type="var">beta</span>).<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">alpha</span> <span class="id" type="var">beta</span>.<br/>
+<span class="id" type="var">revert</span> <span class="id" type="var">beta</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">beta</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">beta</span> <span class="id" type="var">IH</span> | <span class="id" type="var">f</span> <span class="id" type="var">IH</span>]; <span class="id" type="tactic">intros</span> <span class="id" type="var">WFa</span> <span class="id" type="var">WFb</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>; <span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">n</span>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">WFb</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">m</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_lt_add"><span class="id" type="lemma">ord_lt_add</span></a>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">WFb</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+All natural numbers are well-formed. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="nat_wf"><span class="id" type="lemma">nat_wf</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>), <span class="id" type="keyword">wf</span> <span class="id" type="var">n</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span>.<br/>
+<span class="id" type="tactic">exact</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#I"><span class="id" type="constructor">I</span></a>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We now define the well-formed ordinals <span class="inlinecode"><span class="id" type="var">wf_ord</span></span> as a subset of the
+   ordinals <span class="inlinecode"><span class="id" type="var">ord</span></span> by the <span class="inlinecode"><span class="id" type="keyword">wf</span></span> condition. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="wf_ord"><span class="id" type="definition">wf_ord</span></a> : <span class="id" type="keyword">Set</span> := <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#sig"><span class="id" type="inductive">sig</span></a> <span class="id" type="keyword">wf</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Image of well-formed ordinals in ordinals. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="wf_ord_as_ord"><span class="id" type="definition">wf_ord_as_ord</span></a> (<span class="id" type="var">alpha</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>) : <a class="idref" href="Ordinal.html#ord"><span class="id" type="inductive">ord</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">alpha</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Coercion</span> <a class="idref" href="WfOrdinal.html#wf_ord_as_ord"><span class="id" type="definition">wf_ord_as_ord</span></a> : <span class="id" type="var">wf_ord</span> &gt;-&gt; <span class="id" type="var">ord</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+For any well-formed alpha &lt;= zero, alpha = zero.
+
+<br/> <br/>
+   (We would like to leave out the explicit coercion in the statement of
+   this lemma.) 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="wf_ord_le_zero_right"><span class="id" type="lemma">wf_ord_le_zero_right</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">alpha</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">alpha</span> <a class="idref" href="Ordinal.html#:ord_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <a class="idref" href="Ordinal.html#Zero"><span class="id" type="constructor">Zero</span></a> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="WfOrdinal.html#wf_ord_as_ord"><span class="id" type="definition">wf_ord_as_ord</span></a> <span class="id" type="var">alpha</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="Ordinal.html#Zero"><span class="id" type="constructor">Zero</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">alpha</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">alpha</span> <span class="id" type="keyword">as</span> [<span class="id" type="var">alpha'</span> <span class="id" type="var">G</span>].<br/>
+<span class="id" type="tactic">simpl</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">alpha'</span> <span class="id" type="keyword">as</span> [| | <span class="id" type="var">f</span> <span class="id" type="var">IH</span>].<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="tactic">elim</span> (<a class="idref" href="Ordinal.html#ord_le_not_succ_zero"><span class="id" type="lemma">ord_le_not_succ_zero</span></a> <span class="id" type="var">H</span>).<br/>
+<span class="id" type="tactic">elimtype</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_lt_zero_zero"><span class="id" type="lemma">ord_lt_zero_zero</span></a>.<br/>
+<span class="id" type="tactic">simpl</span> <span class="id" type="keyword">in</span> <span class="id" type="var">G</span>.<br/>
+<span class="id" type="tactic">destruct</span> (<span class="id" type="var">G</span> 1) <span class="id" type="keyword">as</span> [<span class="id" type="var">G1</span> <span class="id" type="var">Gnm</span>].<br/>
+<span class="id" type="tactic">destruct</span> (<span class="id" type="var">G</span> 2) <span class="id" type="keyword">as</span> [<span class="id" type="var">G2</span> <span class="id" type="var">_</span>].<br/>
+<span class="id" type="tactic">inversion_clear</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">pattern</span> <a class="idref" href="Ordinal.html#Zero"><span class="id" type="constructor">Zero</span></a> <span class="id" type="tactic">at</span> 1.<br/>
+<span class="id" type="tactic">rewrite</span> &lt;- (<span class="id" type="var">IH</span> 1) <span class="id" type="keyword">with</span> <span class="id" type="var">G1</span>.<br/>
+<span class="id" type="tactic">rewrite</span> &lt;- (<span class="id" type="var">IH</span> 2) <span class="id" type="keyword">with</span> <span class="id" type="var">G2</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">Gnm</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H0</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H0</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Definitions of well-formed ordinals. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="zero"><span class="id" type="definition">zero</span></a> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a> := <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#exist"><span class="id" type="constructor">exist</span></a> <span class="id" type="keyword">wf</span> <a class="idref" href="Ordinal.html#Zero"><span class="id" type="constructor">Zero</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#I"><span class="id" type="constructor">I</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="succ"><span class="id" type="definition">succ</span></a> (<span class="id" type="var">alpha</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>) : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a> :=<br/>
+<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#exist"><span class="id" type="constructor">exist</span></a> <span class="id" type="keyword">wf</span> (<a class="idref" href="Ordinal.html#Succ"><span class="id" type="constructor">Succ</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">alpha</span>)) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj2_sig"><span class="id" type="definition">proj2_sig</span></a> <span class="id" type="var">alpha</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="limit"><span class="id" type="definition">limit</span></a> (<span class="id" type="var">f</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> -&gt; <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>) <span class="id" type="var">H</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#exist"><span class="id" type="constructor">exist</span></a> <span class="id" type="keyword">wf</span><br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<a class="idref" href="Ordinal.html#Limit"><span class="id" type="constructor">Limit</span></a> (<span class="id" type="keyword">fun</span> <span class="id" type="var">n</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> (<span class="id" type="var">f</span> <span class="id" type="var">n</span>)))<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" type="keyword">fun</span> <span class="id" type="var">n</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#conj"><span class="id" type="constructor">conj</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj2_sig"><span class="id" type="definition">proj2_sig</span></a> (<span class="id" type="var">f</span> <span class="id" type="var">n</span>)) (<span class="id" type="var">H</span> <span class="id" type="var">n</span>)).<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="is_succ"><span class="id" type="definition">is_succ</span></a> (<span class="id" type="var">o</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>) : <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">o</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Ordinal.html#Succ"><span class="id" type="constructor">Succ</span></a> <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#True"><span class="id" type="inductive">True</span></a><br/>
+&nbsp;&nbsp;| <span class="id" type="var">_</span>      =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="is_limit"><span class="id" type="definition">is_limit</span></a> (<span class="id" type="var">o</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>) : <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">o</span> <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <a class="idref" href="Ordinal.html#Limit"><span class="id" type="constructor">Limit</span></a> <span class="id" type="var">_</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#True"><span class="id" type="inductive">True</span></a><br/>
+&nbsp;&nbsp;| <span class="id" type="var">_</span>       =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We lift the <span class="inlinecode">&lt;=</span>, <span class="inlinecode">&lt;</span>, and <span class="inlinecode">==</span> relations to <span class="inlinecode"><span class="id" type="var">wf_ord</span></span>. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="wf_ord_le"><span class="id" type="definition">wf_ord_le</span></a> (<span class="id" type="var">alpha</span> <span class="id" type="var">beta</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>) : <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">alpha</span> <a class="idref" href="Ordinal.html#:ord_scope:x_<=_x"><span class="id" type="notation">&lt;=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">beta</span>.<br/>
+<span class="id" type="var">Infix </span><a name=":wf_ord_scope:x_<wf=_x"><span class="id" type="notation">"</span></a> &lt;wf= " := <a class="idref" href="WfOrdinal.html#wf_ord_le"><span class="id" type="definition">wf_ord_le</span></a> (<span class="id" type="var">no</span> <span class="id" type="var">associativity</span>, <span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 75) : <span class="id" type="var">wf_ord_scope</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="wf_ord_lt"><span class="id" type="definition">wf_ord_lt</span></a> (<span class="id" type="var">alpha</span> <span class="id" type="var">beta</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>) : <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">alpha</span> <a class="idref" href="Ordinal.html#:ord_scope:x_<_x"><span class="id" type="notation">&lt;</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">beta</span>.<br/>
+<span class="id" type="var">Infix </span><a name=":wf_ord_scope:x_<wf_x"><span class="id" type="notation">"</span></a> &lt;wf " := <a class="idref" href="WfOrdinal.html#wf_ord_lt"><span class="id" type="definition">wf_ord_lt</span></a> (<span class="id" type="var">no</span> <span class="id" type="var">associativity</span>, <span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 75) : <span class="id" type="var">wf_ord_scope</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="wf_ord_eq"><span class="id" type="definition">wf_ord_eq</span></a> (<span class="id" type="var">alpha</span> <span class="id" type="var">beta</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>) : <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">alpha</span> <a class="idref" href="Ordinal.html#:ord_scope:x_==_x"><span class="id" type="notation">==</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">beta</span>.<br/>
+<span class="id" type="var">Infix </span><a name=":wf_ord_scope:x_=wf=_x"><span class="id" type="notation">"</span></a> =wf= " := <a class="idref" href="WfOrdinal.html#wf_ord_eq"><span class="id" type="definition">wf_ord_eq</span></a> (<span class="id" type="var">no</span> <span class="id" type="var">associativity</span>, <span class="id" type="tactic">at</span> <span class="id" type="var">level</span> 75) : <span class="id" type="var">wf_ord_scope</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="wf_ord_eq_ord_eq"><span class="id" type="lemma">wf_ord_eq_ord_eq</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> (<span class="id" type="var">alpha</span> <span class="id" type="var">beta</span> : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">alpha</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">beta</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">alpha</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#proj1_sig"><span class="id" type="definition">proj1_sig</span></a> <span class="id" type="var">beta</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">alpha</span> <span class="id" type="var">beta</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">rewrite</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+The image of the natural numbers in the ordinals can of course be
+   lifted to well-formed ordinals. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="nat_as_wf_ord"><span class="id" type="definition">nat_as_wf_ord</span></a> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) : <a class="idref" href="WfOrdinal.html#wf_ord"><span class="id" type="definition">wf_ord</span></a> :=<br/>
+&nbsp;&nbsp;<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#exist"><span class="id" type="constructor">exist</span></a> <span class="id" type="keyword">wf</span> <span class="id" type="var">n</span> (<a class="idref" href="WfOrdinal.html#nat_wf"><span class="id" type="lemma">nat_wf</span></a> <span class="id" type="var">n</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">Coercion</span> <a class="idref" href="WfOrdinal.html#nat_as_wf_ord"><span class="id" type="definition">nat_as_wf_ord</span></a> : <span class="id" type="var">nat</span> &gt;-&gt; <span class="id" type="var">wf_ord</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+A well-formed definition of omega with a proof that it is really greater
+   than all natural numbers. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="wf_omega"><span class="id" type="definition">wf_omega</span></a> := <a class="idref" href="WfOrdinal.html#limit"><span class="id" type="definition">limit</span></a> <a class="idref" href="WfOrdinal.html#nat_as_wf_ord"><span class="id" type="definition">nat_as_wf_ord</span></a> <a class="idref" href="Ordinal.html#lt_implies_ord_lt"><span class="id" type="lemma">lt_implies_ord_lt</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="n_le_omega"><span class="id" type="lemma">n_le_omega</span></a> : <span class="id" type="keyword">forall</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>), <span class="id" type="var">n</span> <a class="idref" href="WfOrdinal.html#:wf_ord_scope:x_<wf=_x"><span class="id" type="notation">&lt;</span></a><span class="id" type="keyword">wf</span><a class="idref" href="WfOrdinal.html#:wf_ord_scope:x_<wf=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="WfOrdinal.html#wf_omega"><span class="id" type="definition">wf_omega</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span>]; <span class="id" type="tactic">unfold</span> <span class="id" type="var">wf_ord_le</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#Ord_le_Succ"><span class="id" type="constructor">Ord_le_Succ</span></a> <span class="id" type="keyword">with</span> (<span class="id" type="var">i</span> := <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span>:<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> (<a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>)).<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_refl"><span class="id" type="lemma">ord_le_refl</span></a>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="n_lt_omega"><span class="id" type="lemma">n_lt_omega</span></a> : <span class="id" type="keyword">forall</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>), <span class="id" type="var">n</span> <a class="idref" href="WfOrdinal.html#:wf_ord_scope:x_<wf_x"><span class="id" type="notation">&lt;</span></a><span class="id" type="keyword">wf</span> <a class="idref" href="WfOrdinal.html#wf_omega"><span class="id" type="definition">wf_omega</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">n</span>.<br/>
+<span class="id" type="var">exists</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span>:<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> (<a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>)).<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_refl"><span class="id" type="lemma">ord_le_refl</span></a>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Some inversion lemma for alpha &lt;= omega. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="ord_le_omega_elim"><span class="id" type="lemma">ord_le_omega_elim</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">alpha</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">alpha</span> <a class="idref" href="WfOrdinal.html#:wf_ord_scope:x_<wf=_x"><span class="id" type="notation">&lt;</span></a><span class="id" type="keyword">wf</span><a class="idref" href="WfOrdinal.html#:wf_ord_scope:x_<wf=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="WfOrdinal.html#wf_omega"><span class="id" type="definition">wf_omega</span></a> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">alpha</span> <a class="idref" href="WfOrdinal.html#:wf_ord_scope:x_<wf_x"><span class="id" type="notation">&lt;</span></a><span class="id" type="keyword">wf</span> <a class="idref" href="WfOrdinal.html#wf_omega"><span class="id" type="definition">wf_omega</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_\/_x"><span class="id" type="notation">\/</span></a> <span class="id" type="var">alpha</span> <a class="idref" href="WfOrdinal.html#:wf_ord_scope:x_=wf=_x"><span class="id" type="notation">=</span></a><span class="id" type="keyword">wf</span><a class="idref" href="WfOrdinal.html#:wf_ord_scope:x_=wf=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="WfOrdinal.html#wf_omega"><span class="id" type="definition">wf_omega</span></a>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">alpha</span> <span class="id" type="var">H</span>. <span class="id" type="tactic">unfold</span> <span class="id" type="var">wf_ord_lt</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">alpha</span> <span class="id" type="keyword">as</span> [<span class="id" type="var">alpha</span> <span class="id" type="var">wf_alpha</span>].<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">alpha</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">alpha</span> <span class="id" type="var">IH</span> | <span class="id" type="var">f</span> <span class="id" type="var">IH</span>].<br/>
+<span class="id" type="var">left</span>.<br/>
+<span class="id" type="var">exists</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span>:<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) 1 (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> <span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>)).<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="var">left</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">IH</span> <span class="id" type="keyword">with</span> <span class="id" type="var">wf_alpha</span> <span class="id" type="keyword">as</span> [[[<span class="id" type="var">n</span> <span class="id" type="var">j</span>] <span class="id" type="var">H1</span>] | <span class="id" type="var">H1</span>].<br/>
+<span class="id" type="tactic">apply</span> (<a class="idref" href="Ordinal.html#ord_le_succ_left"><span class="id" type="lemma">ord_le_succ_left</span></a> <span class="id" type="var">H</span>).<br/>
+<span class="id" type="tactic">simpl</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="var">exists</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span>:<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> <span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>)); <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span>].<br/>
+<span class="id" type="tactic">elim</span> <span class="id" type="var">j</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">j</span> <span class="id" type="keyword">as</span> [[] | <span class="id" type="var">j</span>]; <span class="id" type="tactic">simpl</span> <span class="id" type="keyword">in</span> <span class="id" type="var">H1</span>; <span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_succ_intro"><span class="id" type="lemma">ord_le_succ_intro</span></a>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_pd_right"><span class="id" type="lemma">ord_le_pd_right</span></a> <span class="id" type="keyword">with</span> <span class="id" type="var">j</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="var">contradiction</span> <a class="idref" href="Ordinal.html#ord_le_not_pd_right"><span class="id" type="lemma">ord_le_not_pd_right</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="Ordinal.html#Succ"><span class="id" type="constructor">Succ</span></a> <span class="id" type="var">alpha</span>) <a class="idref" href="Ordinal.html#omega"><span class="id" type="definition">omega</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#inl"><span class="id" type="constructor">inl</span></a> (<a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> <span class="id" type="var">alpha</span>) <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#tt"><span class="id" type="constructor">tt</span></a>).<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="var">right</span>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IHn</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">wf_alpha</span> <span class="id" type="keyword">with</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [<span class="id" type="var">_</span> <span class="id" type="var">G</span>].<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">G</span> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) <span class="id" type="keyword">as</span> [<span class="id" type="var">i</span> <span class="id" type="var">J</span>]; <span class="id" type="tactic">clear</span> <span class="id" type="var">G</span>.<br/>
+<span class="id" type="tactic">auto</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#Ord_le_Succ"><span class="id" type="constructor">Ord_le_Succ</span></a> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Specif.html#existT"><span class="id" type="constructor">existT</span></a> (<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span>:<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) =&gt; <a class="idref" href="Ordinal.html#pd_type"><span class="id" type="definition">pd_type</span></a> (<span class="id" type="var">f</span> <span class="id" type="var">n</span>)) (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) <span class="id" type="var">i</span>).<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_trans"><span class="id" type="lemma">ord_le_trans</span></a> <span class="id" type="keyword">with</span> (<span class="id" type="var">f</span> <span class="id" type="var">n</span>).<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IHnn</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">wf_alpha</span> <span class="id" type="keyword">with</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [<span class="id" type="var">_</span> <span class="id" type="var">G</span>].<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">G</span> <span class="id" type="keyword">with</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span>) <span class="id" type="keyword">as</span> [<span class="id" type="var">k</span> <span class="id" type="var">K</span>]; <span class="id" type="tactic">clear</span> <span class="id" type="var">G</span>.<br/>
+<span class="id" type="tactic">auto</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#Ord_le_Succ"><span class="id" type="constructor">Ord_le_Succ</span></a> <span class="id" type="keyword">with</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_trans"><span class="id" type="lemma">ord_le_trans</span></a> <span class="id" type="keyword">with</span> (<span class="id" type="var">f</span> <span class="id" type="var">n</span>).<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IHnn</span> <span class="id" type="keyword">with</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Ordinal.html#ord_le_succ_left"><span class="id" type="lemma">ord_le_succ_left</span></a>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="var">Close</span> <span class="id" type="keyword">Scope</span> <span class="id" type="var">wf_ord_scope</span>.<br/>
+<span class="id" type="var">Close</span> <span class="id" type="keyword">Scope</span> <span class="id" type="var">ord_scope</span>.<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

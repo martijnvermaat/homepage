@@ -1,0 +1,157 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" media="screen" href="css/screen.css">
+    <title>Infinitary Rewriting in Coq</title>
+</head>
+<body id="martijn-vermaat-name-infinitary-rewriting-coq">
+
+
+<h1>Infinitary Rewriting in Coq</h1>
+
+<p>
+A <a href="http://coq.inria.fr/">Coq</a> formalisation of infinitary
+<a href="http://rewriting.loria.fr/">rewriting</a>.
+</p>
+
+
+<h2>Introduction</h2>
+
+<p>
+This is an attempt at formalising the basic notions from infinitary term
+rewriting in the Coq proof assistant, in a way that is natural for Coq
+(using dependent types and (co)induction). For more information, see
+my Master thesis on this project below.
+</p>
+
+<p>
+Together with the thesis, this formalisation constitutes my Master project,
+roughly a six months project concluding my Master in
+<a href="http://www.cs.vu.nl/~tcs/">theoretical computer science</a> at the
+<a href="http://www.vu.nl/">VU University Amsterdam</a>.
+</p>
+
+<p>
+Relevant literature can be found
+<a href="http://www.citeulike.org/user/mvermaat/tag/master-project">on my CiteULike page</a>.
+</p>
+
+
+<h2>Coq code</h2>
+
+<p>
+The code was developed using Coq
+<a href="http://coq.inria.fr/coq-83-beta-version">version 8.3 beta0-1</a>
+and <a href="http://coq.inria.fr/download">version 8.3 rc1</a>.
+I intend to test for compatibility with Coq 8.3 shortly after its
+release.
+</p>
+
+<p>
+Download version 1.2, 2010-09-01:
+<a href="files/infinitary-rewriting-1.2.tar.gz">infinitary-rewriting-1.2.tar.gz</a>
+</p>
+
+<p>
+Or get the latest development version
+<a href="https://github.com/martijnvermaat/infinitary-rewriting-coq">from
+  GitHub</a>.
+</p>
+
+<p>
+<em>Or</em> browse the code online from the <a href="coqdoc/index.html">coqdoc index</a>.
+Roughly in order of dependence, the development consists of the following libraries:
+<dl>
+  <dt><a href="coqdoc/Prelims.html">Prelims.v</a></dt>
+  <dd>Some preliminaries.</dd>
+  <dt><a href="coqdoc/Vector.html">Vector.v</a></dt>
+  <dd>Dependently typed (by their lenth) lists.</dd>
+  <dt><a href="coqdoc/Signature.html">Signature.v</a></dt>
+  <dd>A signature is a decidable set of function symbols.</dd>
+  <dt><a href="coqdoc/Variables.html">Variables.v</a></dt>
+  <dd>A decidable set of variables.</dd>
+  <dt><a href="coqdoc/FiniteTerm.html">FiniteTerm.v</a></dt>
+  <dd>Terms over a signature and a set of variables.</dd>
+  <dt><a href="coqdoc/Term.html">Term.v</a></dt>
+  <dd>Infinite terms over a signature and a set of variables.</dd>
+  <dt><a href="coqdoc/TermEquality.html">TermEquality.v</a></dt>
+  <dd>Bisimilarity and pointwise equality on infinite terms.</dd>
+  <dt><a href="coqdoc/Substitution.html">Substitution.v</a></dt>
+  <dd>Substituting terms for variables in terms.</dd>
+  <dt><a href="coqdoc/Context.html">Context.v</a></dt>
+  <dd>Infinite contexts over a signature and a set of variables.</dd>
+  <dt><a href="coqdoc/ContextEquality.html">ContextEquality.v</a></dt>
+  <dd>Bisimilarity and pointwise equality on infinite contexts.</dd>
+  <dt><a href="coqdoc/Ordinal.html">Ordinal.v</a></dt>
+  <dd>Ordinal numbers represented as tree ordinals.</dd>
+  <dt><a href="coqdoc/WfOrdinal.html">WfOrdinal.v</a></dt>
+  <dd>Well-formed tree ordinals.</dd>
+  <dt><a href="coqdoc/Rewriting.html">Rewriting.v</a></dt>
+  <dd>Definition of a TRS, rewrite steps, and transfinite rewrite sequences.</dd>
+  <dt><a href="coqdoc/ExampleABA.html">ExampleABA.v</a></dt>
+  <dd>A small example of an infinitary term rewriting system.</dd>
+  <dt><a href="coqdoc/NoUniqueNormalFormsWO.html">NoUniqueNormalFormsWO.v</a></dt>
+  <dd>A counterexample to the unique normal forms property in weakly orthogonal systems.</dd>
+  <dt><a href="coqdoc/NoUniqueNormalFormsWOElaborated.html">NoUniqueNormalFormsWOElaborated.v</a></dt>
+  <dd>Some additional lemmas on the counterexample.</dd>
+</ul>
+</p>
+
+
+<h2>Master thesis</h2>
+
+<p>
+This thesis describes our formalisation of the basic notions from
+the theory of infinitary term rewriting in the Coq proof
+assistant.
+Infinitary term rewriting is a generalisation of term rewriting where
+we allow terms to be infinitely deep and admit rewrite sequences of
+transfinite length.
+Coq is an interactive proof assistant based on constructive type
+theory with inductive types.
+The main contribution of our formalisation is an inductive
+definition of transfinite rewrite sequences, based on tree
+ordinals.
+</p>
+
+<p>
+The ordinal numbers are
+represented by tree ordinals, following the construction of an order
+on tree ordinals by
+<a href="http://www.citeulike.org/user/mvermaat/article/7631018">Hancock (2008)</a>.
+Infinite terms are defined by
+coinduction. A novel representation for rewrite sequences of ordinal
+length is defined, based on the inductive structure of the tree
+ordinals. The order on ordinals is then lifted to an embedding
+relation on rewrite sequences. We discuss an application of our
+formalisation in the verification of a counterexample to unique normal
+forms in weakly orthogonal infinitary TRSs, introduced
+by
+<a href="http://www.citeulike.org/user/mvermaat/article/6612127">Endrullis, Grabmayer, Hendriks, Klop, and van Oostrom (2010)</a>.
+</p>
+
+<p>
+<a href="files/thesis.pdf">Infinitary Rewriting in Coq</a>.
+MSc thesis, VU University Amsterdam, 2010.
+</p>
+
+
+<h2>Author</h2>
+
+<p>
+<a href="http://martijn.vermaat.name/">Martijn Vermaat</a>
+(<a href="mailto:martijn@vermaat.name">martijn@vermaat.name</a>)
+</p>
+
+
+<h2>License</h2>
+
+<p>
+Licensed under the
+<a href="http://en.wikipedia.org/wiki/Mit_license">MIT license<a>.
+</p>
+
+
+</body>
+</html>

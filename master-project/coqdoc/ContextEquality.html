@@ -1,0 +1,385 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>ContextEquality</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library ContextEquality</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+This library defines two equalities on contexts:
+<ul>
+<li> Bisimilarity by <span class="inlinecode"><span class="id" type="var">context_bis</span></span>
+
+</li>
+<li> Pointwise equality by <span class="inlinecode"><span class="id" type="var">context_eq</span></span>
+
+</li>
+</ul>
+    These two relations are proved to be the same and to be equivalences. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="Signature.html#"><span class="id" type="library">Signature</span></a>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <span class="id" type="keyword">Variables</span>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <span class="id" type="keyword">Context</span>.<br/>
+<span class="id" type="keyword">Require</span> <span class="id" type="keyword">Import</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Program.Equality.html#"><span class="id" type="library">Equality</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="keyword">Implicit</span> <span class="id" type="var">Arguments</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Section</span> <a name="ContextEquality"><span class="id" type="section">ContextEquality</span></a>.<br/>
+
+<br/>
+<span class="id" type="keyword">Variable</span> <a name="ContextEquality.F"><span class="id" type="variable">F</span></a> : <a class="idref" href="Signature.html#signature"><span class="id" type="record">signature</span></a>.<br/>
+<span class="id" type="keyword">Variable</span> <a name="ContextEquality.X"><span class="id" type="variable">X</span></a> : <a class="idref" href="Variables.html#variables"><span class="id" type="record">variables</span></a>.<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="term"><span class="id" type="abbreviation">term</span></a> := (<a class="idref" href="Term.html#term"><span class="id" type="inductive">term</span></a> <a class="idref" href="ContextEquality.html#ContextEquality.F"><span class="id" type="variable">F</span></a> <a class="idref" href="ContextEquality.html#ContextEquality.X"><span class="id" type="variable">X</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="terms"><span class="id" type="abbreviation">terms</span></a> := (<a class="idref" href="Vector.html#vector"><span class="id" type="definition">vector</span></a> <a class="idref" href="ContextEquality.html#term"><span class="id" type="abbreviation">term</span></a>).<br/>
+<span class="id" type="var">Notation </span><a name="context"><span class="id" type="abbreviation">context</span></a> := (<a class="idref" href="Context.html#context"><span class="id" type="inductive">context</span></a> <a class="idref" href="ContextEquality.html#ContextEquality.F"><span class="id" type="variable">F</span></a> <a class="idref" href="ContextEquality.html#ContextEquality.X"><span class="id" type="variable">X</span></a>).<br/>
+
+<br/>
+<span class="id" type="keyword">Inductive</span> <a name="context_bis"><span class="id" type="inductive">context_bis</span></a> : <a class="idref" href="ContextEquality.html#context"><span class="id" type="abbreviation">context</span></a> -&gt; <a class="idref" href="ContextEquality.html#context"><span class="id" type="abbreviation">context</span></a> -&gt; <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;| <a name="Hole_bis"><span class="id" type="constructor">Hole_bis</span></a> : <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <a class="idref" href="Context.html#Hole"><span class="id" type="constructor">Hole</span></a> <a class="idref" href="Context.html#Hole"><span class="id" type="constructor">Hole</span></a><br/>
+&nbsp;&nbsp;| <a name="CFun_bis"><span class="id" type="constructor">CFun_bis</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v</span> <span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> <span class="id" type="var">c'</span> (<span class="id" type="var">w</span> <span class="id" type="var">w'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <a class="idref" href="TermEquality.html#term_bis"><span class="id" type="inductive">term_bis</span></a> (<span class="id" type="var">v</span> <span class="id" type="var">i</span>) (<span class="id" type="var">v'</span> <span class="id" type="var">i</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <a class="idref" href="TermEquality.html#term_bis"><span class="id" type="inductive">term_bis</span></a> (<span class="id" type="var">w</span> <span class="id" type="var">i</span>) (<span class="id" type="var">w'</span> <span class="id" type="var">i</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">Inductive</span> <a name="context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> -&gt; <a class="idref" href="ContextEquality.html#context"><span class="id" type="abbreviation">context</span></a> -&gt; <a class="idref" href="ContextEquality.html#context"><span class="id" type="abbreviation">context</span></a> -&gt; <span class="id" type="keyword">Prop</span> :=<br/>
+&nbsp;&nbsp;| <a name="ceut_0"><span class="id" type="constructor">ceut_0</span></a>    : <span class="id" type="keyword">forall</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> : <a class="idref" href="ContextEquality.html#context"><span class="id" type="abbreviation">context</span></a>, <a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> 0 <span class="id" type="var">c</span> <span class="id" type="var">c'</span><br/>
+&nbsp;&nbsp;| <a name="ceut_hole"><span class="id" type="constructor">ceut_hole</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">n</span>, <a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> <span class="id" type="var">n</span> <a class="idref" href="Context.html#Hole"><span class="id" type="constructor">Hole</span></a> <a class="idref" href="Context.html#Hole"><span class="id" type="constructor">Hole</span></a><br/>
+&nbsp;&nbsp;| <a name="ceut_cfun"><span class="id" type="constructor">ceut_cfun</span></a> : <span class="id" type="keyword">forall</span> <span class="id" type="var">d</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v</span> <span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> <span class="id" type="var">c'</span> (<span class="id" type="var">w</span> <span class="id" type="var">w'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <a class="idref" href="TermEquality.html#term_eq_up_to"><span class="id" type="inductive">term_eq_up_to</span></a> <span class="id" type="var">d</span> (<span class="id" type="var">v</span> <span class="id" type="var">i</span>) (<span class="id" type="var">v'</span> <span class="id" type="var">i</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> <span class="id" type="var">d</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <a class="idref" href="TermEquality.html#term_eq_up_to"><span class="id" type="inductive">term_eq_up_to</span></a> <span class="id" type="var">d</span> (<span class="id" type="var">w</span> <span class="id" type="var">i</span>) (<span class="id" type="var">w'</span> <span class="id" type="var">i</span>)) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">d</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="context_eq"><span class="id" type="definition">context_eq</span></a> (<span class="id" type="var">c</span> <span class="id" type="var">c'</span> : <a class="idref" href="ContextEquality.html#context"><span class="id" type="abbreviation">context</span></a>) :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">d</span>, <a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> <span class="id" type="var">d</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+First, some inversion lemmas for pointwise equality of contexts. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="ceut_fun_inv"><span class="id" type="lemma">ceut_fun_inv</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">d</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v</span> <span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> <span class="id" type="var">c'</span> (<span class="id" type="var">w</span> <span class="id" type="var">w'</span>: <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">d</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> <span class="id" type="var">d</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H0</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="ceut_fun_inv_v"><span class="id" type="lemma">ceut_fun_inv_v</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">d</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v</span> <span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> <span class="id" type="var">c'</span> (<span class="id" type="var">w</span> <span class="id" type="var">w'</span>: <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">d</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <a class="idref" href="TermEquality.html#term_eq_up_to"><span class="id" type="inductive">term_eq_up_to</span></a> <span class="id" type="var">d</span> (<span class="id" type="var">v</span> <span class="id" type="var">i</span>) (<span class="id" type="var">v'</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H0</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="ceut_fun_inv_w"><span class="id" type="lemma">ceut_fun_inv_w</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">d</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v</span> <span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> <span class="id" type="var">c'</span> (<span class="id" type="var">w</span> <span class="id" type="var">w'</span>: <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq_up_to"><span class="id" type="inductive">context_eq_up_to</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">d</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <a class="idref" href="TermEquality.html#term_eq_up_to"><span class="id" type="inductive">term_eq_up_to</span></a> <span class="id" type="var">d</span> (<span class="id" type="var">w</span> <span class="id" type="var">i</span>) (<span class="id" type="var">w'</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H0</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H3</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_eq_fun_inv"><span class="id" type="lemma">context_eq_fun_inv</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v</span> <span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> <span class="id" type="var">c'</span> (<span class="id" type="var">w</span> <span class="id" type="var">w'</span>: <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> <span class="id" type="var">v</span> <span class="id" type="var">v'</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> <span class="id" type="var">w</span> <span class="id" type="var">w'</span> <span class="id" type="var">H1</span> <span class="id" type="var">d</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ContextEquality.html#ceut_fun_inv"><span class="id" type="lemma">ceut_fun_inv</span></a> <span class="id" type="keyword">with</span> (1 := <span class="id" type="var">H1</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">d</span>)).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_eq_fun_inv_v"><span class="id" type="lemma">context_eq_fun_inv_v</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v</span> <span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> <span class="id" type="var">c'</span> (<span class="id" type="var">w</span> <span class="id" type="var">w'</span>: <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <a class="idref" href="TermEquality.html#term_eq"><span class="id" type="definition">term_eq</span></a> (<span class="id" type="var">v</span> <span class="id" type="var">i</span>) (<span class="id" type="var">v'</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> <span class="id" type="var">v</span> <span class="id" type="var">v'</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> <span class="id" type="var">w</span> <span class="id" type="var">w'</span> <span class="id" type="var">H1</span> <span class="id" type="var">k</span> <span class="id" type="var">d</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ContextEquality.html#ceut_fun_inv_v"><span class="id" type="lemma">ceut_fun_inv_v</span></a> <span class="id" type="keyword">with</span> (1 := <span class="id" type="var">H1</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">d</span>)).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_eq_fun_inv_w"><span class="id" type="lemma">context_eq_fun_inv_w</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v</span> <span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> <span class="id" type="var">c'</span> (<span class="id" type="var">w</span> <span class="id" type="var">w'</span>: <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">i</span>, <a class="idref" href="TermEquality.html#term_eq"><span class="id" type="definition">term_eq</span></a> (<span class="id" type="var">w</span> <span class="id" type="var">i</span>) (<span class="id" type="var">w'</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> <span class="id" type="var">v</span> <span class="id" type="var">v'</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> <span class="id" type="var">w</span> <span class="id" type="var">w'</span> <span class="id" type="var">H1</span> <span class="id" type="var">k</span> <span class="id" type="var">d</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ContextEquality.html#ceut_fun_inv_w"><span class="id" type="lemma">ceut_fun_inv_w</span></a> <span class="id" type="keyword">with</span> (1 := <span class="id" type="var">H1</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">d</span>)).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_eq_fun_inv_symbol"><span class="id" type="lemma">context_eq_fun_inv_symbol</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> (<span class="id" type="var">v</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> (<span class="id" type="var">w</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">f'</span> <span class="id" type="var">i'</span> <span class="id" type="var">j'</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i'</span>) <span class="id" type="var">c'</span> (<span class="id" type="var">w'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j'</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f'</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt; <span class="id" type="var">f</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">f'</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span>.<br/>
+<span class="id" type="tactic">assert</span> (<span class="id" type="var">H1</span> := <span class="id" type="var">H0</span> 1).<br/>
+<span class="id" type="tactic">inversion_clear</span> <span class="id" type="var">H1</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_eq_fun_inv_i"><span class="id" type="lemma">context_eq_fun_inv_i</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> (<span class="id" type="var">v</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> (<span class="id" type="var">w</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">f'</span> <span class="id" type="var">i'</span> <span class="id" type="var">j'</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i'</span>) <span class="id" type="var">c'</span> (<span class="id" type="var">w'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j'</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f'</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt; <span class="id" type="var">i</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">i'</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span>.<br/>
+<span class="id" type="tactic">assert</span> (<span class="id" type="var">H1</span> := <span class="id" type="var">H0</span> 1).<br/>
+<span class="id" type="tactic">inversion_clear</span> <span class="id" type="var">H1</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_eq_fun_inv_j"><span class="id" type="lemma">context_eq_fun_inv_j</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> (<span class="id" type="var">v</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i</span>) <span class="id" type="var">c</span> (<span class="id" type="var">w</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j</span>)<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="id" type="var">f'</span> <span class="id" type="var">i'</span> <span class="id" type="var">j'</span> <span class="id" type="var">H'</span> (<span class="id" type="var">v'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">i'</span>) <span class="id" type="var">c'</span> (<span class="id" type="var">w'</span> : <a class="idref" href="ContextEquality.html#terms"><span class="id" type="abbreviation">terms</span></a> <span class="id" type="var">j'</span>),<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">w</span>) (<a class="idref" href="Context.html#CFun"><span class="id" type="constructor">CFun</span></a> <span class="id" type="var">f'</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>) -&gt; <span class="id" type="var">j</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">j'</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span>.<br/>
+<span class="id" type="tactic">assert</span> (<span class="id" type="var">H1</span> := <span class="id" type="var">H0</span> 1).<br/>
+<span class="id" type="tactic">inversion_clear</span> <span class="id" type="var">H1</span>; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">reflexivity</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We show pointwise equality and bisimilarity are the same relations. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_bis_implies_context_eq"><span class="id" type="lemma">context_bis_implies_context_eq</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>, <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> -&gt; <a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> <span class="id" type="var">H</span> <span class="id" type="var">d</span>.<br/>
+<span class="id" type="var">revert</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">d</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">d</span> <span class="id" type="var">IHd</span>]; <span class="id" type="tactic">intros</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">destruct</span> <span class="id" type="var">H</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span> <span class="id" type="var">v</span> <span class="id" type="var">v'</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> <span class="id" type="var">w</span> <span class="id" type="var">w'</span> <span class="id" type="var">Hv</span> <span class="id" type="var">Hc</span> <span class="id" type="var">Hw</span>].<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_implies_term_eq"><span class="id" type="lemma">term_bis_implies_term_eq</span></a>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">Hv</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IHd</span>.<br/>
+<span class="id" type="tactic">exact</span> <span class="id" type="var">Hc</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_implies_term_eq"><span class="id" type="lemma">term_bis_implies_term_eq</span></a>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">Hw</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_eq_implies_context_bis"><span class="id" type="lemma">context_eq_implies_context_bis</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>, <a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> -&gt; <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">c</span> <span class="id" type="keyword">as</span> [|<span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">IH</span> <span class="id" type="var">w</span>]; <span class="id" type="tactic">intros</span> [|<span class="id" type="var">f'</span> <span class="id" type="var">i'</span> <span class="id" type="var">j'</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>] <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">assert</span> (<span class="id" type="var">H2</span> := <span class="id" type="var">H1</span> 1); <span class="id" type="tactic">inversion</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">assert</span> (<span class="id" type="var">H2</span> := <span class="id" type="var">H1</span> 1); <span class="id" type="tactic">inversion</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">assert</span> (<span class="id" type="var">H2</span> := <a class="idref" href="ContextEquality.html#context_eq_fun_inv_symbol"><span class="id" type="lemma">context_eq_fun_inv_symbol</span></a> <span class="id" type="var">H1</span>).<br/>
+<span class="id" type="tactic">assert</span> (<span class="id" type="var">H3</span> := <a class="idref" href="ContextEquality.html#context_eq_fun_inv_i"><span class="id" type="lemma">context_eq_fun_inv_i</span></a> <span class="id" type="var">H1</span>).<br/>
+<span class="id" type="tactic">assert</span> (<span class="id" type="var">H4</span> := <a class="idref" href="ContextEquality.html#context_eq_fun_inv_j"><span class="id" type="lemma">context_eq_fun_inv_j</span></a> <span class="id" type="var">H1</span>).<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H3</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H4</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_eq_implies_term_bis"><span class="id" type="lemma">term_eq_implies_term_bis</span></a>.<br/>
+<span class="id" type="tactic">apply</span> (<a class="idref" href="ContextEquality.html#context_eq_fun_inv_v"><span class="id" type="lemma">context_eq_fun_inv_v</span></a> <span class="id" type="var">H1</span>).<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">apply</span> (<a class="idref" href="ContextEquality.html#context_eq_fun_inv"><span class="id" type="lemma">context_eq_fun_inv</span></a> <span class="id" type="var">H1</span>).<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_eq_implies_term_bis"><span class="id" type="lemma">term_eq_implies_term_bis</span></a>.<br/>
+<span class="id" type="tactic">apply</span> (<a class="idref" href="ContextEquality.html#context_eq_fun_inv_w"><span class="id" type="lemma">context_eq_fun_inv_w</span></a> <span class="id" type="var">H1</span>).<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_bis_context_eq"><span class="id" type="lemma">context_bis_context_eq</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>, <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_<->_x"><span class="id" type="notation">&lt;-&gt;</span></a> <a class="idref" href="ContextEquality.html#context_eq"><span class="id" type="definition">context_eq</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">split</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ContextEquality.html#context_bis_implies_context_eq"><span class="id" type="lemma">context_bis_implies_context_eq</span></a>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="ContextEquality.html#context_eq_implies_context_bis"><span class="id" type="lemma">context_eq_implies_context_bis</span></a>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+We show pointwise equality of contexts is an equivalence. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_bis_refl"><span class="id" type="lemma">context_bis_refl</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">c</span>, <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">c</span> <span class="id" type="keyword">as</span> [|<span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">IH</span> <span class="id" type="var">w</span>].<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_refl"><span class="id" type="lemma">term_bis_refl</span></a>.<br/>
+<span class="id" type="tactic">exact</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_refl"><span class="id" type="lemma">term_bis_refl</span></a>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_bis_symm"><span class="id" type="lemma">context_bis_symm</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">c</span> <span class="id" type="var">c'</span>, <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c</span> <span class="id" type="var">c'</span> -&gt; <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c'</span> <span class="id" type="var">c</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">c</span> <span class="id" type="keyword">as</span> [|<span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">IH</span> <span class="id" type="var">w</span>]; <span class="id" type="tactic">intros</span> [|<span class="id" type="var">f'</span> <span class="id" type="var">i'</span> <span class="id" type="var">j'</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>] <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_symm"><span class="id" type="lemma">term_bis_symm</span></a>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_symm"><span class="id" type="lemma">term_bis_symm</span></a>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H3</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Lemma</span> <a name="context_bis_trans"><span class="id" type="lemma">context_bis_trans</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> <span class="id" type="var">c1</span> <span class="id" type="var">c2</span> <span class="id" type="var">c3</span>, <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c1</span> <span class="id" type="var">c2</span> -&gt; <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c2</span> <span class="id" type="var">c3</span> -&gt; <a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c1</span> <span class="id" type="var">c3</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">c1</span> <span class="id" type="keyword">as</span> [|<span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H</span> <span class="id" type="var">v</span> <span class="id" type="var">c</span> <span class="id" type="var">IH</span> <span class="id" type="var">w</span>]; <span class="id" type="tactic">intros</span> [|<span class="id" type="var">f'</span> <span class="id" type="var">i'</span> <span class="id" type="var">j'</span> <span class="id" type="var">H'</span> <span class="id" type="var">v'</span> <span class="id" type="var">c'</span> <span class="id" type="var">w'</span>] [|<span class="id" type="var">f''</span> <span class="id" type="var">i''</span> <span class="id" type="var">j''</span> <span class="id" type="var">H''</span> <span class="id" type="var">v''</span> <span class="id" type="var">c''</span> <span class="id" type="var">w''</span>] <span class="id" type="var">H1</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H2</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_trans"><span class="id" type="lemma">term_bis_trans</span></a> <span class="id" type="keyword">with</span> (<span class="id" type="var">v'</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H5</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span> <span class="id" type="keyword">with</span> <span class="id" type="var">c'</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">intro</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_trans"><span class="id" type="lemma">term_bis_trans</span></a> <span class="id" type="keyword">with</span> (<span class="id" type="var">w'</span> <span class="id" type="var">i</span>).<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H4</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H7</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+
+<br/>
+</div>
+
+<div class="doc">
+Filling two bisimilar contexts with the same term yields bisimilar
+   contexts. 
+</div>
+<div class="code">
+<span class="id" type="keyword">Lemma</span> <a name="fill_context_bis"><span class="id" type="lemma">fill_context_bis</span></a> :<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">forall</span> (<span class="id" type="var">c</span> <span class="id" type="var">d</span> : <a class="idref" href="ContextEquality.html#context"><span class="id" type="abbreviation">context</span></a>) <span class="id" type="var">t</span>,<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="ContextEquality.html#context_bis"><span class="id" type="inductive">context_bis</span></a> <span class="id" type="var">c</span> <span class="id" type="var">d</span> -&gt;<br/>
+&nbsp;&nbsp;&nbsp;&nbsp;<a class="idref" href="Context.html#fill"><span class="id" type="definition">fill</span></a> <span class="id" type="var">c</span> <span class="id" type="var">t</span> <a class="idref" href="TermEquality.html#::x_[~]_x"><span class="id" type="notation">[~]</span></a> <a class="idref" href="Context.html#fill"><span class="id" type="definition">fill</span></a> <span class="id" type="var">d</span> <span class="id" type="var">t</span>.<br/>
+<span class="id" type="keyword">Proof</span>.<br/>
+<span class="id" type="tactic">intros</span> <span class="id" type="var">c</span> <span class="id" type="var">d</span> <span class="id" type="var">t</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="var">revert</span> <span class="id" type="var">d</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">c</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">f</span> <span class="id" type="var">i</span> <span class="id" type="var">j</span> <span class="id" type="var">H1</span> <span class="id" type="var">v1</span> <span class="id" type="var">c</span> <span class="id" type="var">IH</span> <span class="id" type="var">v2</span>]; <span class="id" type="tactic">intros</span> <span class="id" type="var">d</span> <span class="id" type="var">H</span>; <span class="id" type="tactic">destruct</span> <span class="id" type="var">d</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">g</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> <span class="id" type="var">H2</span> <span class="id" type="var">w1</span> <span class="id" type="var">d</span> <span class="id" type="var">w2</span>]; <span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="TermEquality.html#term_bis_refl"><span class="id" type="lemma">term_bis_refl</span></a>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">inversion</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">H</span>.<br/>
+<span class="id" type="var">constructor</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">clear</span> <span class="id" type="var">H</span> <span class="id" type="var">H'</span>.<br/>
+<span class="id" type="tactic">apply</span> <a class="idref" href="Vector.html#vcast_intro"><span class="id" type="lemma">vcast_intro</span></a>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">clear</span> <span class="id" type="var">H1</span>.<br/>
+<span class="id" type="tactic">clear</span> <span class="id" type="var">i</span> <span class="id" type="var">H2</span> <span class="id" type="var">g</span>.<br/>
+<span class="id" type="tactic">induction</span> <span class="id" type="var">n</span> <span class="id" type="keyword">as</span> [| <span class="id" type="var">n</span> <span class="id" type="var">IHn</span>].<br/>
+<span class="id" type="tactic">simpl</span> <span class="id" type="keyword">in</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IH</span>.<br/>
+<span class="id" type="tactic">assumption</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H4</span>.<br/>
+<span class="id" type="tactic">dependent</span> <span class="id" type="tactic">destruction</span> <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H0</span>.<br/>
+<span class="id" type="tactic">simpl</span>.<br/>
+<span class="id" type="var">specialize</span> <span class="id" type="var">IHn</span> <span class="id" type="keyword">with</span> (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">v1</span>) (<a class="idref" href="Vector.html#vtail"><span class="id" type="definition">vtail</span></a> <span class="id" type="var">w1</span>) <span class="id" type="var">k</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">IHn</span>.<br/>
+<span class="id" type="tactic">intro</span> <span class="id" type="var">i</span>.<br/>
+<span class="id" type="tactic">unfold</span> <span class="id" type="var">vtail</span>.<br/>
+<span class="id" type="tactic">apply</span> <span class="id" type="var">H0</span>.<br/>
+<span class="id" type="keyword">Qed</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">End</span> <a class="idref" href="ContextEquality.html#ContextEquality"><span class="id" type="section">ContextEquality</span></a>.<br/>
+
+<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>

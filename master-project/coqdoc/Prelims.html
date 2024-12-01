@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"/>
+<link href="coqdoc.css" rel="stylesheet" type="text/css"/>
+<title>Prelims</title>
+</head>
+
+<body>
+
+<div id="page">
+
+<div id="header">
+</div>
+
+<div id="main">
+
+<h1 class="libtitle">Library Prelims</h1>
+
+<div class="code">
+
+<br/>
+</div>
+
+<div class="doc">
+This library defines some preliminaries, mostly used in the <span class="inlinecode"><span class="id" type="var">Vector</span></span>
+   library. 
+</div>
+<div class="code">
+
+<br/>
+<span class="id" type="keyword">Set</span> <span class="id" type="keyword">Implicit</span> <span class="id" type="var">Arguments</span>.<br/>
+
+<br/>
+<span class="id" type="var">Notation </span><a name="::!"><span class="id" type="notation">"</span></a>!" := (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False_rect"><span class="id" type="definition">False_rect</span></a> <span class="id" type="var">_</span>).<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="S_eq"><span class="id" type="definition">S_eq</span></a> : <span class="id" type="keyword">forall</span> (<span class="id" type="var">n</span> <span class="id" type="var">m</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>), <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">m</span> -&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">fun</span> <span class="id" type="var">n</span> <span class="id" type="var">m</span> <span class="id" type="var">H</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#f_equal"><span class="id" type="lemma">f_equal</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">H</span>.<br/>
+
+<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="S_eq_inv"><span class="id" type="definition">S_eq_inv</span></a> : <span class="id" type="keyword">forall</span> (<span class="id" type="var">n</span> <span class="id" type="var">m</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>), <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span> -&gt; <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">m</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">fun</span> (<span class="id" type="var">n</span> <span class="id" type="var">m</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>) (<span class="id" type="var">H</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span>) =&gt;<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#sym_eq"><span class="id" type="abbreviation">sym_eq</span></a> <span class="id" type="var">H</span>) <span class="id" type="keyword">in</span> (<span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">Sn</span>) <span class="id" type="keyword">return</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#pred"><span class="id" type="definition">pred</span></a> <span class="id" type="var">Sn</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#pred"><span class="id" type="definition">pred</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span>) <span class="id" type="keyword">with</span><br/>
+&nbsp;&nbsp;| <span class="id" type="var">refl_equal</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#refl_equal"><span class="id" type="abbreviation">refl_equal</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Peano.html#pred"><span class="id" type="definition">pred</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">m</span>))<br/>
+<span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="disc_O_S"><span class="id" type="definition">disc_O_S</span></a> : <span class="id" type="keyword">forall</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>), <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_<>_x"><span class="id" type="notation">&lt;&gt;</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">fun</span> <span class="id" type="var">n</span> <span class="id" type="var">H</span> =&gt;<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">let</span> <span class="id" type="var">P</span> := (<span class="id" type="keyword">fun</span> <span class="id" type="var">q</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a> =&gt; <span class="id" type="keyword">match</span> <span class="id" type="var">q</span> <span class="id" type="keyword">with</span> 0 =&gt; (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a> -&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a>) | <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">q</span> =&gt; <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#False"><span class="id" type="inductive">False</span></a> <span class="id" type="keyword">end</span>) <span class="id" type="keyword">in</span><br/>
+&nbsp;&nbsp;<span class="id" type="keyword">match</span> <span class="id" type="var">H</span> <span class="id" type="keyword">in</span> (<span class="id" type="var">_</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_=_x"><span class="id" type="notation">=</span></a> <span class="id" type="var">q</span>) <span class="id" type="keyword">return</span> <span class="id" type="var">P</span> <span class="id" type="var">q</span> <span class="id" type="keyword">with</span> <span class="id" type="var">refl_equal</span> =&gt; (<span class="id" type="keyword">fun</span> <span class="id" type="var">a</span> =&gt; <span class="id" type="var">a</span>) <span class="id" type="keyword">end</span>.<br/>
+
+<br/>
+<span class="id" type="keyword">Definition</span> <a name="disc_S_O"><span class="id" type="definition">disc_S_O</span></a> : <span class="id" type="keyword">forall</span> (<span class="id" type="var">n</span> : <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#nat"><span class="id" type="inductive">nat</span></a>), <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#S"><span class="id" type="constructor">S</span></a> <span class="id" type="var">n</span> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#:type_scope:x_<>_x"><span class="id" type="notation">&lt;&gt;</span></a> <a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Datatypes.html#O"><span class="id" type="constructor">O</span></a> :=<br/>
+&nbsp;&nbsp;<span class="id" type="keyword">fun</span> <span class="id" type="var">n</span> <span class="id" type="var">H</span> =&gt; <a class="idref" href="Prelims.html#disc_O_S"><span class="id" type="definition">disc_O_S</span></a> (<a class="idref" href="http://coq.inria.fr/stdlib/Coq.Init.Logic.html#sym_eq"><span class="id" type="abbreviation">sym_eq</span></a> <span class="id" type="var">H</span>).<br/>
+</div>
+</div>
+
+<div id="footer">
+<hr/><a href="index.html">Index</a><hr/>This page has been generated by <a href="http://coq.inria.fr/">coqdoc</a>
+</div>
+
+</div>
+
+</body>
+</html>
