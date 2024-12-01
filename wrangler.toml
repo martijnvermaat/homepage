@@ -1,0 +1,6 @@
+name = "homepage"
+pages_build_output_dir = "./"
+
+[[r2_buckets]]
+binding = "KIEK_IMAGES"
+bucket_name = "kiek-images"

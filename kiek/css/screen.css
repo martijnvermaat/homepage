@@ -1,0 +1,216 @@
+/*
+   There are quite a number of ugly hacks in this stylesheet, most of which
+   are used to center the content horizontally and vertically in all
+   browsers.
+
+   Vertically centering is done in two different ways:
+   * absolute position and top -50% for all versions of IE (including IE7)
+   * table display for all other browsers
+
+   Horizontally centering is done in two different ways:
+   * text-align center for all versions of IE, except IE7
+   * auto margin-left and margin-right for alle other browsers
+*/
+
+body, html {
+    height              :   100%;
+    background          :   black;
+    color               :   #999;
+    font-family         :   Gentium, FreeSerif, Georgia, "Times New Roman", serif;
+    margin              :   0;
+    padding             :   0;
+}
+
+
+#page {
+    width               :   100%;
+    height              :   100%;
+    overflow            :   visible;
+    position            :   relative;
+}
+
+
+/*
+   This is ignored by every version of IE (including IE7) and Safari
+*/
+*:lang(en) #page {
+    display             :   table !important;
+    position            :   static !important;
+}
+
+
+/*
+   This is only seen by Safari
+*/
+#page:empty {
+    display             :   table !important;
+    position            :   static !important;
+}
+
+
+#outer {
+    position            :   absolute;
+    top                 :   50%;
+}
+
+
+.index #outer {
+    top                 :   0;
+}
+
+
+*:lang(en) #outer {
+    display             :   table-cell !important;
+    vertical-align      :   middle !important;
+    position            :   static !important;
+}
+
+
+#outer:empty {
+    display             :   table-cell !important;
+    vertical-align      :   middle !important;
+    position            :   static !important;
+}
+
+
+#inner {
+    position            :   relative;
+    top                 :   -50%;
+    width               :   100%;
+    text-align          :   center;
+    margin-top          :   1.5em;
+    margin-bottom       :   1.5em;
+}
+
+
+.index #inner {
+    top                 :   0;
+}
+
+
+img.image {
+    background          :   black;
+    border              :   solid 8px #121212;
+    padding             :   4px;
+    margin-bottom       :   1.5em;
+}
+
+
+#pane {
+    width               :   350px;
+    margin-left         :   auto;
+    margin-right        :   auto;
+}
+
+
+a {
+    color               :   #999;
+    text-decoration     :   none;
+}
+
+
+a:hover {
+    color               :   #eee;
+}
+
+
+a:focus, a:active {
+    outline             :   none;
+}
+
+
+.info, .title, .previous, .index, .next {
+    display             :   inline;
+    font-weight         :   bold;
+}
+
+
+/* IE doesn't display the unicode navigation arrows in our font */
+* html .previous, * html .index, * html .next {
+    font-family         :   serif;
+}
+
+
+.inactive {
+    color               :   #121212;
+}
+
+
+.information {
+    float               :   left;
+}
+
+
+.navigation {
+    float               :   right;
+}
+
+
+.info {
+    padding-right       :   1em;
+}
+
+
+.comment {
+    clear               :   both;
+    padding-top         :   1.5em;
+    text-align : left;
+}
+
+
+#exif {
+    clear               :   both;
+    padding-top         :   1.5em;
+}
+
+
+#exif td {
+    text-align          :   left;
+}
+
+
+#exif td.tag {
+    padding-right       :   1.5em;
+    font-weight         :   bold;
+}
+
+
+#index {
+    width               :   600px;
+    margin-left         :   auto;
+    margin-right        :   auto;
+    text-align          :   left;
+}
+
+
+h1 {
+    font-size           :   2em;
+}
+
+
+h2 {
+    font-size           :   1.5em;
+}
+
+
+ul {
+    list-style-type     :   none;
+    margin-left         :   0;
+    padding-left        :   0;
+}
+
+
+li {
+    display             :   inline;
+}
+
+
+li img {
+    border              :   solid 1px #999;
+    margin              :   0 10px 10px 0;
+}
+
+
+li a:hover img {
+    border              :   solid 1px #eee;
+}

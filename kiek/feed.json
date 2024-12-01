@@ -1,0 +1,25 @@
+if(typeof(Kiek) == 'undefined')
+    Kiek = {};
+
+Kiek.images = [
+               {'url'       : 'http://martijn.vermaat.name/kiek/2008-11-18_23:23:55',
+                'file'      : 'http://martijn.vermaat.name/kiek/images/c24c5c0e-4e18-4df4-b1ca-392ff065e2d9.jpg',
+                'thumbnail' : 'http://martijn.vermaat.name/kiek/images/c24c5c0e-4e18-4df4-b1ca-392ff065e2d9-small.jpg',
+                'title'     : '2008/07/31'},
+               {'url'       : 'http://martijn.vermaat.name/kiek/2008-10-19_19:16:14',
+                'file'      : 'http://martijn.vermaat.name/kiek/images/4a344005-9551-4ab2-b27a-8eebb53ed3da.jpg',
+                'thumbnail' : 'http://martijn.vermaat.name/kiek/images/4a344005-9551-4ab2-b27a-8eebb53ed3da-small.jpg',
+                'title'     : '2008/08/04'},
+               {'url'       : 'http://martijn.vermaat.name/kiek/2008-10-18_18:34:45',
+                'file'      : 'http://martijn.vermaat.name/kiek/images/a20806be-9388-4228-ae42-6f209f68da02.jpg',
+                'thumbnail' : 'http://martijn.vermaat.name/kiek/images/a20806be-9388-4228-ae42-6f209f68da02-small.jpg',
+                'title'     : 'zoutbadjes'},
+               {'url'       : 'http://martijn.vermaat.name/kiek/2008-10-18_18:21:03',
+                'file'      : 'http://martijn.vermaat.name/kiek/images/ddcf3b71-f104-4e00-93c9-e203707124e2.jpg',
+                'thumbnail' : 'http://martijn.vermaat.name/kiek/images/ddcf3b71-f104-4e00-93c9-e203707124e2-small.jpg',
+                'title'     : '2008/08/06'},
+               {'url'       : 'http://martijn.vermaat.name/kiek/2008-10-13_15:58:27',
+                'file'      : 'http://martijn.vermaat.name/kiek/images/836f627c-2820-494d-8b9f-662afb54456b.jpg',
+                'thumbnail' : 'http://martijn.vermaat.name/kiek/images/836f627c-2820-494d-8b9f-662afb54456b-small.jpg',
+                'title'     : '2008/10/04'},
+               ];
